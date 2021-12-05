@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "markdown-it": "^12.2.0",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-emoji": "^2.0.0",
+    "markdown-it-katex": "^2.0.3",
+    "markdown-it-table-of-contents": "^0.6.0"
+  }
+}
