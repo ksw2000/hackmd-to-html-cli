@@ -15,9 +15,12 @@ jobs:
         with:
           node-version: 16
 
-      - name: Get Data
+      - name: convert
         run: |
+          npm init
           node converter.js
+      - name: commit and push
+        run: |
           cd input
           git init
           git config user.name  "CI"
