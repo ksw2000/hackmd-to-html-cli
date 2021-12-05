@@ -19,9 +19,11 @@ const md = new MarkdownIt({
 
 const srcDir = './input';
 const destDir = './output';
-
+var layout = `{{main}}`;
 // load html render
-const layout = fs.readFileSync('layout.html', { encoding: 'utf-8' });
+if(fs.existsSync('layout.html')){
+    layout = fs.readFileSync('layout.html', { encoding: 'utf-8' });
+}
 
 function htmlRender(html) {
     return layout.replace('{{main}}', html);
@@ -29,6 +31,7 @@ function htmlRender(html) {
 
 // 1. read source directory and use markdownIt() to convert .md files
 // 2. write the converted files to destination directory
+fs.mkdirSync('output');
 fs.readdir(srcDir, (err, files) => {
     files?.forEach(fn => {
         if(path.extname(fn) === '.md'){
