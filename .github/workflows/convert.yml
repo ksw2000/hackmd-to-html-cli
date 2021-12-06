@@ -15,10 +15,9 @@ jobs:
         with:
           node-version: 16
 
-      - name: convert
+      - name: build and test
         run: |
-          npm install
-          node converter.js
+          npm test
       - name: commit and push
         run: |
           cd output

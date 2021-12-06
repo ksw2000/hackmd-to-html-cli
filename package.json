@@ -1,9 +1,30 @@
 {
+  "name": "hackmd-to-html-cli",
+  "version": "0.0.1",
+  "description": "A cli tool converts hackmd to html",
+  "bin": {
+    "hmd2html": "bin/index.js"
+  },
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc & npm install -g & hmd2html -s ./example",
+    "dev": "nodemon index.ts"
+  },
+  "author": "Kashiwa",
+  "license": "MIT",
   "dependencies": {
+    "@types/node": "^16.11.11",
+    "commander": "^8.3.0",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-katex": "^2.0.3",
-    "markdown-it-table-of-contents": "^0.6.0"
+    "markdown-it-table-of-contents": "^0.6.0",
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0"
   }
 }
