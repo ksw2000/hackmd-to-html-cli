@@ -17,8 +17,9 @@ jobs:
 
       - name: build and test
         run: |
-          npm install
-          npm test
+          npm ci
+          tsc
+          node bin/index.js -s ./example
       - name: commit and push
         run: |
           cd output
