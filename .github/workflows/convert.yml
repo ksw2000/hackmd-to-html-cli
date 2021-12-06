@@ -17,6 +17,7 @@ jobs:
 
       - name: build and test
         run: |
+          npm install
           npm test
       - name: commit and push
         run: |
