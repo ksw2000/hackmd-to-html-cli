@@ -76,4 +76,4 @@ typings/
 .fusebox/
 
 output/
-bin/
+dist/

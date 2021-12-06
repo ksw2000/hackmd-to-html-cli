@@ -1,17 +1,17 @@
-# HackMD to HTML cli
+# hackmd-to-html-cli
 
-![](https://img.shields.io/github/workflow/status/liao2000/HackMD-to-HTML/publish?style=flat-square) 
+![](https://img.shields.io/github/workflow/status/liao2000/HackMD-to-HTML/CI?style=flat-square) 
 [![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli)
 
 A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD markdown files to HTML files.
-
-> See DEMO: [https://liao2000.github.io/HackMD-to-HTML/](https://liao2000.github.io/HackMD-to-HTML/)
 
 ## Install
 
 ```sh
 npm install -g hackmd-to-html-cli
 ```
+
+See demo: [https://liao2000.github.io/HackMD-to-HTML/](https://liao2000.github.io/HackMD-to-HTML/)
 
 ## Usage
 
@@ -38,7 +38,6 @@ $ hmd2html -s file1.md file2.md file3.md
 $ hmd2html -s ./dir1 ./dir2
 
 # files or directories
-
 $ hmd2html -s file1.md ./dir1
 ```
 
@@ -50,18 +49,17 @@ $ hmd2html -s file1.md -d ./out
 
 ### Use custom layout
 
-
 ```sh
 $ hmd2html -s hello.md -l ./myLayout.html
 ```
 
 + /
-    + output
+    + output/ *generated*
         + hello.html
     + hello.md
     + myLayout.html
 
-**myLayout.html**
+**./myLayout.html**
 ```html
 <html>
     <head></head>
@@ -71,12 +69,12 @@ $ hmd2html -s hello.md -l ./myLayout.html
 </html>
 ```
 
-**hello.md**
+**./hello.md**
 ```markdown
 # hello
 ```
 
-**hello.html**
+**./output/hello.html**
 ```html
 <html>
     <head></head>
