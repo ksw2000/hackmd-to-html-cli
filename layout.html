@@ -6,15 +6,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css" />
     <style>
+        :root {
+            --body-background: #f0f0f0;
+        }
+
         body {
+            background-color: var(--body-background);
             box-sizing: border-box;
             margin: 0px;
-            padding: 0px;
+            padding: 10px;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 14px;
             line-height: 1.42857143;
             color: #333;
-            background-color: #fff;
         }
 
         ul,
@@ -24,10 +28,13 @@
         }
 
         main {
-            padding: 10px;
-            max-width: 900px;
-            width: 100%;
+            background-color: #fff;
+            box-sizing: border-box;
+            border-radius: 20px;
             margin: 0px auto;
+            max-width: 900px;
+            padding: 10px;
+            width: 100%;
         }
 
         a {
@@ -47,37 +54,88 @@
         }
 
         .success {
-            color: #3c763d;
             background-color: #dff0d8;
             border-color: #d6e9c6;
+            color: #3c763d;
         }
 
         .info {
-            color: #31708f;
             background-color: #d9edf7;
             border-color: #bce8f1;
+            color: #31708f;
         }
 
         .warning {
-            color: #8a6d3b;
             background-color: #fcf8e3;
-            border-color: #faebcc
+            border-color: #faebcc;
+            color: #8a6d3b;
         }
 
         .danger {
-            color: #a94442;
             background-color: #f2dede;
             border-color: #ebccd1;
+            color: #a94442;
         }
 
         .success,
         .info,
         .warning,
         .danger {
-            padding: 15px;
-            margin-bottom: 20px;
             border: 1px solid transparent;
             border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid #ddd;
+            color: #777;
+            font-size: 1.14rem;
+            margin: 0px;
+            padding: 0 1rem;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            display: block;
+            margin-top: 0;
+            margin-bottom: 16px;
+            overflow: auto;
+            width: 100%;
+            word-break: keep-all;
+        }
+
+        table tr {
+            border-top: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table th {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table td {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: var(--body-background);
+        }
+
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: var(--body-background);
+            border-radius: 3px;
         }
     </style>
 </head>

@@ -5,6 +5,13 @@
 ##### h5
 ###### h6
 
+> blockquoute
+
+~~del~~ *italic* **bold** ++inserted++ 
+:accept: :smile: :+1: :aquarius: 
+
+[@hackmd/markdown-it](https://www.npmjs.com/package/@hackmd/markdown-it)
+
 ---
 
 + ul
@@ -15,7 +22,10 @@
 2. ol
 3. ol
 
-:accept: :smile: :-1:
+| th | th | th  |
+|:---|:---:|---:|
+| left | center | right |
+|xxxxxx|xxxxxx|xxxxxx|
 
 :::success
 success
@@ -37,11 +47,15 @@ $$
 a^2+b^2=c^2
 $$
 
-~~del~~ *italic* **bold** ++inserted++
-
-[@hackmd/markdown-it](https://www.npmjs.com/package/@hackmd/markdown-it)
-
 ```c
+#include<stdio.h>
+int main(){
+    printf("hello\n");
+    return 0;
+}
+```
+
+```c=
 #include<stdio.h>
 int main(){
     printf("hello\n");
