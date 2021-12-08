@@ -1,7 +1,7 @@
 # hackmd-to-html-cli
 
-![](https://img.shields.io/github/workflow/status/liao2000/HackMD-to-HTML/CI?style=flat-square) 
-[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli)
+![](https://img.shields.io/github/workflow/status/liao2000/hackmd-to-html-cli/CI?style=flat-square) 
+[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
 
 A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD markdown files to HTML files.
 
@@ -11,7 +11,7 @@ A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD ma
 npm install -g hackmd-to-html-cli
 ```
 
-See demo: [https://liao2000.github.io/HackMD-to-HTML/](https://liao2000.github.io/HackMD-to-HTML/)
+See demo: [https://liao2000.github.io/hackmd-to-html-cli/](https://liao2000.github.io/hackmd-to-html-cli/)
 
 ## Usage
 
