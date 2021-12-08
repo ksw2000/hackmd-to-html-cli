@@ -1,23 +1,48 @@
 import fs from 'fs';
 import path from 'path';
 const MarkdownIt = require('markdown-it');
-const MarkdownItContainer = require('markdown-it-container');
-const MarkdownItKaTex = require('markdown-it-katex');
+const MarkdownItSub = require('markdown-it-sub');
+const MarkdownItSup = require('markdown-it-sup');
+const MarkdownItFootnote = require('markdown-it-footnote');
+const MarkdownItDeflist = require('markdown-it-deflist');
+const MarkdownItAbbr = require('markdown-it-abbr');
 const MarkdownItEmoji = require('markdown-it-emoji');
-const MarkdownItTableOfContents = require("markdown-it-table-of-contents");
+const MarkdownItContainer = require('markdown-it-container');
+const MarkdownItIns = require('markdown-it-ins');
+const MarkdownItMark = require('markdown-it-mark');
+
+const MarkdownItKaTex = require('markdown-it-katex');
+const MarkdownItImsize = require('markdown-it-imsize');
+
+const MarkdownItTOC = require("markdown-it-table-of-contents");
+
 const md = new MarkdownIt({
     html: true,
     breaks: true,
     linkify: true,
     typographer: true
-}).use(MarkdownItTableOfContents, {
-    markerPattern: /^\[toc\]/im
-}).use(MarkdownItKaTex)
+})
+    .use(MarkdownItSub)
+    .use(MarkdownItSup)
+    .use(MarkdownItFootnote)
+    .use(MarkdownItDeflist)
+    .use(MarkdownItAbbr)
+    .use(MarkdownItMark)
     .use(MarkdownItEmoji)
     .use(MarkdownItContainer, 'success')
     .use(MarkdownItContainer, 'info')
     .use(MarkdownItContainer, 'warning')
-    .use(MarkdownItContainer, 'danger');
+    .use(MarkdownItContainer, 'danger')
+    .use(MarkdownItIns)
+    .use(MarkdownItKaTex)
+    .use(MarkdownItImsize)
+    .use(MarkdownItTOC, {
+        "markerPattern": /^\[toc\]/im,
+        "includeLevel": [1, 2, 3, 4]
+    })
+    .use(require("markdown-it-attrs"))
+    .use(require("markdown-it-anchor"))
+    ;
 
 export class Convert {
     src: Array<string>;

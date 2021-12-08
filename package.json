@@ -9,6 +9,7 @@
     "cli",
     "converter"
   ],
+  "repository": "liao2000/HackMD-to-HTML",
   "bin": {
     "hmd2html": "dist/index.js"
   },
@@ -20,12 +21,23 @@
   "author": "Kashiwa",
   "license": "MIT",
   "dependencies": {
+    "@gerhobbelt/markdown-it-checkbox": "^1.2.0-3",
     "@types/node": "^16.11.11",
     "commander": "^8.3.0",
     "markdown-it": "^12.2.0",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-anchor": "^8.4.1",
+    "markdown-it-attrs": "^4.1.0",
     "markdown-it-container": "^3.0.0",
+    "markdown-it-deflist": "^2.1.0",
     "markdown-it-emoji": "^2.0.0",
+    "markdown-it-footnote": "^3.0.3",
+    "markdown-it-imsize": "^2.0.1",
+    "markdown-it-ins": "^3.0.1",
     "markdown-it-katex": "^2.0.3",
+    "markdown-it-mark": "^3.0.1",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
     "markdown-it-table-of-contents": "^0.6.0",
     "typescript": "^4.5.2"
   },
