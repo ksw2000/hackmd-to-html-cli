@@ -10,18 +10,21 @@ const MarkdownItEmoji = require('markdown-it-emoji');
 const MarkdownItContainer = require('markdown-it-container');
 const MarkdownItIns = require('markdown-it-ins');
 const MarkdownItMark = require('markdown-it-mark');
-
-const MarkdownItKaTex = require('markdown-it-katex');
 const MarkdownItImsize = require('markdown-it-imsize');
-
+const MarkdownItMathJax = require('markdown-it-mathjax');
 const MarkdownItTOC = require("markdown-it-table-of-contents");
+const MarkdownItAnchor = require('markdown-it-anchor');
+const MarkdownItRuby = require('markdown-it-ruby');
+const MarkdownItCheckbox = require('markdown-it-checkbox');
 
+//https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
 const md = new MarkdownIt({
     html: true,
     breaks: true,
     linkify: true,
     typographer: true
 })
+    .use(MarkdownItMathJax())
     .use(MarkdownItSub)
     .use(MarkdownItSup)
     .use(MarkdownItFootnote)
@@ -34,14 +37,16 @@ const md = new MarkdownIt({
     .use(MarkdownItContainer, 'warning')
     .use(MarkdownItContainer, 'danger')
     .use(MarkdownItIns)
-    .use(MarkdownItKaTex)
     .use(MarkdownItImsize)
     .use(MarkdownItTOC, {
-        "markerPattern": /^\[toc\]/im,
-        "includeLevel": [1, 2, 3, 4]
+        markerPattern: /^\[toc\]/im,
+        includeLevel: [1, 2, 3, 4]
     })
-    .use(require("markdown-it-attrs"))
-    .use(require("markdown-it-anchor"))
+    .use(MarkdownItAnchor)
+    .use(MarkdownItRuby)
+    .use(MarkdownItCheckbox,{
+        divWrap: true
+    })
     ;
 
 export class Convert {
@@ -78,11 +83,11 @@ export class Convert {
     }
 
     public convertBatch() {
-        if (!fs.existsSync(this.dest)){
+        if (!fs.existsSync(this.dest)) {
             fs.mkdirSync(this.dest);
         }
         this.src.forEach((fileOrDir: string) => {
-            if (!fs.existsSync(fileOrDir)){
+            if (!fs.existsSync(fileOrDir)) {
                 console.error(`${fileOrDir} is not found`);
                 return;
             }

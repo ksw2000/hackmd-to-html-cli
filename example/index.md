@@ -1,41 +1,56 @@
+# hackmd-to-html-cli
+
+[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/liao2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/workflow/status/liao2000/hackmd-to-html-cli/CI?style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
+
 [toc]
 
-# h1
-## h2
+
+## Title
 ### h3
 #### h4
 ##### h5
 ###### h6
 
+
+## Blockquote
+
 > blockquoute
+> > Hello
+> 
 
-~~del~~ *italic* **bold** ++inserted++ ==marked==
+## Text
+
+~~del~~ *italic* **bold** ++inserted++ ==marked== H~2~O 1^st^ {超電磁砲|Railgun}
+
 :accept: :smile: :+1: :aquarius: 
-H~2~O 29^th^
 
-[@hackmd/markdown-it](https://www.npmjs.com/package/@hackmd/markdown-it)
+See repository on github: https://github.com/liao2000/hackmd-to-html-cli/
 
----
 
-+ ul
-    + ul
-    + ul
-+ ul
-+ ul
+## List
 
-1. ol
-2. ol
-3. ol
++ Eigensystems
+    + Eigenvalue
+    + Eigenvector
++ Inner-Product Vector Spaces
 
+1. 高海千歌
+2. 渡辺曜
+3. 桜内梨子
+
+## Check box
 
 - [x] checked
 - [ ] unchecked
 
+## Table
 
 | th | th | th  |
 |:---|:---:|---:|
 | left | center | right |
 |xxxxxx|xxxxxx|xxxxxx|
+
+## Container
 
 :::success
 success
@@ -53,9 +68,18 @@ warning
 danger
 :::
 
+## Math
+
+A matrix $A$ is diagonalizable if there is a diagonal matrix $D$ and an invertible matrix $P$ s.t.
+$$P^{-1}AP=D$$
+
+For example:
+
 $$
-a^2+b^2=c^2
+\begin{bmatrix}2&-1\\-1&1\end{bmatrix}\begin{bmatrix}6&-1\\2&3\end{bmatrix}\begin{bmatrix}1&1\\1&2\end{bmatrix}=\begin{bmatrix}5&0\\0&4\end{bmatrix}
 $$
+
+## Code
 
 ```c
 #include<stdio.h>
@@ -78,8 +102,7 @@ int main(){
 *[HTML]: Hyper Text Markup Language
 *[W3C]:  World Wide Web Consortium
 
-The HTML specification
-is maintained by the W3C.
+The HTML specification is maintained by the W3C.
 
 
 ## Footnote

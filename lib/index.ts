@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import commander from 'commander';
+import path from 'path';
+import { Convert } from './converter';
 
 commander.program.version('0.0.3', '-v, --version', 'output the current version');
 commander.program
@@ -10,11 +12,6 @@ commander.program
 
 const options = commander.program.opts();
 
-
-import path from 'path';
-import {Convert} from './converter';
-
-let dest = options.destination == '' ? './output' : options.destination;
-let layout = options.layout == '' ? path.join(__dirname, '../layout.html') : options.layout;
-
+const dest: string = options.destination == '' ? './output' : options.destination;
+const layout: string = options.layout == '' ? path.join(__dirname, '../layout.html') : options.layout;
 new Convert(options.source, dest, layout).convertBatch();
