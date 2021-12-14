@@ -3,41 +3,38 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css" />
     <script>
         MathJax = {
-                loader: { load: ['[tex]/enclose'] },
-                tex2jax: {
-                    packages: ['base'],        // extensions to use
-                    inlineMath: [              // start/end delimiter pairs for in-line math
-                        ['\\(', '\\)']
-                    ],
-                    displayMath: [             // start/end delimiter pairs for display math
-                        ['$$', '$$'],
-                        ['\\[', '\\]']
-                    ],
-                    processEscapes: true,      // use \$ to produce a literal dollar sign
-                    processEnvironments: true, // process \begin{xxx}...\end{xxx} outside math mode
-                    processRefs: true,         // process \ref{...} outside of math mode
-                    digits: /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/,
-                    // pattern for recognizing numbers
-                    tags: 'none',              // or 'ams' or 'all'
-                    tagSide: 'right',          // side for \tag macros
-                    tagIndent: '0.8em',        // amount to indent tags
-                    useLabelIds: true,         // use label name rather than tag for ids
-                    maxMacros: 1000,           // maximum number of macro substitutions per expression
-                    maxBuffer: 5 * 1024,       // maximum size for the internal TeX string (5K)
-                    baseURL:                   // URL for use with links to tags (when there is a <base> tag in effect)
-                        (document.getElementsByTagName('base').length === 0) ?
-                            '' : String(document.location).replace(/#.*$/, ''),
-                    formatError:               // function called when TeX syntax errors occur
-                        (jax, err) => jax.formatError(err)
-                },
-                processEscapes: true
-            };
+            loader: { load: ['[tex]/enclose'] },
+            tex2jax: {
+                packages: ['base'],        // extensions to use
+                inlineMath: [              // start/end delimiter pairs for in-line math
+                    ['\\(', '\\)']
+                ],
+                displayMath: [             // start/end delimiter pairs for display math
+                    ['$$', '$$'],
+                    ['\\[', '\\]']
+                ],
+                processEscapes: true,      // use \$ to produce a literal dollar sign
+                processEnvironments: true, // process \begin{xxx}...\end{xxx} outside math mode
+                processRefs: true,         // process \ref{...} outside of math mode
+                digits: /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/,
+                // pattern for recognizing numbers
+                tags: 'none',              // or 'ams' or 'all'
+                tagSide: 'right',          // side for \tag macros
+                tagIndent: '0.8em',        // amount to indent tags
+                useLabelIds: true,         // use label name rather than tag for ids
+                maxMacros: 1000,           // maximum number of macro substitutions per expression
+                maxBuffer: 5 * 1024,       // maximum size for the internal TeX string (5K)
+                baseURL:                   // URL for use with links to tags (when there is a <base> tag in effect)
+                    (document.getElementsByTagName('base').length === 0) ?
+                        '' : String(document.location).replace(/#.*$/, ''),
+                formatError:               // function called when TeX syntax errors occur
+                    (jax, err) => jax.formatError(err)
+            },
+            processEscapes: true
+        };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         :root {
             --body-background: #f0f0f0;
@@ -210,6 +207,12 @@
             border-radius: 3px;
         }
 
+        code {
+            margin: 0px;
+            padding: 0px;
+            overflow-x: auto;
+        }
+
         mark {
             padding: 0.2rem;
             background-color: #fff1a7;
@@ -218,6 +221,122 @@
         .katex-display {
             overflow-x: auto;
         }
+
+        /*---hljs---*/
+        .hljs {
+            background: #f0f0f0;
+            color: #444;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 0.85rem;
+        }
+
+        .hljs-comment {
+            color: #888
+        }
+
+        .hljs-punctuation,
+        .hljs-tag {
+            color: #444a
+        }
+
+        .hljs-tag .hljs-attr,
+        .hljs-tag .hljs-name {
+            color: #444
+        }
+
+        .hljs-attribute,
+        .hljs-doctag,
+        .hljs-keyword,
+        .hljs-meta .hljs-keyword,
+        .hljs-name,
+        .hljs-selector-tag {
+            color:#07a;
+        }
+
+        .hljs-deletion,
+        .hljs-number,
+        .hljs-quote,
+        .hljs-selector-class,
+        .hljs-selector-id,
+        .hljs-template-tag,
+        .hljs-type {
+            color: #690
+        }
+
+        .hljs-section,
+        .hljs-title {
+            color: #dd4a68;
+        }
+
+        .hljs-link,
+        .hljs-operator,
+        .hljs-regexp,
+        .hljs-selector-attr,
+        .hljs-selector-pseudo,
+        .hljs-symbol,
+        .hljs-template-variable,
+        .hljs-variable {
+            color: #bc6060
+        }
+
+        .hljs-literal {
+            color: #78a960
+        }
+
+        .hljs-addition,
+        .hljs-built_in,
+        .hljs-bullet,
+        .hljs-code {
+            color: #397300
+        }
+
+        .hljs-meta {
+            color: #1f7199
+        }
+
+        .hljs-meta, .hljs-string {
+            color: #690
+        }
+
+        .hljs-emphasis {
+            font-style: italic
+        }
+
+        .hljs-strong {
+            font-weight: 700
+        }
+
+        table.hljs-ln,
+        .hljs-ln td,
+        .hljs-ln tr {
+            /*override table style*/
+            border: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #afafaf !important;
+            border-right: 3px solid #6ce26c !important;
+        }
+        
+        .hljs-ln-n{
+            box-sizing: content-box;
+            vertical-align: top;
+            padding: 0px 8px 0px 0px;
+            min-width: 20px;
+            text-align: right;
+        }
+
+        .hljs-ln-code {
+            padding: 0px 0px 0px 16px!important;
+        }
     </style>
 </head>
 
@@ -225,6 +344,22 @@
     <main>
         {{main}}
     </main>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js"></script>
+    <script>
+        document.querySelectorAll('code').forEach((dom) => {
+            let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
+            if (lang[1]) {
+                hljs.highlightElement(dom);
+            }
+            if (lang[2]) {
+                hljs.lineNumbersBlock(dom);
+            }
+            console.log(lang);
+        });
+    </script>
 </body>
 
 </html>
