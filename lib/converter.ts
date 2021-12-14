@@ -79,7 +79,7 @@ export class Convert {
         let html = md.render(markdown);
         let res = this.addLayout(html);
         let basename = path.basename(filepath);
-        fs.writeFileSync(path.join(this.dest, basename.replace(/\.md\b/, '.html')), res);
+        fs.writeFileSync(path.join(this.dest, basename.replace(/\.md$/, '.html')), res);
     }
 
     public convertBatch() {
