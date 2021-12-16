@@ -211,6 +211,9 @@
             margin: 0px;
             padding: 0px;
             overflow-x: auto;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 0.85rem;
+            color: #444;
         }
 
         mark {
@@ -223,15 +226,8 @@
         }
 
         /*---hljs---*/
-        .hljs {
-            background: #f0f0f0;
-            color: #444;
-            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-            font-size: 0.85rem;
-        }
-
         .hljs-comment {
-            color: #888
+            color: #708090;
         }
 
         .hljs-punctuation,
@@ -349,6 +345,7 @@
     <script
         src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js"></script>
     <script>
+        // https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
         document.querySelectorAll('code').forEach((dom) => {
             let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
             if (lang[1]) {

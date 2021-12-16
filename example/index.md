@@ -89,14 +89,6 @@ int main(){
 }
 ```
 
-```c=
-#include<stdio.h>
-int main(){
-    printf("hello\n");
-    return 0;
-}
-```
-
 ```go=
 package main
 
@@ -116,6 +108,10 @@ func main() {
 	err := http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
 	log.Fatal(err)
 }
+```
+
+```
+plaintext
 ```
 
 ## Abbr
