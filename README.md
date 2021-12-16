@@ -1,7 +1,7 @@
 # hackmd-to-html-cli
 
-![](https://img.shields.io/github/workflow/status/liao2000/hackmd-to-html-cli/CI?style=flat-square) 
-[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
+[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/liao2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/workflow/status/liao2000/hackmd-to-html-cli/CI?style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
+
 
 A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD markdown files to HTML files.
 
@@ -89,3 +89,7 @@ $ hmd2html -s hello.md -l ./myLayout.html
 + Provide more template & styles
 + Automatically generate HTML `<title>`
 + Support more HackMD syntax
+    + Flow chart
+    + Graphviz
+    + Mermaid
+    + Abc
