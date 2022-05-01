@@ -18,3 +18,7 @@
         + markdown-it-ruby
     + Replace KaTex to MathJax
     + Support highlight.js
++ `v0.0.5`
+    + Support Mermaid
+    + Support Sequence
+    + Support Flowchart

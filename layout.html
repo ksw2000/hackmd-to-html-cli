@@ -199,30 +199,35 @@
         }
 
         pre {
-            padding: 16px;
+            /* padding: 16px; */
             overflow: auto;
             font-size: 85%;
             line-height: 1.45;
-            background-color: var(--body-background);
-            border-radius: 3px;
         }
 
         code {
+            border-radius: 3px;
+            background-color: var(--body-background);
+            display: block;
             margin: 0px;
-            padding: 0px;
+            padding: 16px;
             overflow-x: auto;
-            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-            font-size: 0.85rem;
-            color: #444;
+        }
+
+        code table tr:nth-child(2n) {
+            background-color: transparent;
+        }
+
+        code.language-mermaid,
+        code.language-sequence,
+        code.language-flow {
+            background-color: transparent;
+            text-align: center;
         }
 
         mark {
             padding: 0.2rem;
             background-color: #fff1a7;
-        }
-
-        .katex-display {
-            overflow-x: auto;
         }
 
         /*---hljs---*/
@@ -246,7 +251,7 @@
         .hljs-meta .hljs-keyword,
         .hljs-name,
         .hljs-selector-tag {
-            color:#07a;
+            color: #07a;
         }
 
         .hljs-deletion,
@@ -290,7 +295,8 @@
             color: #1f7199
         }
 
-        .hljs-meta, .hljs-string {
+        .hljs-meta,
+        .hljs-string {
             color: #690
         }
 
@@ -321,8 +327,8 @@
             color: #afafaf !important;
             border-right: 3px solid #6ce26c !important;
         }
-        
-        .hljs-ln-n{
+
+        .hljs-ln-n {
             box-sizing: content-box;
             vertical-align: top;
             padding: 0px 8px 0px 0px;
@@ -331,7 +337,7 @@
         }
 
         .hljs-ln-code {
-            padding: 0px 0px 0px 16px!important;
+            padding: 0px 0px 0px 16px !important;
         }
     </style>
 </head>
@@ -344,14 +350,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js"></script>
+    <!--mermaid-->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!--sequence-->
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/webfont.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/snap.svg-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/underscore-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/sequence-diagram-min.js"></script>
+    <!--flowchart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="http://flowchart.js.org/flowchart-latest.js"></script>
     <script>
+        mermaid.init({ noteMargin: 10 }, document.querySelectorAll(".language-mermaid"));
+        mermaid.initialize({ startOnLoad: true });
+        document.querySelectorAll(".language-sequence")?.forEach((dom, i) => {
+            dom.id = `sequence-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            Diagram.parse(content).drawSVG(dom.id, { theme: 'simple' });
+        });
+        document.querySelectorAll(".language-flow")?.forEach((dom, i) => {
+            dom.id = `flow-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            flowchart.parse(content).drawSVG(dom.id);
+        });
         // https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
-        document.querySelectorAll('code').forEach((dom) => {
+        document.querySelectorAll('code')?.forEach((dom) => {
             let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
-            if (lang[1]) {
+            if (lang.length > 1 && lang[1]) {
                 hljs.highlightElement(dom);
             }
-            if (lang[2]) {
+            if (lang.length > 2 && lang[2]) {
                 hljs.lineNumbersBlock(dom);
             }
             console.log(lang);

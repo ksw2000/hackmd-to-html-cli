@@ -88,8 +88,12 @@ $ hmd2html -s hello.md -l ./myLayout.html
 
 + Provide more template & styles
 + Automatically generate HTML `<title>`
-+ Support more HackMD syntax
-    + Flow chart
++ Support more HackMD [syntax](https://hackmd.io/features-tw?both)
     + Graphviz
-    + Mermaid
     + Abc
+    + specifiy your name, time and color to vary the blockquotes.
+    + YAML Metadata
+    + Render CSV as table
+    + PlantUML
+    + Vega-Lite
+    + Fretboard

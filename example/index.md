@@ -114,6 +114,44 @@ func main() {
 plaintext
 ```
 
+## Mermaid
+
+```mermaid
+pie showData
+    title Key elements in Product X
+    "Calcium" : 42.96
+    "Potassium" : 50.05
+    "Magnesium" : 10.01
+    "Iron" :  5
+```
+
+### Sequence
+
+```sequence
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
+```
+
+### Flowchart
+
+```flow
+st=>start: Start:>http://www.google.com[blank]
+e=>end:>http://www.google.com
+op1=>operation: My Operation
+sub1=>subroutine: My Subroutine
+cond=>condition: Yes
+or No?:>http://www.google.com
+io=>inputoutput: catch something...
+para=>parallel: parallel tasks
+
+st->op1->cond
+cond(yes)->io->e
+cond(no)->para
+para(path1, bottom)->sub1(right)->op1
+para(path2, top)->op1
+```
+
 ## Abbr
 
 *[HTML]: Hyper Text Markup Language
@@ -121,10 +159,8 @@ plaintext
 
 The HTML specification is maintained by the W3C.
 
-
 ## Footnote
 Here is a footnote reference,[^1] and another.[^longnote]
-
 
 [^1]: Here is the footnote.
 [^longnote]: Here's one with multiple blocks.
