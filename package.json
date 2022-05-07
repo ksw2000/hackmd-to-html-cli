@@ -20,7 +20,8 @@
   "types": "types/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "tsc & npm install -g & hmd2html -s ./example"
+    "test": "tsc & npm install -g & hmd2html -s ./example",
+    "lint": "eslint lib/**"
   },
   "author": "Kashiwa",
   "license": "MIT",
@@ -47,6 +48,13 @@
     "typescript": "^4.5.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0",
     "ts-node": "^10.4.0"
   }
 }

@@ -11,7 +11,9 @@ A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD ma
 npm install -g hackmd-to-html-cli
 ```
 
-See demo: [https://liao2000.github.io/hackmd-to-html-cli/](https://liao2000.github.io/hackmd-to-html-cli/)
+Input: [./example/index.md](https://raw.githubusercontent.com/liao2000/hackmd-to-html-cli/main/example/index.md)
+
+Output: [https://liao2000.github.io/hackmd-to-html-cli/](https://liao2000.github.io/hackmd-to-html-cli/)
 
 ## Usage
 
@@ -84,9 +86,14 @@ $ hmd2html -s hello.md -l ./myLayout.html
 </html>
 ```
 
+## Develop
+
+1. `npm run lint` to check the format of source code.
+2. `npm test` to test this package, which generates result from `./example` into `./output`.
+
 ## TODO
 
-+ Provide more template & styles
++ Provide more templates & styles
 + Automatically generate HTML `<title>`
 + Support more HackMD [syntax](https://hackmd.io/features-tw?both)
     + Graphviz
