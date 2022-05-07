@@ -378,13 +378,12 @@
         // https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
         document.querySelectorAll('code')?.forEach((dom) => {
             let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
-            if (lang.length > 1 && lang[1]) {
+            if (lang && lang[1]) {
                 hljs.highlightElement(dom);
             }
-            if (lang.length > 2 && lang[2]) {
+            if (lang && lang[2]) {
                 hljs.lineNumbersBlock(dom);
             }
-            console.log(lang);
         });
     </script>
 </body>
