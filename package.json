@@ -9,10 +9,10 @@
     "cli",
     "converter"
   ],
-  "homepage": "https://github.com/liao2000/hackmd-to-html-cli.git",
+  "homepage": "https://github.com/ksw2000/hackmd-to-html-cli.git",
   "repository": {
     "type": "git",
-    "url": "https://github.com/liao2000/hackmd-to-html-cli.git"
+    "url": "https://github.com/ksw2000/hackmd-to-html-cli.git"
   },
   "bin": {
     "hmd2html": "dist/index.js"
