@@ -20,7 +20,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "tsc & npm install -g & hmd2html -s ./example",
+    "test": "tsc & npx hmd2html -s ./example",
     "lint": "eslint lib/**"
   },
   "author": "Kashiwa",
