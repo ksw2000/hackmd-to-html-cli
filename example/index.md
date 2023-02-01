@@ -1,6 +1,6 @@
 # hackmd-to-html-cli
 
-[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/liao2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/workflow/status/liao2000/hackmd-to-html-cli/CI?style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
+[![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/ksw2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/actions/workflow/status/ksw2000/hackmd-to-html-cli/gitpage.yml?branch=main&style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
 
 [toc]
 
@@ -24,7 +24,7 @@
 
 :accept: :smile: :+1: :aquarius: 
 
-See repository on github: https://github.com/liao2000/hackmd-to-html-cli/
+See repository on github: https://github.com/ksw2000/hackmd-to-html-cli/
 
 
 ## List
