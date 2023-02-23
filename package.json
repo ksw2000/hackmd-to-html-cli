@@ -1,6 +1,6 @@
 {
   "name": "hackmd-to-html-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A cli tool converts hackmd to html",
   "keywords": [
     "hackmd",
@@ -33,7 +33,6 @@
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-anchor": "^8.4.1",
     "markdown-it-checkbox": "^1.1.0",
-    "markdown-it-container": "^3.0.0",
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-footnote": "^3.0.3",
@@ -45,16 +44,12 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "markdown-it-table-of-contents": "^0.6.0",
+    "markdown-it-yaml": "^1.0.0",
     "typescript": "^4.5.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
-    "eslint": "^8.14.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "ts-node": "^10.4.0"
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0"
   }
 }

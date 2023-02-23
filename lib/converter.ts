@@ -1,5 +1,9 @@
 import fs from 'fs'
 import path from 'path'
+import { MarkdownItYAMLMetadata } from './yaml-metadata'
+import { MarkdownItContainer } from './container'
+
+// const MarkdownItContainer = require('markdown-it-container')
 const MarkdownIt = require('markdown-it')
 const MarkdownItSub = require('markdown-it-sub')
 const MarkdownItSup = require('markdown-it-sup')
@@ -7,7 +11,6 @@ const MarkdownItFootnote = require('markdown-it-footnote')
 const MarkdownItDeflist = require('markdown-it-deflist')
 const MarkdownItAbbr = require('markdown-it-abbr')
 const MarkdownItEmoji = require('markdown-it-emoji')
-const MarkdownItContainer = require('markdown-it-container')
 const MarkdownItIns = require('markdown-it-ins')
 const MarkdownItMark = require('markdown-it-mark')
 const MarkdownItImsize = require('markdown-it-imsize')
@@ -17,46 +20,45 @@ const MarkdownItAnchor = require('markdown-it-anchor')
 const MarkdownItRuby = require('markdown-it-ruby')
 const MarkdownItCheckbox = require('markdown-it-checkbox')
 
-// https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
-const md = new MarkdownIt({
-  html: true,
-  breaks: true,
-  linkify: true,
-  typographer: true
-})
-  .use(MarkdownItMathJax())
-  .use(MarkdownItSub)
-  .use(MarkdownItSup)
-  .use(MarkdownItFootnote)
-  .use(MarkdownItDeflist)
-  .use(MarkdownItAbbr)
-  .use(MarkdownItMark)
-  .use(MarkdownItEmoji)
-  .use(MarkdownItContainer, 'success')
-  .use(MarkdownItContainer, 'info')
-  .use(MarkdownItContainer, 'warning')
-  .use(MarkdownItContainer, 'danger')
-  .use(MarkdownItIns)
-  .use(MarkdownItImsize)
-  .use(MarkdownItTOC, {
-    markerPattern: /^\[toc\]/im,
-    includeLevel: [1, 2, 3, 4]
-  })
-  .use(MarkdownItAnchor)
-  .use(MarkdownItRuby)
-  .use(MarkdownItCheckbox, {
-    divWrap: true
-  })
-
 export class Convert {
   src: Array<string>
   dest: string
   layout: string
+  md: any
 
-  constructor (src: Array<string>, dest: string, layout: string) {
+  constructor (src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
     this.src = src
     this.dest = dest
     this.layout = layout
+
+    // https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
+    this.md = new MarkdownIt({
+      html: true,
+      breaks: !hardBreak,
+      linkify: true,
+      typographer: true
+    })
+      .use(MarkdownItMathJax())
+      .use(MarkdownItYAMLMetadata)
+      .use(MarkdownItSub)
+      .use(MarkdownItSup)
+      .use(MarkdownItFootnote)
+      .use(MarkdownItDeflist)
+      .use(MarkdownItAbbr)
+      .use(MarkdownItMark)
+      .use(MarkdownItEmoji)
+      .use(MarkdownItContainer)
+      .use(MarkdownItIns)
+      .use(MarkdownItImsize)
+      .use(MarkdownItTOC, {
+        markerPattern: /^\[toc\]/im,
+        includeLevel: [1, 2, 3, 4]
+      })
+      .use(MarkdownItAnchor)
+      .use(MarkdownItRuby)
+      .use(MarkdownItCheckbox, {
+        divWrap: true
+      })
   }
 
   // @param html: html string
@@ -75,7 +77,11 @@ export class Convert {
   // this function doesn't check the ext name of filepath
   public convertFile (filepath: string) {
     const markdown = fs.readFileSync(filepath, { encoding: 'utf-8' })
-    const html = md.render(markdown)
+    // process yaml metadata
+    // if (markdown.slice(0, 3) === '---') {
+    //   markdown = '<!--yaml-metadata-->' + markdown
+    // }
+    const html = this.md.render(markdown)
     const res = this.addLayout(html)
     const basename = path.basename(filepath)
     fs.writeFileSync(path.join(this.dest, basename.replace(/\.md$/, '.html')), res)
