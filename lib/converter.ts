@@ -19,17 +19,20 @@ const MarkdownItTOC = require('markdown-it-table-of-contents')
 const MarkdownItAnchor = require('markdown-it-anchor')
 const MarkdownItRuby = require('markdown-it-ruby')
 const MarkdownItCheckbox = require('markdown-it-checkbox')
+const htmlEncode = require('htmlencode').htmlEncode;
 
 export class Convert {
   src: Array<string>
   dest: string
   layout: string
   md: any
+  title: string
 
-  constructor (src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
+  constructor(src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
     this.src = src
     this.dest = dest
     this.layout = layout
+    this.title = ''
 
     // https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
     this.md = new MarkdownIt({
@@ -39,7 +42,11 @@ export class Convert {
       typographer: true
     })
       .use(MarkdownItMathJax())
-      .use(MarkdownItYAMLMetadata)
+      .use(MarkdownItYAMLMetadata, (option: any) => {
+        if ('title' in option) {
+          this.title = option.title as string
+        }
+      })
       .use(MarkdownItSub)
       .use(MarkdownItSup)
       .use(MarkdownItFootnote)
@@ -63,10 +70,10 @@ export class Convert {
 
   // @param html: html string
   // @return: html string with layout
-  private addLayout (html: string): string {
+  private addLayout(title: string, html: string): string {
     if (fs.existsSync(this.layout)) {
       const layout = fs.readFileSync(this.layout, { encoding: 'utf-8' })
-      return layout.replace('{{main}}', html)
+      return layout.replace('{{title}}', htmlEncode(title)).replace('{{main}}', html)
     }
 
     console.error(`${this.layout} is not found`)
@@ -75,19 +82,15 @@ export class Convert {
 
   // @param filepath: the path of the file should be converted
   // this function doesn't check the ext name of filepath
-  public convertFile (filepath: string) {
+  public convertFile(filepath: string) {
     const markdown = fs.readFileSync(filepath, { encoding: 'utf-8' })
-    // process yaml metadata
-    // if (markdown.slice(0, 3) === '---') {
-    //   markdown = '<!--yaml-metadata-->' + markdown
-    // }
     const html = this.md.render(markdown)
-    const res = this.addLayout(html)
+    const res = this.addLayout(this.title, html)
     const basename = path.basename(filepath)
     fs.writeFileSync(path.join(this.dest, basename.replace(/\.md$/, '.html')), res)
   }
 
-  public convertBatch () {
+  public convertBatch() {
     if (!fs.existsSync(this.dest)) {
       fs.mkdirSync(this.dest)
     }

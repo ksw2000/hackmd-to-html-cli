@@ -1,14 +1,16 @@
+import YAML from 'yaml'
+
 // modified from https://github.com/flaviotordini/markdown-it-yaml
 const tokenType = 'yaml_metadata'
 
-export function MarkdownItYAMLMetadata (md: any, _options: any) {
-  function getLine (state: any, line: any): string {
+export function MarkdownItYAMLMetadata(md: any, callback: undefined | ((option: any) => any)) {
+  function getLine(state: any, line: any): string {
     const pos = state.bMarks[line]
     const max = state.eMarks[line]
     return state.src.substring(pos, max)
   }
 
-  function rule (state: any, startLine: number, endLine: number, silent: any): boolean {
+  function rule(state: any, startLine: number, endLine: number, silent: any): boolean {
     if (state.blkIndent !== 0 || state.tShift[startLine] < 0) {
       return false
     }
@@ -38,18 +40,20 @@ export function MarkdownItYAMLMetadata (md: any, _options: any) {
 
     const dataStartPos = state.bMarks[dataStart]
     const dataEndPos = state.eMarks[dataEnd]
-    const yaml = state.src.substring(dataStartPos, dataEndPos)
 
     const token = state.push(tokenType, '', 0)
-    token.content = yaml
+    token.yaml = state.src.substring(dataStartPos, dataEndPos)
 
     state.line = nextLine + 1
     return true
   }
 
-  function renderer (tokens: any, idx: number, _options: any, _evn: any): string {
+  function renderer(tokens: any, idx: number, _options: any, _evn: any): string {
     const token = tokens[idx]
-    return `<!--yaml\n${token.content}\n-->`
+    if (callback) {
+      callback(YAML.parse(token.yaml))
+    }
+    return `<!--yaml\n${token.yaml}\n-->`
   }
 
   md.block.ruler.before('hr', tokenType, rule)

@@ -1,11 +1,11 @@
 // modified from https://github.com/markdown-it/markdown-it-container
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
-export function MarkdownItContainer (md: any, _options: any) {
+export function MarkdownItContainer(md: any, _options: any) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
 
-  function renderContainer (tokens: any, idx: number, _options: any, env: any, slf: any): string {
+  function renderContainer(tokens: any, idx: number, _options: any, env: any, slf: any): string {
     // add a class to the opening tag
     if (tokens[idx].nesting === 1) {
       tokens[idx].attrJoin('class', tokens[idx].name)
@@ -14,7 +14,7 @@ export function MarkdownItContainer (md: any, _options: any) {
     return slf.renderToken(tokens, idx, _options, env, slf)
   }
 
-  function renderSpoiler (tokens: any, idx: number, _options: any, env: any, slf: any): string {
+  function renderSpoiler(tokens: any, idx: number, _options: any, env: any, slf: any): string {
     // add a class to the opening tag
     if (tokens[idx].nesting === 1) {
       let summary: string = tokens[idx].summary
@@ -34,7 +34,7 @@ export function MarkdownItContainer (md: any, _options: any) {
   const markerChar = markerStr.charCodeAt(0)
   const markerLen = markerStr.length
 
-  function rule (state: any, startLine: number, endLine: number, silent: any): boolean {
+  function rule(state: any, startLine: number, endLine: number, silent: any): boolean {
     let pos, nextLine, token
 
     let autoClosed = false

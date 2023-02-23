@@ -29,6 +29,7 @@
     "@gerhobbelt/markdown-it-checkbox": "^1.2.0-3",
     "@types/node": "^16.11.11",
     "commander": "^8.3.0",
+    "htmlencode": "^0.0.4",
     "markdown-it": "^12.2.0",
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-anchor": "^8.4.1",
@@ -45,7 +46,8 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-table-of-contents": "^0.6.0",
     "markdown-it-yaml": "^1.0.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "yaml": "^2.2.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.50.0",
