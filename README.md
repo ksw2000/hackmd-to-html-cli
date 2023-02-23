@@ -101,4 +101,3 @@ $ hmd2html -s hello.md -l ./myLayout.html
     + Render CSV as table
     + PlantUML
     + Fretboard
-    + Specify the start line number for code block
