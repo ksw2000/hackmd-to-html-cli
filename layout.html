@@ -87,6 +87,7 @@
         ol,
         li,
         section,
+        summary,
         p {
             font-size: 1rem;
         }
@@ -220,6 +221,9 @@
 
         code.language-mermaid,
         code.language-sequence,
+        code.language-graphviz,
+        code.language-vega, 
+        code.language-abc,
         code.language-flow {
             background-color: transparent;
             text-align: center;
@@ -360,6 +364,15 @@
     <!--flowchart-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
     <script src="https://flowchart.js.org/flowchart-latest.js"></script>
+    <!--Graphviz powered by viz.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+    <!--Vega-Lite-->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!--Abc-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.1.9/abcjs-basic-min.min.js"></script>
     <script>
         mermaid.init({ noteMargin: 10 }, document.querySelectorAll(".language-mermaid"));
         mermaid.initialize({ startOnLoad: true });
@@ -375,6 +388,44 @@
             dom.textContent = "";
             flowchart.parse(content).drawSVG(dom.id);
         });
+
+        var viz = new Viz();
+        document.querySelectorAll(".language-graphviz")?.forEach((dom, i) => {
+            dom.id = `graphviz-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            viz.renderSVGElement(content)
+                .then(function (element) {
+                    dom.appendChild(element);
+                })
+                .catch(error => {
+                    // Create a new Viz instance (@see Caveats page for more info)
+                    viz = new Viz();
+
+                    // Possibly display the error
+                    console.error(error);
+                });
+        });
+
+        document.querySelectorAll(".language-abc")?.forEach((dom, i) => {
+            dom.id = `abc-${i}`;
+            let content = dom.textContent;
+            ABCJS.renderAbc(dom.id, content);
+        });
+
+        document.querySelectorAll(".language-vega")?.forEach((dom, i) => {
+            dom.id = `vega-${i}`;
+            let content = dom.textContent;
+            let spec = {};
+            try{
+                spec = JSON.parse(content);
+            }catch(e){
+                spec = {};
+            }
+            dom.textContent = "";
+            vegaEmbed(`#${dom.id}`, spec);
+        });
+        
         // https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
         document.querySelectorAll('code')?.forEach((dom) => {
             let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
@@ -385,6 +436,12 @@
                 hljs.lineNumbersBlock(dom);
             }
         });
+
+        // automatically set title
+        let h1 = document.querySelector("h1");
+        if(h1){
+            document.title = h1.textContent;
+        }
     </script>
 </body>
 
