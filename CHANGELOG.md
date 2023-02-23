@@ -22,3 +22,11 @@
     + Support Mermaid
     + Support Sequence
     + Support Flowchart
++ `v0.0.6`
+    + Update README.md
++ `v0.0.7`
+    + Support Graphviz
+    + Support vega-lite
+    + Support Abc
+    + Support spoiler
+    + Support -b to enable hard-break mode
