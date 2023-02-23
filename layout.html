@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script>
         MathJax = {
@@ -219,10 +220,15 @@
             background-color: transparent;
         }
 
+        code.break {
+            white-space: break-spaces;
+            word-break: break-all;
+        }
+
         code.language-mermaid,
         code.language-sequence,
         code.language-graphviz,
-        code.language-vega, 
+        code.language-vega,
         code.language-abc,
         code.language-flow {
             background-color: transparent;
@@ -351,9 +357,9 @@
         {{main}}
     </main>
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script
-        src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js"></script>
+        src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script>
     <!--mermaid-->
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <!--sequence-->
@@ -417,29 +423,51 @@
             dom.id = `vega-${i}`;
             let content = dom.textContent;
             let spec = {};
-            try{
+            try {
                 spec = JSON.parse(content);
-            }catch(e){
+            } catch (e) {
                 spec = {};
             }
             dom.textContent = "";
             vegaEmbed(`#${dom.id}`, spec);
         });
-        
-        // https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
+
+        // https://github.com/highlightjs/highlight.js/
+        // modified from: https://github.com/wcoder/highlightjs-line-numbers.js/
+        let lastLine = 0;
+        const BREAK_LINE_REGEXP = /\r\n|\r|\n/g;
+        function getLinesCount(text) {
+            return (text.trim().match(BREAK_LINE_REGEXP) || []).length;
+        }
         document.querySelectorAll('code')?.forEach((dom) => {
-            let lang = dom.className.match(/language\-([^=]*)?(=?)$/);
-            if (lang && lang[1]) {
+            let lang = dom.className.match(/language\-([^=]*)?(=?)(\+?[0-9]*)$/);
+            if (lang === null) return;
+            if (lang[1] === '!') {
+                dom.classList.add("break");
+                return;
+            } else {
                 hljs.highlightElement(dom);
             }
-            if (lang && lang[2]) {
-                hljs.lineNumbersBlock(dom);
+
+            if (lang[2]) {
+                let line = 0;
+                if (lang[3] === '') {
+                    line = 0;
+                } else if (lang[3] === '+') {
+                    line = lastLine + 1;
+                } else {
+                    line = Number(lang[3]);
+                }
+                lastLine = line + getLinesCount(dom.innerText);
+                hljs.lineNumbersBlock(dom, {
+                    startFrom: line
+                });
             }
         });
 
         // automatically set title
         let h1 = document.querySelector("h1");
-        if(h1){
+        if (document.title === '') {
             document.title = h1.textContent;
         }
     </script>

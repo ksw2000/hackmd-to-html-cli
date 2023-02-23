@@ -127,6 +127,39 @@ func main() {
 plaintext
 ```
 
+Specify the start line number for code block
+
+```javascript=100
+var s = "JavaScript syntax highlighting";
+alert(s);
+function $initHighlight(block, cls) {
+  try {
+    if (cls.search(/\bno\-highlight\b/) != -1)
+      return process(block, true, 0x0F) +
+             ' class=""';
+  } catch (e) {
+    /* handle exception */
+  }
+  for (var i = 0 / 2; i < classes.length; i++) {
+    if (checkCondition(classes[i]) === undefined)
+      return /\d+[\s/]/g;
+  }
+}
+```
+
+Continue the previous code block’s line number
+
+```javascript=+
+var s = "JavaScript syntax highlighting";
+alert(s);
+```
+
+Super long text without breaks
+
+```!
+When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
+```
+
 ## UML Diagrams
 
 ### Sequence Diagrams
