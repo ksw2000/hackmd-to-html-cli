@@ -27,6 +27,7 @@ Options:
   -s, --source <files_or_dirs...>  specify the input markdown files or directories
   -d, --destination <path>         specify the output directory (default: ./output)
   -l, --layout <html_file>         specify the layout file (default: "")
+  -b, --hardBreak                  use hard break instead of soft break
   -h, --help                       display help for command
 ```
 
@@ -94,7 +95,6 @@ $ hmd2html -s hello.md -l ./myLayout.html
 ## TODO
 
 + Provide more templates & styles
-+ Automatically generate HTML `<title>`
 + Support more HackMD [syntax](https://hackmd.io/features-tw?both)
     + specifiy your name, time and color to vary the blockquotes.
     + YAML Metadata
