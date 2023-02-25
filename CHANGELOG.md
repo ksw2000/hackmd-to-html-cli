@@ -31,4 +31,10 @@
     + Support spoiler
     + Support -b to enable hard-break mode
     + Specify the start line number for code block
-    + Automatically generate `<title>`
+    + Automatically generate `<title>` according to the first `<h1>`
++ `v0.0.8`
+    + Fix bug: line number should start at 1 not 0
+    + Modify index.md
+    + Remove unused dependencies
+    + Checkbox style follows hackmd
+    + Render MathJax directly at conversion time instead of front-end browser

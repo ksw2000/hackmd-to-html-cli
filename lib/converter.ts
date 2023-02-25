@@ -2,9 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import { MarkdownItYAMLMetadata } from './yaml-metadata'
 import { MarkdownItContainer } from './container'
+import { MarkdownItCheckbox } from './checkbox'
+import MarkdownIt from 'markdown-it/lib'
 
-// const MarkdownItContainer = require('markdown-it-container')
-const MarkdownIt = require('markdown-it')
 const MarkdownItSub = require('markdown-it-sub')
 const MarkdownItSup = require('markdown-it-sup')
 const MarkdownItFootnote = require('markdown-it-footnote')
@@ -14,18 +14,17 @@ const MarkdownItEmoji = require('markdown-it-emoji')
 const MarkdownItIns = require('markdown-it-ins')
 const MarkdownItMark = require('markdown-it-mark')
 const MarkdownItImsize = require('markdown-it-imsize')
-const MarkdownItMathJax = require('markdown-it-mathjax')
+const MarkdownItMathJax3 = require('markdown-it-mathjax3')
 const MarkdownItTOC = require('markdown-it-table-of-contents')
 const MarkdownItAnchor = require('markdown-it-anchor')
 const MarkdownItRuby = require('markdown-it-ruby')
-const MarkdownItCheckbox = require('markdown-it-checkbox')
 const htmlEncode = require('htmlencode').htmlEncode;
 
 export class Convert {
   src: Array<string>
   dest: string
   layout: string
-  md: any
+  md: MarkdownIt
   title: string
 
   constructor(src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
@@ -41,12 +40,7 @@ export class Convert {
       linkify: true,
       typographer: true
     })
-      .use(MarkdownItMathJax())
-      .use(MarkdownItYAMLMetadata, (option: any) => {
-        if ('title' in option) {
-          this.title = option.title as string
-        }
-      })
+      .use(MarkdownItMathJax3)
       .use(MarkdownItSub)
       .use(MarkdownItSup)
       .use(MarkdownItFootnote)
@@ -54,18 +48,21 @@ export class Convert {
       .use(MarkdownItAbbr)
       .use(MarkdownItMark)
       .use(MarkdownItEmoji)
-      .use(MarkdownItContainer)
       .use(MarkdownItIns)
       .use(MarkdownItImsize)
       .use(MarkdownItTOC, {
         markerPattern: /^\[toc\]/im,
         includeLevel: [1, 2, 3, 4]
       })
+      .use(MarkdownItYAMLMetadata, (option: any) => {
+        if ('title' in option) {
+          this.title = option.title as string
+        }
+      })
       .use(MarkdownItAnchor)
       .use(MarkdownItRuby)
-      .use(MarkdownItCheckbox, {
-        divWrap: true
-      })
+      .use(MarkdownItContainer)
+      .use(MarkdownItCheckbox)
   }
 
   // @param html: html string
