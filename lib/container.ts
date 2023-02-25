@@ -1,7 +1,8 @@
 // modified from https://github.com/markdown-it/markdown-it-container
+import MarkdownIt from "markdown-it/lib"
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
-export function MarkdownItContainer(md: any, _options: any) {
+export function MarkdownItContainer(md: MarkdownIt, _options: any) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
 

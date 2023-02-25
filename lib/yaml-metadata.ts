@@ -1,9 +1,10 @@
 import YAML from 'yaml'
+import MarkdownIt from "markdown-it/lib"
 
 // modified from https://github.com/flaviotordini/markdown-it-yaml
 const tokenType = 'yaml_metadata'
 
-export function MarkdownItYAMLMetadata(md: any, callback: undefined | ((option: any) => any)) {
+export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (option: any) => any) {
   function getLine(state: any, line: any): string {
     const pos = state.bMarks[line]
     const max = state.eMarks[line]
