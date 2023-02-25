@@ -2,6 +2,7 @@
 import MarkdownIt from "markdown-it/lib"
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function MarkdownItContainer(md: MarkdownIt, _options: any) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
@@ -67,7 +68,7 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
     const params: string = state.src.slice(pos, max)
 
     const parse: string[] = params.trim().split(' ')
-    const name: string = parse?.length > 0 ? parse[0]! : ''
+    const name: string = parse?.length > 0 ? (parse[0] || '') : ''
     const summary: string = parse.length > 1 ? parse.slice(1).join(' ') : ''
     if (!names.includes(name)) {
       return false

@@ -3,7 +3,7 @@ import Token from 'markdown-it/lib/token'
 
 // modified from https://github.com/mcecot/markdown-it-checkbox
 export function MarkdownItCheckbox(md: MarkdownIt) {
-    let lastId: number = 0
+    let lastId = 0
     function createTokens(checked: boolean, label: string): Token[] {
         const nodes: Token[] = []
 
@@ -31,7 +31,7 @@ export function MarkdownItCheckbox(md: MarkdownIt) {
     }
 
     function splitTextToken(token: Token): Token[] | null {
-        let matches = token.content.match(/\[(X|\s|\_|\-)\]\s(.*)/i)
+        const matches = token.content.match(/\[(X|\s|_|-)\]\s(.*)/i)
         if (matches === null) {
             return null
         }
@@ -47,7 +47,7 @@ export function MarkdownItCheckbox(md: MarkdownIt) {
 
 
     function checkbox(state: any): void {
-        let blockTokens = state.tokens
+        const blockTokens = state.tokens
         const l = blockTokens.length
         let k = -1
         for (let j = 0; j < l; j++) {

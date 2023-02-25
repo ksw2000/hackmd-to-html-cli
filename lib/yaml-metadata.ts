@@ -49,6 +49,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (option: any) =
     return true
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function renderer(tokens: any, idx: number, _options: any, _evn: any): string {
     const token = tokens[idx]
     if (callback) {
