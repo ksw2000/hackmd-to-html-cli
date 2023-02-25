@@ -1,6 +1,6 @@
 {
   "name": "hackmd-to-html-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A cli tool converts hackmd to html",
   "keywords": [
     "hackmd",
