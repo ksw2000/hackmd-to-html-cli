@@ -185,11 +185,17 @@
             line-height: 1.45;
         }
 
-        code {
+        code{
+            padding: .2em;
+            margin: 0;
+            font-size: 85%;
             border-radius: 3px;
             background-color: var(--body-background);
+        }
+
+        /*block code*/
+        pre code {
             display: block;
-            margin: 0px;
             padding: 16px;
             overflow-x: auto;
         }
@@ -216,6 +222,27 @@
         mark {
             padding: 0.2rem;
             background-color: #fff1a7;
+        }
+
+        /*---embed---*/
+        embed{
+            overflow: auto; 
+            width: 100%; 
+            height: 400px;
+        }
+
+        iframe{
+            margin: 10px auto;
+            width: 100%; 
+            height: 480px;
+        }
+        
+        .gist table tr{
+            border: 0px;
+        }
+
+        .gist table td{
+            border: 0px;
         }
 
         /*---hljs---*/

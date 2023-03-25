@@ -2,8 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/ksw2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/actions/workflow/status/ksw2000/hackmd-to-html-cli/gitpage.yml?branch=main&style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
 
-
-A simple Node.js wrapper for `markdown-it`. This tool helps to convert HackMD markdown files to HTML files.
+Convert [HackMD](https://hackmd.io/) markdown to HTML.
 
 ## Install
 
@@ -101,4 +100,3 @@ $ hmd2html -s hello.md -l ./myLayout.html
     + Render CSV as table
     + PlantUML
     + Fretboard
-    + Support externals

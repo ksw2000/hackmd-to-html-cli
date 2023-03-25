@@ -1,7 +1,7 @@
 {
   "name": "hackmd-to-html-cli",
   "version": "0.0.8",
-  "description": "A cli tool converts hackmd to html",
+  "description": "A node.js cli tool for converting HackMD markdown to HTML.",
   "keywords": [
     "hackmd",
     "markdown",
@@ -26,7 +26,6 @@
   "author": "Kashiwa",
   "license": "MIT",
   "dependencies": {
-    "@gerhobbelt/markdown-it-checkbox": "^1.2.0-3",
     "@types/node": "^16.11.11",
     "commander": "^8.3.0",
     "htmlencode": "^0.0.4",

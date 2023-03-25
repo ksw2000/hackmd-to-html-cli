@@ -38,3 +38,12 @@
     + Remove unused dependencies
     + Checkbox style follows hackmd
     + Render MathJax directly at conversion time instead of front-end browser
++ `v0.0.9`
+    + Fix bug: The style of `inline code`
+    + Support externals (exclude SlideShare)
+        + Youtube
+        + Vimeo
+        + Gist
+        + Speakerdeck
+        + PDF
+        + Figma

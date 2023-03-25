@@ -3,6 +3,7 @@ import path from 'path'
 import { MarkdownItYAMLMetadata } from './yaml-metadata'
 import { MarkdownItContainer } from './container'
 import { MarkdownItCheckbox } from './checkbox'
+import { MarkdownItExternal } from './external'
 import MarkdownIt from 'markdown-it/lib'
 
 const MarkdownItSub = require('markdown-it-sub')
@@ -63,6 +64,7 @@ export class Convert {
       .use(MarkdownItRuby)
       .use(MarkdownItContainer)
       .use(MarkdownItCheckbox)
+      .use(MarkdownItExternal)
   }
 
   // @param html: html string

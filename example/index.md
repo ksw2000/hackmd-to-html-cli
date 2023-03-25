@@ -25,7 +25,7 @@ tags: hack
 
 ## Text
 
-~~del~~ *italic* **bold** ++inserted++ ==marked== H~2~O 1^st^ {超電磁砲|Railgun}
+~~del~~ *italic* **bold** ++inserted++ ==marked== H~2~O 1^st^ {超電磁砲|Railgun} `inline-code`
 
 :accept: :smile: :+1: :aquarius: 
 
@@ -80,6 +80,33 @@ You found me :stuck_out_tongue_winking_eye:
 :::spoiler {state="open"} Expand the spoiler container by default
 You found me :stuck_out_tongue_winking_eye:
 :::
+
+## Externals
+
+### YouTube
+{%youtube oCgdmlee5vQ %}
+
+### Vimeo
+{%vimeo 124148255 %}
+
+### Gist
+{%gist schacon/4277 %}
+
+<!--
+Not work on hackMD
+### SlideShare
+{%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
+-->
+
+### Speakerdeck
+{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
+
+### PDF
+**Caution: this might be blocked by your browser if not using an `https` URL.**
+{%pdf https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf %}The text here can be rendered.
+
+### Figma
+{%figma https://www.figma.com/file/FlUge76mJYUB4hsMyLbRXH/Primer-Primitives-Community?node-id=9%3A2 %}
 
 ## MathJax
 
@@ -252,7 +279,6 @@ g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
 > More information about **mermaid** syntax [here](http://mermaid-js.github.io/mermaid)
 > More information about **abc** syntax [here](http://abcnotation.com/learn)
 > More information about **vega** syntax [here](https://vega.github.io/vega-lite/docs)
-> More information about **fretboard** syntax [here](https://hackmd.io/@docs/fretboard-syntax)
 
 ## YAML metadata
 
