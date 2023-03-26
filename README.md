@@ -93,7 +93,13 @@ $ hmd2html -s hello.md -l ./myLayout.html
 
 ## Support
 
-| Features      | hmd2html  | HackMD Online Editor  | Download HTML by HackMD| |
+`hmd2html`: our tool (the latest)
+
+`HackMD Online`: HackMD Online Editor
+
+`HackMD Default Converter`: The default markdown to html converter provided by HackMD i.e., download HTML file on HackMD.
+
+| Features      | hmd2html  | HackMD Online | HackMD Default Converter | |
 |---------------|:---------:|:-------:|--|--|
 | ToC           | ✅       |    ✅   |✅||
 | Emoji         | ✅       |    ✅   |✅||
@@ -146,27 +152,27 @@ $ hmd2html -s hello.md -l ./myLayout.html
 
 ### Support Externals
 
-| Features      | hmd2html  | HackMD Online Editor  | Download HTML by HackMD|
+| Features    | hmd2html  | HackMD Online | HackMD Default Converter|
 |-------------|:---------:|:-------:|--|
 | Youtube     | ✅        |   ✅   |✅|
 | Vimeo       | ✅        |   ❌   |❌|
 | Gist        | ✅        |   ✅   |✅|
 | SlideShare  | ❌        |   ❌   |❌|
-| Speakerdeck | ✅        |   ✅   |❌|
-| PDF         | ✅        |   ✅   |❌|
+| Speakerdeck | ✅        |   ✅   |✅|
+| PDF         | ✅        |   ✅   |✅|
 | Figma       | ✅        |   ✅   |✅|
 
 ### Support YAML Metadata
 
-| Features      | hmd2html  | hackMD  | |
-|---------------|:---------:|:-------:|--|
-| title         | ✅       |    ✅   | `<title></title>`<br>`<meta name="twitter:title">`<br>`<meta property="og:title">`|
-| description   | ✅       |    ✅   | `<meta name="description">`<br>`<meta name="twitter:description">`<br>`<meta property="og:description">` |
-| robots        | ✅       |    ✅   | `<meta name="robots">` |
-| lang          | ✅       |    ✅   | `<html lang="">` |
-| dir           | ✅       |    ✅   | `<html dir="">` |
-| image         | ✅       |    ✅   | `<meta property="og:image">`<br>`<meta name="twitter:image:src">` |
-| others        | ✅       |    ✅   | Hide the metadata by html comment |
+| Features      | hmd2html  | Implementation  |
+|---------------|:---------:|:-------:|
+| title         | ✅       | `<title></title>`<br>`<meta name="twitter:title">`<br>`<meta property="og:title">`|
+| description   | ✅       | `<meta name="description">`<br>`<meta name="twitter:description">`<br>`<meta property="og:description">` |
+| robots        | ✅       | `<meta name="robots">` |
+| lang          | ✅       | `<html lang="">` |
+| dir           | ✅       | `<html dir="">` |
+| image         | ✅       | `<meta property="og:image">`<br>`<meta name="twitter:image:src">` |
+| others        | ✅       | Hide the metadata by html comment |
 
 HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>`.
 
