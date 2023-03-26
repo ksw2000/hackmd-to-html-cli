@@ -91,12 +91,81 @@ $ hmd2html -s hello.md -l ./myLayout.html
 1. `npm run lint` to check the format of source code.
 2. `npm test` to test this package, which generates result from `./example` into `./output`.
 
+## Support
+
+| Features      | hmd2html  | hackMD  | |
+|---------------|:---------:|:-------:|--|
+| ToC           | ✅       |    ✅   ||
+| Emoji         | ✅       |    ✅   ||
+| ToDo list     | ✅       |    ✅   ||
+| Code block    | ✅       |    ✅   ||
+| - Show line number or not | ✅ | ✅ ||
+| - Specify the start line number | ✅ | ✅ |v0.0.7⬆|
+| - Continue line number | ✅ |  ✅  |v0.0.8⬆|
+| Blockquote    |  ✅       |    ✅  ||
+| - specify your name | ❌  |    ✅  ||
+| - specify time | ❌       |    ✅  ||
+| - color to vary the blockquoutes | ❌ | ✅ ||
+| Render CSV as table | ❌  |    ✅  ||
+| Externals     |   | | v0.0.9⬆|
+| - Youtube     | ✅        |   ✅   ||
+| - Vimeo       | ✅        |   ❌   | test on 2023/03/26 |
+| - Gist        | ✅        |   ✅   ||
+| - SlideShare  | ❌        |   ❌   | test on 2023/03/26 |
+| - Speakerdeck | ✅        |   ✅   ||
+| - PDF         | ✅        |   ✅   ||
+| - Figma       | ✅        |   ✅   ||
+| MathJax       | ✅        |   ✅   ||
+| Sequence diagrams  | ✅   |   ✅   |v0.0.5⬆|
+| Flow charts   | ✅        |   ✅   |v0.0.5⬆|
+| Graphviz      | ✅        |   ✅   |v0.0.7⬆|
+| Mermaid       | ✅        |   ✅   |v0.0.5⬆|
+| Abc           | ✅        |   ✅   |v0.0.7⬆|
+| PlantUML      | ❌        |   ✅   ||
+| Vega-Lite     | ✅        |   ✅   |v0.0.7⬆|
+| Fretboard     | ❌        |   ✅   ||
+| Alert Area    | ✅        |   ✅   ||
+| Detail        | ✅        |   ✅   ||
+| Spoiler container | ✅    |   ✅   |v0.0.7⬆|
+| Headers h1-h6 | ✅        |   ✅   ||
+| Horizontal line| ✅       |   ✅   | `---` `***`|
+| Bold          | ✅        |   ✅   | `**b**` `__b__`|
+| Italic        | ✅        |   ✅   | `*i*` `_i_`|
+| Deleted text  | ✅        |   ✅   | `~~del~~` |
+| Superscript   | ✅        |   ✅   | `^sup^` |
+| Subscript     | ✅        |   ✅   | `~sub~` |
+| Inserted text | ✅        |   ✅   | `++ins++` |
+| Marked text   | ✅        |   ✅   | `==mark==` |
+| Ruby case     | ✅        |   ✅   | |
+| Typographic<br>replacements | ✅ |  ✅  | |
+| Blockquotes   | ✅        |   ✅   | |
+| List          | ✅        |   ✅   | |
+| Tables        | ✅        |   ✅   | |
+| Links         | ✅        |   ✅   | |
+| Link with title| ✅       |   ✅   ||
+| Autoconverted link| ✅    |   ✅   ||
+| Image         | ✅       |   ✅   ||
+| - normal      | ✅       |   ✅   ||
+| - with title  | ✅       |   ✅   ||
+| - given size  | ✅       |   ✅   ||
+| Footnotes     | ✅       |   ✅   ||
+| Definition list| ✅      |   ✅   ||
+| Abbreviations | ✅       |   ✅   ||
+
+### Support YAML Metadata
+
+| Features      | hmd2html  | hackMD  | |
+|---------------|:---------:|:-------:|--|
+| title         | ✅       |    ✅   | `<title></title>`<br>`<meta name="twitter:title">`<br>`<meta property="og:title">`|
+| description   | ✅       |    ✅   | `<meta name="description">`<br>`<meta name="twitter:description">`<br>`<meta property="og:description">` |
+| robots        | ✅       |    ✅   | `<meta name="robots">` |
+| lang          | ✅       |    ✅   | `<html lang="">` |
+| dir           | ✅       |    ✅   | `<html dir="">` |
+| image         | ✅       |    ✅   | `<meta property="og:image">`<br>`<meta name="twitter:image:src">` |
+| others        | ✅       |    ✅   | Hide the metadata by html comment |
+
+
 ## TODO
 
 + Provide more templates & styles
 + Support more HackMD [syntax](https://hackmd.io/features-tw?both)
-    + specifiy your name, time and color to vary the blockquotes.
-    + YAML Metadata
-    + Render CSV as table
-    + PlantUML
-    + Fretboard
