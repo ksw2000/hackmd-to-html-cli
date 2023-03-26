@@ -1,5 +1,9 @@
 ---
 title: Example of hackmd-to-html-cli
+lang: zh-TW
+description: An example of using hackmd-to-html-cli
+robots: noindex
+dir: ltr
 tags: hack
 ---
 
@@ -16,6 +20,15 @@ tags: hack
 ##### h5
 ###### h6
 
+## Horizontal line
+
+`---`
+
+---
+
+`***`
+
+***
 
 ## Blockquote
 
@@ -25,12 +38,47 @@ tags: hack
 
 ## Text
 
-~~del~~ *italic* **bold** ++inserted++ ==marked== H~2~O 1^st^ {超電磁砲|Railgun} `inline-code`
+`~~del~~` ~~del~~ 
 
-:accept: :smile: :+1: :aquarius: 
+`*italic*` *italic* 
+
+`_italic_` _italic_
+
+`**bold**` **bold**
+
+`__bold__` __bold__
+
+`++inserted++` ++inserted++ 
+
+`==marked==` ==marked==
+
+`H~2~O` H~2~O
+
+`1^st^` 1^st^
+
+`{超電磁砲|Railgun}` {超電磁砲|Railgun}
+
+:accept: :smile: :+1: :aquarius: :hot_face:
 
 See repository on github: https://github.com/ksw2000/hackmd-to-html-cli/
 
+[hackmd-to-html-cli](https://github.com/ksw2000/hackmd-to-html-cli/ "A node.js package")
+
+## Typographic Replacements
+
+Enable typographer option to see result.
+
+(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+
+test.. test... test..... test?..... test!....
+
+!!!!!! ???? ,,
+
+Remarkable -- awesome
+
+"Smartypants, double quotes"
+
+'Smartypants, single quotes'
 
 ## List
 
@@ -42,6 +90,13 @@ See repository on github: https://github.com/ksw2000/hackmd-to-html-cli/
 1. 高海千歌
 2. 渡辺曜
 3. 桜内梨子
+
+Start numbering with offset
+
+10. 諏訪ななか
+1. 高槻かなこ
+2. 小宮有紗 
+
 
 ## Check box
 
@@ -284,7 +339,45 @@ g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
 
 See: [https://hackmd.io/yaml-metadata](https://hackmd.io/yaml-metadata)
 
-## Abbr
+## Images
+
+`![Alt](URL)`
+
+![data-structure-in-c-sakura-tomoyo](https://raw.githubusercontent.com/ksw2000/Data-Structure-in-C/master/meme/data-structure-in-c-sakura-tomoyo.png)
+
+`![Alt](URL "with title")`
+
+![data-structure-in-c-sakura-tomoyo](https://raw.githubusercontent.com/ksw2000/Data-Structure-in-C/master/meme/data-structure-in-c-sakura-tomoyo.png "Fundamentals Data Structure in C")
+
+`![Alt](URL =widthxheight)`
+
+![data-structure-in-c-sakura-tomoyo](https://user-images.githubusercontent.com/13825170/226702911-bb7ce9ce-4aba-4ca5-b3b8-ffb85a55cb61.png =400x225)
+
+## Definition Lists
+
+Term 1
+
+:   Definition 1
+with lazy continuation.
+
+Term 2 with *inline markup*
+
+:   Definition 2
+
+        { some code, part of Definition 2 }
+
+    Third paragraph of definition 2.
+
+_Compact style:_
+
+Term 1
+  ~ Definition 1
+
+Term 2
+  ~ Definition 2a
+  ~ Definition 2b
+
+## Abbreviations
 
 *[HTML]: Hyper Text Markup Language
 *[W3C]:  World Wide Web Consortium

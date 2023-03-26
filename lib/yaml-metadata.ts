@@ -4,7 +4,16 @@ import MarkdownIt from "markdown-it/lib"
 // modified from https://github.com/flaviotordini/markdown-it-yaml
 const tokenType = 'yaml_metadata'
 
-export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (option: any) => any) {
+export class Metadata{
+  title: string = ""
+  description: string =""
+  lang: string = ""
+  robots: string = ""
+  dir: string = ""
+  image: string = ""
+}
+
+export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Metadata) => any) {
   function getLine(state: any, line: any): string {
     const pos = state.bMarks[line]
     const max = state.eMarks[line]
@@ -53,7 +62,15 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (option: any) =
   function renderer(tokens: any, idx: number, _options: any, _evn: any): string {
     const token = tokens[idx]
     if (callback) {
-      callback(YAML.parse(token.yaml))
+      let data = YAML.parse(token.yaml)
+      let metadata = new Metadata()
+      metadata.title = data.title ?? ''
+      metadata.lang = data.lang ?? ''
+      metadata.robots = data.robots ?? ''
+      metadata.description = data.description ?? ''
+      metadata.dir = data.dir ?? ''
+      metadata.image = data.image ?? ''
+      callback(metadata)
     }
     return `<!--yaml\n${token.yaml}\n-->`
   }

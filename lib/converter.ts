@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { MarkdownItYAMLMetadata } from './yaml-metadata'
+import { MarkdownItYAMLMetadata, Metadata } from './yaml-metadata'
 import { MarkdownItContainer } from './container'
 import { MarkdownItCheckbox } from './checkbox'
 import { MarkdownItExternal } from './external'
@@ -26,13 +26,13 @@ export class Convert {
   dest: string
   layout: string
   md: MarkdownIt
-  title: string
+  metadata: Metadata
 
   constructor(src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
     this.src = src
     this.dest = dest
     this.layout = layout
-    this.title = ''
+    this.metadata = new Metadata()
 
     // https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
     this.md = new MarkdownIt({
@@ -55,10 +55,8 @@ export class Convert {
         markerPattern: /^\[toc\]/im,
         includeLevel: [1, 2, 3, 4]
       })
-      .use(MarkdownItYAMLMetadata, (option: any) => {
-        if ('title' in option) {
-          this.title = option.title as string
-        }
+      .use(MarkdownItYAMLMetadata, (metadata: Metadata) => {
+        this.metadata = metadata
       })
       .use(MarkdownItAnchor)
       .use(MarkdownItRuby)
@@ -69,10 +67,40 @@ export class Convert {
 
   // @param html: html string
   // @return: html string with layout
-  private addLayout(title: string, html: string): string {
+  private addLayout(metadata: Metadata, html: string): string {
     if (fs.existsSync(this.layout)) {
       const layout = fs.readFileSync(this.layout, { encoding: 'utf-8' })
-      return layout.replace('{{title}}', htmlEncode(title)).replace('{{main}}', html)
+      let metas = ''
+      if (metadata.title !== '') {
+        metas += '<title>' + htmlEncode(metadata.title) + '</title>\n'
+        metas += '<meta name="twitter:title" content="' + htmlEncode(metadata.title) + '" />\n'
+        metas += '<meta property="og:title" content="' + htmlEncode(metadata.title) + '" />\n'
+      }
+      if (metadata.robots !== '') {
+        metas += '<meta name="robots" content="' + htmlEncode(metadata.robots) + '">\n'
+      }
+      if (metadata.description !== '') {
+        metas += '<meta name="description" content="' + htmlEncode(metadata.description) + '">\n'
+        metas += '<meta name="twitter:description" content="' + htmlEncode(metadata.description) + '">\n'
+        metas += '<meta property="og:description" content="' + htmlEncode(metadata.description) + '">\n'
+      }
+      if(metadata.image !== ''){
+        metas += '<meta name="twitter:image:src" content="'+htmlEncode(metadata.image)+'" />\n'
+        metas += '<meta property="og:image" content="'+htmlEncode(metadata.image)+'" />\n'
+      }
+      let lang = ''
+      if (metadata.lang !== '') {
+        lang = ' lang="' + htmlEncode(metadata.lang) + '"'
+      }
+      let dir = ''
+      if (metadata.dir !== '') {
+        dir = ' dir="' + htmlEncode(metadata.dir) + '"'
+      }
+      return layout
+        .replace('{{lang}}', lang)
+        .replace('{{dir}}', dir)
+        .replace('{{metas}}', metas)
+        .replace('{{main}}', html)
     }
 
     console.error(`${this.layout} is not found`)
@@ -84,7 +112,7 @@ export class Convert {
   public convertFile(filepath: string) {
     const markdown = fs.readFileSync(filepath, { encoding: 'utf-8' })
     const html = this.md.render(markdown)
-    const res = this.addLayout(this.title, html)
+    const res = this.addLayout(this.metadata, html)
     const basename = path.basename(filepath)
     fs.writeFileSync(path.join(this.dest, basename.replace(/\.md$/, '.html')), res)
   }
