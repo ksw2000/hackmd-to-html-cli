@@ -100,7 +100,7 @@ $ hmd2html -s hello.md -l ./myLayout.html
 `HackMD Default Converter`: The default markdown to html converter provided by HackMD i.e., download HTML file on HackMD.
 
 | Features      | hmd2html  | HackMD Online | HackMD Default Converter | |
-|---------------|:---------:|:-------:|--|--|
+|---------------|:---------:|:-------:|:--:|:--:|
 | ToC           | ✅       |    ✅   |✅||
 | Emoji         | ✅       |    ✅   |✅||
 | ToDo list     | ✅       |    ✅   |✅||
@@ -153,7 +153,7 @@ $ hmd2html -s hello.md -l ./myLayout.html
 ### Support Externals
 
 | Features    | hmd2html  | HackMD Online | HackMD Default Converter|
-|-------------|:---------:|:-------:|--|
+|-------------|:---------:|:-------:|:--:|
 | Youtube     | ✅        |   ✅   |✅|
 | Vimeo       | ✅        |   ❌   |❌|
 | Gist        | ✅        |   ✅   |✅|
