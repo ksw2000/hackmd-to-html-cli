@@ -93,64 +93,68 @@ $ hmd2html -s hello.md -l ./myLayout.html
 
 ## Support
 
-| Features      | hmd2html  | hackMD  | |
-|---------------|:---------:|:-------:|--|
-| ToC           | ✅       |    ✅   ||
-| Emoji         | ✅       |    ✅   ||
-| ToDo list     | ✅       |    ✅   ||
-| Code block    | ✅       |    ✅   ||
-| - Show line number or not | ✅ | ✅ ||
-| - Specify the start line number | ✅ | ✅ |v0.0.7⬆|
-| - Continue line number | ✅ |  ✅  |v0.0.8⬆|
-| Blockquote    |  ✅       |    ✅  ||
-| - specify your name | ❌  |    ✅  ||
-| - specify time | ❌       |    ✅  ||
-| - color to vary the blockquoutes | ❌ | ✅ ||
-| Render CSV as table | ❌  |    ✅  ||
-| Externals     |   | | v0.0.9⬆|
-| - Youtube     | ✅        |   ✅   ||
-| - Vimeo       | ✅        |   ❌   | test on 2023/03/26 |
-| - Gist        | ✅        |   ✅   ||
-| - SlideShare  | ❌        |   ❌   | test on 2023/03/26 |
-| - Speakerdeck | ✅        |   ✅   ||
-| - PDF         | ✅        |   ✅   ||
-| - Figma       | ✅        |   ✅   ||
-| MathJax       | ✅        |   ✅   ||
-| Sequence diagrams  | ✅   |   ✅   |v0.0.5⬆|
-| Flow charts   | ✅        |   ✅   |v0.0.5⬆|
-| Graphviz      | ✅        |   ✅   |v0.0.7⬆|
-| Mermaid       | ✅        |   ✅   |v0.0.5⬆|
-| Abc           | ✅        |   ✅   |v0.0.7⬆|
-| PlantUML      | ❌        |   ✅   ||
-| Vega-Lite     | ✅        |   ✅   |v0.0.7⬆|
-| Fretboard     | ❌        |   ✅   ||
-| Alert Area    | ✅        |   ✅   ||
-| Detail        | ✅        |   ✅   ||
-| Spoiler container | ✅    |   ✅   |v0.0.7⬆|
-| Headers h1-h6 | ✅        |   ✅   ||
-| Horizontal line| ✅       |   ✅   | `---` `***`|
-| Bold          | ✅        |   ✅   | `**b**` `__b__`|
-| Italic        | ✅        |   ✅   | `*i*` `_i_`|
-| Deleted text  | ✅        |   ✅   | `~~del~~` |
-| Superscript   | ✅        |   ✅   | `^sup^` |
-| Subscript     | ✅        |   ✅   | `~sub~` |
-| Inserted text | ✅        |   ✅   | `++ins++` |
-| Marked text   | ✅        |   ✅   | `==mark==` |
-| Ruby case     | ✅        |   ✅   | |
-| Typographic<br>replacements | ✅ |  ✅  | |
-| Blockquotes   | ✅        |   ✅   | |
-| List          | ✅        |   ✅   | |
-| Tables        | ✅        |   ✅   | |
-| Links         | ✅        |   ✅   | |
-| Link with title| ✅       |   ✅   ||
-| Autoconverted link| ✅    |   ✅   ||
-| Image         | ✅       |   ✅   ||
-| - normal      | ✅       |   ✅   ||
-| - with title  | ✅       |   ✅   ||
-| - given size  | ✅       |   ✅   ||
-| Footnotes     | ✅       |   ✅   ||
-| Definition list| ✅      |   ✅   ||
-| Abbreviations | ✅       |   ✅   ||
+| Features      | hmd2html  | HackMD Online Editor  | Download HTML by HackMD| |
+|---------------|:---------:|:-------:|--|--|
+| ToC           | ✅       |    ✅   |✅||
+| Emoji         | ✅       |    ✅   |✅||
+| ToDo list     | ✅       |    ✅   |✅||
+| Code block    | ✅       |    ✅   |✅||
+| - Show line number or not | ✅ | ✅ |❌||
+| - Specify the start line number | ✅ | ✅ |❌|v0.0.7⬆|
+| - Continue line number | ✅ |  ✅  |❌|v0.0.8⬆|
+| Blockquote    |  ✅       |    ✅  |✅||
+| - specify your name | ❌  |    ✅  |✅||
+| - specify time | ❌       |    ✅  |✅||
+| - color to vary the blockquoutes | ❌ | ✅ |✅||
+| Render CSV as table | ❌  |    ✅  |✅||
+| MathJax       | ✅        |   ✅   |✅||
+| Sequence diagrams  | ✅   |   ✅   |❌|v0.0.5⬆|
+| Flow charts   | ✅        |   ✅   |❌|v0.0.5⬆|
+| Graphviz      | ✅        |   ✅   |❌|v0.0.7⬆|
+| Mermaid       | ✅        |   ✅   |❌|v0.0.5⬆|
+| Abc           | ✅        |   ✅   |❌|v0.0.7⬆|
+| PlantUML      | ❌        |   ✅   |✅||
+| Vega-Lite     | ✅        |   ✅   |❌|v0.0.7⬆|
+| Fretboard     | ❌        |   ✅   |❌||
+| Alert Area    | ✅        |   ✅   |✅||
+| Detail        | ✅        |   ✅   |✅||
+| Spoiler container | ✅    |   ✅   |✅|v0.0.7⬆|
+| Headers h1-h6 | ✅        |   ✅   |✅||
+| Horizontal line| ✅       |   ✅   |✅| `---` `***`|
+| Bold          | ✅        |   ✅   |✅| `**b**` `__b__`|
+| Italic        | ✅        |   ✅   |✅| `*i*` `_i_`|
+| Deleted text  | ✅        |   ✅   |✅| `~~del~~` |
+| Superscript   | ✅        |   ✅   |✅| `^sup^` |
+| Subscript     | ✅        |   ✅   |✅| `~sub~` |
+| Inserted text | ✅        |   ✅   |✅| `++ins++` |
+| Marked text   | ✅        |   ✅   |✅| `==mark==` |
+| Ruby case     | ✅        |   ✅   |✅| |
+| Typographic<br>replacements | ✅ | ✅ |✅| |
+| Blockquotes   | ✅        |   ✅   |✅| |
+| List          | ✅        |   ✅   |✅| |
+| Tables        | ✅        |   ✅   |✅| |
+| Links         | ✅        |   ✅   |✅| |
+| Link with title| ✅       |   ✅   |✅||
+| Autoconverted link| ✅    |   ✅   |✅||
+| Image         | ✅       |   ✅   |✅||
+| - normal      | ✅       |   ✅   |✅||
+| - with title  | ✅       |   ✅   |✅||
+| - given size  | ✅       |   ✅   |✅||
+| Footnotes     | ✅       |   ✅   |✅||
+| Definition list| ✅      |   ✅   |✅||
+| Abbreviations | ✅       |   ✅   |✅||
+
+### Support Externals
+
+| Features      | hmd2html  | HackMD Online Editor  | Download HTML by HackMD|
+|-------------|:---------:|:-------:|--|
+| Youtube     | ✅        |   ✅   |✅|
+| Vimeo       | ✅        |   ❌   |❌|
+| Gist        | ✅        |   ✅   |✅|
+| SlideShare  | ❌        |   ❌   |❌|
+| Speakerdeck | ✅        |   ✅   |❌|
+| PDF         | ✅        |   ✅   |❌|
+| Figma       | ✅        |   ✅   |✅|
 
 ### Support YAML Metadata
 
@@ -164,6 +168,7 @@ $ hmd2html -s hello.md -l ./myLayout.html
 | image         | ✅       |    ✅   | `<meta property="og:image">`<br>`<meta name="twitter:image:src">` |
 | others        | ✅       |    ✅   | Hide the metadata by html comment |
 
+HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>`.
 
 ## TODO
 
