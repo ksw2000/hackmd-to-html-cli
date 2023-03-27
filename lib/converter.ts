@@ -4,6 +4,7 @@ import { MarkdownItYAMLMetadata, Metadata } from './yaml-metadata'
 import { MarkdownItContainer } from './container'
 import { MarkdownItCheckbox } from './checkbox'
 import { MarkdownItExternal } from './external'
+import { MarkdownItBlockquoteX } from './blockquotex'
 import MarkdownIt from 'markdown-it/lib'
 
 const MarkdownItSub = require('markdown-it-sub')
@@ -63,6 +64,7 @@ export class Convert {
       .use(MarkdownItContainer)
       .use(MarkdownItCheckbox)
       .use(MarkdownItExternal)
+      .use(MarkdownItBlockquoteX)
   }
 
   // @param html: html string
@@ -84,9 +86,9 @@ export class Convert {
         metas += '<meta name="twitter:description" content="' + htmlEncode(metadata.description) + '">\n'
         metas += '<meta property="og:description" content="' + htmlEncode(metadata.description) + '">\n'
       }
-      if(metadata.image !== ''){
-        metas += '<meta name="twitter:image:src" content="'+htmlEncode(metadata.image)+'" />\n'
-        metas += '<meta property="og:image" content="'+htmlEncode(metadata.image)+'" />\n'
+      if (metadata.image !== '') {
+        metas += '<meta name="twitter:image:src" content="' + htmlEncode(metadata.image) + '" />\n'
+        metas += '<meta property="og:image" content="' + htmlEncode(metadata.image) + '" />\n'
       }
       let lang = ''
       if (metadata.lang !== '') {
