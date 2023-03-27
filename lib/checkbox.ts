@@ -51,7 +51,6 @@ export function MarkdownItCheckbox(md: MarkdownIt) {
         const l = blockTokens.length
         let k = -1
         for (let j = 0; j < l; j++) {
-            //
             if (blockTokens[j].type === 'list_item_open') {
                 k = j
             }

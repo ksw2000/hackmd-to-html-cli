@@ -45,7 +45,6 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
-    //
     if (markerChar !== state.src.charCodeAt(start)) {
       return false
     }
@@ -75,13 +74,11 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
     }
 
     // Since start is found, we can report success here in validation mode
-    //
     if (silent) {
       return true
     }
 
     // Search for the end of the block
-    //
     nextLine = startLine
 
     for (; ;) {
