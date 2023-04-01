@@ -89,78 +89,76 @@ $ hmd2html -s hello.md -l ./myLayout.html
 ## Develop
 
 1. `npm run lint` to check the format of source code.
-2. `npm test` to test this package, which generates result from `./example` into `./output`.
+2. `npm test` runs tests for this package, which generates result from `./example` and places them in `./output`.
 
 ## Support
 
 `hmd2html`: our tool (the latest)
 
-`HackMD Online`: HackMD Online Editor
+`HackMD Default Converter`: The default markdown to html converter provided by HackMD, i.e., download HTML file on HackMD.
 
-`HackMD Default Converter`: The default markdown to html converter provided by HackMD i.e., download HTML file on HackMD.
-
-| Features      | hmd2html  | HackMD Online | HackMD Default Converter | |
-|---------------|:---------:|:-------:|:--:|:--:|
-| ToC           | ✅       |    ✅   |✅||
-| Emoji         | ✅       |    ✅   |✅||
-| ToDo list     | ✅       |    ✅   |✅||
-| Code block    | ✅       |    ✅   |✅||
-| - Show line number or not | ✅ | ✅ |❌||
-| - Specify the start line number | ✅ | ✅ |❌|v0.0.7⬆|
-| - Continue line number | ✅ |  ✅  |❌|v0.0.8⬆|
-| Blockquote    |  ✅       |    ✅  |✅||
-| - specify your name | ❌  |    ✅  |✅||
-| - specify time | ❌       |    ✅  |✅||
-| - color to vary the blockquoutes | ❌ | ✅ |✅||
-| Render CSV as table | ❌  |    ✅  |✅||
-| MathJax       | ✅        |   ✅   |✅||
-| Sequence diagrams  | ✅   |   ✅   |❌|v0.0.5⬆|
-| Flow charts   | ✅        |   ✅   |❌|v0.0.5⬆|
-| Graphviz      | ✅        |   ✅   |❌|v0.0.7⬆|
-| Mermaid       | ✅        |   ✅   |❌|v0.0.5⬆|
-| Abc           | ✅        |   ✅   |❌|v0.0.7⬆|
-| PlantUML      | ❌        |   ✅   |✅||
-| Vega-Lite     | ✅        |   ✅   |❌|v0.0.7⬆|
-| Fretboard     | ❌        |   ✅   |❌||
-| Alert Area    | ✅        |   ✅   |✅||
-| Detail        | ✅        |   ✅   |✅||
-| Spoiler container | ✅    |   ✅   |✅|v0.0.7⬆|
-| Headers h1-h6 | ✅        |   ✅   |✅||
-| Horizontal line| ✅       |   ✅   |✅| `---` `***`|
-| Bold          | ✅        |   ✅   |✅| `**b**` `__b__`|
-| Italic        | ✅        |   ✅   |✅| `*i*` `_i_`|
-| Deleted text  | ✅        |   ✅   |✅| `~~del~~` |
-| Superscript   | ✅        |   ✅   |✅| `^sup^` |
-| Subscript     | ✅        |   ✅   |✅| `~sub~` |
-| Inserted text | ✅        |   ✅   |✅| `++ins++` |
-| Marked text   | ✅        |   ✅   |✅| `==mark==` |
-| Ruby case     | ✅        |   ✅   |✅| |
-| Typographic<br>replacements | ✅ | ✅ |✅| |
-| Blockquotes   | ✅        |   ✅   |✅| |
-| List          | ✅        |   ✅   |✅| |
-| Tables        | ✅        |   ✅   |✅| |
-| Links         | ✅        |   ✅   |✅| |
-| Link with title| ✅       |   ✅   |✅||
-| Autoconverted link| ✅    |   ✅   |✅||
-| Image         | ✅       |   ✅   |✅||
-| - normal      | ✅       |   ✅   |✅||
-| - with title  | ✅       |   ✅   |✅||
-| - given size  | ✅       |   ✅   |✅||
-| Footnotes     | ✅       |   ✅   |✅||
-| Definition list| ✅      |   ✅   |✅||
-| Abbreviations | ✅       |   ✅   |✅||
+| Features      | hmd2html  | HackMD Default Converter | |
+|---------------|:---------:|:--:|:--:|
+| ToC           | ✅       |✅||
+| Emoji         | ✅       |✅||
+| ToDo list     | ✅       |✅||
+| Code block    | ✅       |✅||
+| - Show line number or not       | ✅ |❌||
+| - Specify the start line number | ✅ |❌|v0.0.7⬆|
+| - Continue line number          | ✅ |❌|v0.0.8⬆|
+| Blockquote          | ✅ |✅||
+| - specify your name | ✅ |✅|v0.0.10⬆|
+| - specify time      | ✅ |✅|v0.0.10⬆|
+| - color             | ✅ |✅|v0.0.10⬆|
+| Render CSV as table | ✅ |✅|v0.0.10⬆|
+| MathJax       | ✅       |✅||
+| Sequence diagrams  | ✅  |❌|v0.0.5⬆|
+| Flow charts   | ✅       |❌|v0.0.5⬆|
+| Graphviz      | ✅       |❌|v0.0.7⬆|
+| Mermaid       | ✅       |❌|v0.0.5⬆|
+| Abc           | ✅       |❌|v0.0.7⬆|
+| PlantUML      | ✅       |✅|v0.0.10⬆|
+| Vega-Lite     | ✅       |❌|v0.0.7⬆|
+| Fretboard     | ❌       |❌||
+| Alert Area    | ✅       |✅||
+| Detail        | ✅       |✅||
+| Spoiler container | ✅   |✅|v0.0.7⬆|
+| Headers h1-h6 | ✅       |✅||
+| Horizontal line| ✅      |✅| `---` `***`|
+| Bold          | ✅       |✅| `**b**` `__b__`|
+| Italic        | ✅       |✅| `*i*` `_i_`|
+| Deleted text  | ✅       |✅| `~~del~~` |
+| Superscript   | ✅       |✅| `^sup^` |
+| Subscript     | ✅       |✅| `~sub~` |
+| Inserted text | ✅       |✅| `++ins++` |
+| Marked text   | ✅       |✅| `==mark==` |
+| Ruby case     | ✅       |✅| |
+| Typographic<br>replacements |✅|✅| |
+| Blockquotes   | ✅       |✅||
+| List          | ✅       |✅||
+| Tables        | ✅       |✅||
+| Links         | ✅       |✅||
+| Link with title| ✅      |✅||
+| Autoconverted link| ✅   |✅||
+| Image         | ✅       |✅||
+| - normal      | ✅       |✅||
+| - with title  | ✅       |✅||
+| - given size  | ✅       |✅||
+| Footnotes     | ✅       |✅||
+| Definition list| ✅      |✅||
+| Abbreviations | ✅       |✅||
 
 ### Support Externals
 
-| Features    | hmd2html  | HackMD Online | HackMD Default Converter|
-|-------------|:---------:|:-------:|:--:|
-| Youtube     | ✅        |   ✅   |✅|
-| Vimeo       | ✅        |   ❌   |❌|
-| Gist        | ✅        |   ✅   |✅|
-| SlideShare  | ❌        |   ❌   |❌|
-| Speakerdeck | ✅        |   ✅   |✅|
-| PDF         | ✅        |   ✅   |✅|
-| Figma       | ✅        |   ✅   |✅|
+| Features    | hmd2html  | HackMD Default Converter|
+|-------------|:---------:|:---------:|
+| Youtube     | ✅       | ✅        |
+| Vimeo       | ✅       | ❌        |
+| Gist        | ✅       | ✅        |
+| SlideShare  | ❌       | ❌        |
+| Speakerdeck | ✅       | ✅        |
+| PDF         | ✅       | ✅        |
+| Figma       | ✅       | ✅        |
 
 ### Support YAML Metadata
 
