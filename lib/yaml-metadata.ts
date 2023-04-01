@@ -6,13 +6,13 @@ import StateBlock from 'markdown-it/lib/rules_block/state_block'
 // modified from https://github.com/flaviotordini/markdown-it-yaml
 const tokenType = 'yaml_metadata'
 
-export class Metadata{
-  title: string = ""
-  description: string =""
-  lang: string = ""
-  robots: string = ""
-  dir: string = ""
-  image: string = ""
+export class Metadata {
+  title = ""
+  description = ""
+  lang = ""
+  robots = ""
+  dir = ""
+  image = ""
 }
 
 export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Metadata) => any) {
@@ -63,8 +63,8 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
   function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _evn: any): string {
     const token = tokens[idx]!
     if (callback) {
-      let data = YAML.parse(token.content)
-      let metadata = new Metadata()
+      const data = YAML.parse(token.content)
+      const metadata = new Metadata()
       metadata.title = data.title ?? ''
       metadata.lang = data.lang ?? ''
       metadata.robots = data.robots ?? ''

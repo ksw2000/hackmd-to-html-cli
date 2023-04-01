@@ -17,17 +17,17 @@ class MyToken {
 export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
     function match(src: string): MyToken[] {
         // [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
-        let pattern = /\[(.*?)=(.*?)\]/g
-        let matching = [...src.matchAll(pattern)]
+        const pattern = /\[(.*?)=(.*?)\]/g
+        const matching = [...src.matchAll(pattern)]
         if (matching.length === 0) return []
-        let tokens: MyToken[] = []
+        const tokens: MyToken[] = []
         let j = 0;
         let blockquoteStart = false;  // decide whether close
         for (let i = 0; i < matching.length; i++) {
-            let property: string = matching[i]![1]?.trim() ?? ''
-            let value: string = matching[i]![2] ?? ''
-            let textLen: number = matching[i]![0].length ?? 0
-            let pos: number = matching[i]?.index ?? 0
+            const property: string = matching[i]![1]?.trim() ?? ''
+            const value: string = matching[i]![2] ?? ''
+            const textLen: number = matching[i]![0].length ?? 0
+            const pos: number = matching[i]?.index ?? 0
             if (pos > j) {
                 if (blockquoteStart) {
                     tokens.push(new MyToken('blockquoteX_end', ''))
@@ -130,10 +130,10 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                     let token: Token
 
                     // parse name, time, color
-                    let color: string = '';
+                    let color = '';
                     for (let s = 0; s < m.length; s++) {
-                        let property: string = m[s]?.property ?? ''
-                        let value: string = m[s]?.value ?? ''
+                        const property: string = m[s]?.property ?? ''
+                        const value: string = m[s]?.value ?? ''
                         switch (property) {
                             case 'blockquoteX_start':
                                 token = new Token('blockquoteX_open', 'span', 1)

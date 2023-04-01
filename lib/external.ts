@@ -22,7 +22,7 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
   function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _env: any, slf: Renderer): string {
     // add a class to the opening tag
     if (tokens[idx]!.nesting === 1) {
-      let website = tokens[idx]!.meta.website
+      const website = tokens[idx]!.meta.website
       tokens[idx]!.attrJoin('class', 'embed-' + website)
       if (website === 'youtube') {
         tokens[idx]!.attrJoin('src', 'https://www.youtube.com/embed/' + tokens[idx]!.meta.url)
@@ -79,8 +79,8 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
   function rule(state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean {
     let pos, nextLine, token
 
-    let start = state.bMarks[startLine]! + state.tShift[startLine]!
-    let max = state.eMarks[startLine]!
+    const start = state.bMarks[startLine]! + state.tShift[startLine]!
+    const max = state.eMarks[startLine]!
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
@@ -113,12 +113,12 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
 
     // Search for the end of the block i.e., %}
     // from the current start line to the end of file
-    let nextPos: number = 0;
+    let nextPos = 0;
     for (nextLine = startLine; nextLine < endLine; nextLine++) {
       // fetch `nextLine`
-      let a = state.bMarks[nextLine]! + state.tShift[nextLine]!
-      let b = state.eMarks[nextLine]
-      let line: string = state.src.slice(a, b)
+      const a = state.bMarks[nextLine]! + state.tShift[nextLine]!
+      const b = state.eMarks[nextLine]
+      const line = state.src.slice(a, b)
       // search from right to left
       nextPos = line.lastIndexOf(markerEnd)
       if (nextPos === -1) {
