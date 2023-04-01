@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it/lib'
+import StateCore from 'markdown-it/lib/rules_core/state_core'
 import Token from 'markdown-it/lib/token'
 
 // modified from https://github.com/mcecot/markdown-it-checkbox
@@ -46,25 +47,25 @@ export function MarkdownItCheckbox(md: MarkdownIt) {
     }
 
 
-    function checkbox(state: any): void {
+    function checkbox(state: StateCore): void {
         const blockTokens = state.tokens
         const l = blockTokens.length
         let k = -1
         for (let j = 0; j < l; j++) {
-            if (blockTokens[j].type === 'list_item_open') {
+            if (blockTokens[j]!.type === 'list_item_open') {
                 k = j
             }
-            if (blockTokens[j].type !== 'inline') {
+            if (blockTokens[j]!.type !== 'inline') {
                 continue
             }
-            let tokens = blockTokens[j].children
+            let tokens = blockTokens[j]!.children!
             for (let i = tokens.length - 1; i >= 0; i--) {
-                const newTokens = splitTextToken(tokens[i])
+                const newTokens = splitTextToken(tokens[i]!)
                 if (newTokens !== null) {
                     tokens = md.utils.arrayReplaceAt(tokens, i, newTokens)
-                    blockTokens[j].children = tokens
+                    blockTokens[j]!.children = tokens
                     if (k !== -1) {
-                        blockTokens[k].attrs = [['class', 'task-list-item']]
+                        blockTokens[k]!.attrs = [['class', 'task-list-item']]
                     }
                 }
             }

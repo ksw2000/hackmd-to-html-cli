@@ -1,5 +1,8 @@
 // modified from https://github.com/markdown-it/markdown-it-container
 import MarkdownIt from "markdown-it/lib"
+import Renderer from "markdown-it/lib/renderer"
+import StateBlock from "markdown-it/lib/rules_block/state_block"
+import Token from "markdown-it/lib/token"
 
 const webmap = new Map<string, string>([
   ['youtube', 'iframe'],
@@ -12,46 +15,46 @@ const webmap = new Map<string, string>([
 ])
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MarkdownItExternal(md: MarkdownIt, _options: any) {
+export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
 
-  function renderer(tokens: any, idx: number, _options: any, env: any, slf: any): string {
+  function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _env: any, slf: Renderer): string {
     // add a class to the opening tag
-    if (tokens[idx].nesting === 1) {
-      let website = tokens[idx].website
-      tokens[idx].attrJoin('class', 'embed-' + website)
+    if (tokens[idx]!.nesting === 1) {
+      let website = tokens[idx]!.meta.website
+      tokens[idx]!.attrJoin('class', 'embed-' + website)
       if (website === 'youtube') {
-        tokens[idx].attrJoin('src', 'https://www.youtube.com/embed/' + tokens[idx].url)
-        tokens[idx].attrJoin('allowfullscreen', 'true')
-        tokens[idx].attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
-        tokens[idx].attrJoin('frameborder', '0')
+        tokens[idx]!.attrJoin('src', 'https://www.youtube.com/embed/' + tokens[idx]!.meta.url)
+        tokens[idx]!.attrJoin('allowfullscreen', 'true')
+        tokens[idx]!.attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+        tokens[idx]!.attrJoin('frameborder', '0')
       } else if (website === 'vimeo') {
-        tokens[idx].attrJoin('src', 'https://player.vimeo.com/video/' + tokens[idx].url)
-        tokens[idx].attrJoin('allowfullscreen', 'true')
-        tokens[idx].attrJoin('frameborder', '0')
-        tokens[idx].attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+        tokens[idx]!.attrJoin('src', 'https://player.vimeo.com/video/' + tokens[idx]!.meta.url)
+        tokens[idx]!.attrJoin('allowfullscreen', 'true')
+        tokens[idx]!.attrJoin('frameborder', '0')
+        tokens[idx]!.attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
       } else if (website === 'gist') {
-        tokens[idx].attrJoin('src', 'https://gist.github.com/' + tokens[idx].url + '.js')
-      } else if (website === 'slideshare'){
-        tokens[idx].attrJoin('src', 'https://www.slideshare.net/'+tokens[idx].url)
-        tokens[idx].attrJoin('frameborder', '0')
-        tokens[idx].attrJoin('marginwidth', '0')
-        tokens[idx].attrJoin('marginheight', '0')
-        tokens[idx].attrJoin('scrolling', 'no')
-        tokens[idx].attrJoin('allowfullscreen', 'true')
-      }else if (website === 'speakerdeck') {
-        tokens[idx].attrJoin('src', 'https://speakerdeck.com/' + tokens[idx].url)
+        tokens[idx]!.attrJoin('src', 'https://gist.github.com/' + tokens[idx]!.meta.url + '.js')
+      } else if (website === 'slideshare') {
+        tokens[idx]!.attrJoin('src', 'https://www.slideshare.net/' + tokens[idx]!.meta.url)
+        tokens[idx]!.attrJoin('frameborder', '0')
+        tokens[idx]!.attrJoin('marginwidth', '0')
+        tokens[idx]!.attrJoin('marginheight', '0')
+        tokens[idx]!.attrJoin('scrolling', 'no')
+        tokens[idx]!.attrJoin('allowfullscreen', 'true')
+      } else if (website === 'speakerdeck') {
+        tokens[idx]!.attrJoin('src', 'https://speakerdeck.com/' + tokens[idx]!.meta.url)
       } else if (website === 'pdf') {
-        tokens[idx].attrJoin('src', tokens[idx].url)
-        tokens[idx].attrJoin('type', 'application/pdf')
+        tokens[idx]!.attrJoin('src', tokens[idx]!.meta.url)
+        tokens[idx]!.attrJoin('type', 'application/pdf')
       } else if (website === 'figma') {
-        tokens[idx].attrJoin('src', 'https://www.figma.com/embed?embed_host=hackmd&url=' + tokens[idx].url)
-        tokens[idx].attrJoin('allowfullscreen', 'true')
-      } 
+        tokens[idx]!.attrJoin('src', 'https://www.figma.com/embed?embed_host=hackmd&url=' + tokens[idx]!.meta.url)
+        tokens[idx]!.attrJoin('allowfullscreen', 'true')
+      }
     }
 
-    return slf.renderToken(tokens, idx, _options, env, slf)
+    return slf.renderToken(tokens, idx, _options)
   }
 
   const markerStart = '{%'
@@ -73,11 +76,11 @@ export function MarkdownItExternal(md: MarkdownIt, _options: any) {
   // https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf 
   // %}
 
-  function rule(state: any, startLine: number, endLine: number, silent: boolean): boolean {
+  function rule(state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean {
     let pos, nextLine, token
 
-    let start = state.bMarks[startLine] + state.tShift[startLine]
-    let max = state.eMarks[startLine]
+    let start = state.bMarks[startLine]! + state.tShift[startLine]!
+    let max = state.eMarks[startLine]!
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
@@ -113,7 +116,7 @@ export function MarkdownItExternal(md: MarkdownIt, _options: any) {
     let nextPos: number = 0;
     for (nextLine = startLine; nextLine < endLine; nextLine++) {
       // fetch `nextLine`
-      let a = state.bMarks[nextLine] + state.tShift[nextLine]
+      let a = state.bMarks[nextLine]! + state.tShift[nextLine]!
       let b = state.eMarks[nextLine]
       let line: string = state.src.slice(a, b)
       // search from right to left
@@ -127,14 +130,15 @@ export function MarkdownItExternal(md: MarkdownIt, _options: any) {
       break
     }
 
-    token = state.push('external_open', webmap.get(website), 1)
-    token.website = website
-    token.url = content?.trim()
+    token = state.push('external_open', webmap.get(website) ?? "", 1)
+    token.meta = {}
+    token.meta.website = website
+    token.meta.url = content?.trim()
     token.markup = markerStart
     token.block = true
     token.map = [startLine, nextLine]
 
-    token = state.push('external_close', webmap.get(website), -1)
+    token = state.push('external_close', webmap.get(website) ?? "", -1)
     token.markup = markerEnd
     token.block = true
 
@@ -145,7 +149,6 @@ export function MarkdownItExternal(md: MarkdownIt, _options: any) {
     //   move state.bMarks[nextline]
     if (nextPos !== -1) {
       state.bMarks[nextLine] += nextPos + 2
-      state.pos += nextPos + 2
     }
     state.line = nextLine
     return true

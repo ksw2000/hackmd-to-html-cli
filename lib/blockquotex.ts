@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it/lib'
+import StateCore from 'markdown-it/lib/rules_core/state_core'
 import Token from 'markdown-it/lib/token'
 
 class MyToken {
@@ -27,7 +28,6 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
             let value: string = matching[i]![2] ?? ''
             let textLen: number = matching[i]![0].length ?? 0
             let pos: number = matching[i]?.index ?? 0
-            // console.log("j:", j, "pos:", pos)
             if (pos > j) {
                 if (blockquoteStart) {
                     tokens.push(new MyToken('blockquoteX_end', ''))
@@ -76,16 +76,16 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
         return tokens
     }
 
-    function blockquoteX(state: any): void {
+    function blockquoteX(state: StateCore): void {
         const blockTokens = state.tokens
         let detect = false
         let blockquoteOpenAt = 0
         for (let j = 0; j < blockTokens.length; j++) {
-            if (blockTokens[j].type === 'blockquote_open') {
+            if (blockTokens[j]!.type === 'blockquote_open') {
                 blockquoteOpenAt = j
                 detect = true
             }
-            if (blockTokens[j].type === 'blockquote_close') {
+            if (blockTokens[j]!.type === 'blockquote_close') {
                 detect = false
             }
 
@@ -93,17 +93,16 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                 continue
             }
 
-            if (blockTokens[j].type === 'inline') {
-                let children = blockTokens[j].children
-                for (let n = 0; n < blockTokens[j].children.length; n++) {
+            if (blockTokens[j]!.type === 'inline') {
+                for (let n = 0; n < blockTokens[j]!.children!.length; n++) {
                     // find text token
-                    if (blockTokens[j].children[n].type !== "text") continue;
+                    if (blockTokens[j]!.children![n]!.type !== "text") continue;
 
                     // avoid matching same children[n]
                     let nextN = n
 
                     // try to parse
-                    const m = match(blockTokens[j].children[n].content)
+                    const m = match(blockTokens[j]!.children![n]!.content)
                     if (m.length === 0) continue
 
                     // render
@@ -133,11 +132,6 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                     // parse name, time, color
                     let color: string = '';
                     for (let s = 0; s < m.length; s++) {
-                        console.log(m[s]?.property, m[s]?.value)
-
-
-
-                        // console.log(m[s])
                         let property: string = m[s]?.property ?? ''
                         let value: string = m[s]?.value ?? ''
                         switch (property) {
@@ -190,10 +184,9 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                                 color = value ?? ''
                         }
                     }
-                    children = md.utils.arrayReplaceAt(children, n, newTokens)
-                    blockTokens[j].children = children
+                    blockTokens[j]!.children = md.utils.arrayReplaceAt(blockTokens[j]!.children!, n, newTokens)
                     if (color != '') {
-                        blockTokens[blockquoteOpenAt].attrs = [['style', 'border-color:' + color + ';']]
+                        blockTokens[blockquoteOpenAt]!.attrs = [['style', 'border-color:' + color + ';']]
                     }
                     n = nextN
                 }

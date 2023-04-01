@@ -1,5 +1,7 @@
 import YAML from 'yaml'
 import MarkdownIt from "markdown-it/lib"
+import Token from 'markdown-it/lib/token'
+import StateBlock from 'markdown-it/lib/rules_block/state_block'
 
 // modified from https://github.com/flaviotordini/markdown-it-yaml
 const tokenType = 'yaml_metadata'
@@ -20,8 +22,8 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
     return state.src.substring(pos, max)
   }
 
-  function rule(state: any, startLine: number, endLine: number, silent: any): boolean {
-    if (state.blkIndent !== 0 || state.tShift[startLine] < 0) {
+  function rule(state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean {
+    if (state.blkIndent !== 0 || state.tShift[startLine]! < 0) {
       return false
     }
     if (startLine !== 0) {
@@ -38,7 +40,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
     const dataStart = nextLine
     let dataEnd = dataStart
     while (nextLine < endLine) {
-      if (state.tShift[nextLine] < 0) {
+      if (state.tShift[nextLine]! < 0) {
         break
       }
       if (getLine(state, nextLine) === '---') {
@@ -48,21 +50,20 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
       nextLine++
     }
 
-    const dataStartPos = state.bMarks[dataStart]
+    const dataStartPos = state.bMarks[dataStart]!
     const dataEndPos = state.eMarks[dataEnd]
 
     const token = state.push(tokenType, '', 0)
-    token.yaml = state.src.substring(dataStartPos, dataEndPos)
+    token.content = state.src.substring(dataStartPos, dataEndPos)
 
     state.line = nextLine + 1
     return true
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function renderer(tokens: any, idx: number, _options: any, _evn: any): string {
-    const token = tokens[idx]
+  function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _evn: any): string {
+    const token = tokens[idx]!
     if (callback) {
-      let data = YAML.parse(token.yaml)
+      let data = YAML.parse(token.content)
       let metadata = new Metadata()
       metadata.title = data.title ?? ''
       metadata.lang = data.lang ?? ''
@@ -72,7 +73,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
       metadata.image = data.image ?? ''
       callback(metadata)
     }
-    return `<!--yaml\n${token.yaml}\n-->`
+    return `<!--yaml\n${token.content}\n-->`
   }
 
   md.block.ruler.before('hr', tokenType, rule)

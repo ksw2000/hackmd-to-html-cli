@@ -1,34 +1,38 @@
 // modified from https://github.com/markdown-it/markdown-it-container
 import MarkdownIt from "markdown-it/lib"
+import Renderer from "markdown-it/lib/renderer"
+import StateBlock from "markdown-it/lib/rules_block/state_block"
+import Token from "markdown-it/lib/token"
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MarkdownItContainer(md: MarkdownIt, _options: any) {
+export function MarkdownItContainer(md: MarkdownIt, _options: MarkdownIt.Options) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
 
-  function renderContainer(tokens: any, idx: number, _options: any, env: any, slf: any): string {
+  function renderContainer(tokens: Token[], idx: number, _option: MarkdownIt.Options, _env: any, slf: Renderer): string {
     // add a class to the opening tag
-    if (tokens[idx].nesting === 1) {
-      tokens[idx].attrJoin('class', tokens[idx].name)
+    if (tokens[idx]!.nesting === 1) {
+      tokens[idx]!.attrJoin('class', tokens[idx]!.info)
     }
 
-    return slf.renderToken(tokens, idx, _options, env, slf)
+    return slf.renderToken(tokens, idx, _options)
   }
 
-  function renderSpoiler(tokens: any, idx: number, _options: any, env: any, slf: any): string {
+  function renderSpoiler(tokens: Token[], idx: number, _options: MarkdownIt.Options, _env: any, slf: Renderer): string {
     // add a class to the opening tag
-    if (tokens[idx].nesting === 1) {
-      let summary: string = tokens[idx].summary
+    if (tokens[idx]!.nesting === 1) {
+      let summary: string = tokens[idx]!.content
+      tokens[idx]!.content = ''
       const re = /\{state\s*=\s*"open"\}/
       if (summary.search(re) !== -1) {
         summary = summary.replace(re, '')
-        tokens[idx].attrJoin('open', 'open')
+        tokens[idx]!.attrJoin('open', 'open')
       }
-      return slf.renderToken(tokens, idx, _options, env, slf) + '\n<summary>' + summary + '</summary>'
+      return slf.renderToken(tokens, idx, _options) + '\n<summary>' + summary + '</summary>'
     }
 
-    return slf.renderToken(tokens, idx, _options, env, slf)
+    return slf.renderToken(tokens, idx, _options)
   }
 
   const minMarkers = 3
@@ -36,12 +40,12 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
   const markerChar = markerStr.charCodeAt(0)
   const markerLen = markerStr.length
 
-  function rule(state: any, startLine: number, endLine: number, silent: any): boolean {
+  function rule(state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean {
     let pos, nextLine, token
 
     let autoClosed = false
-    let start = state.bMarks[startLine] + state.tShift[startLine]
-    let max = state.eMarks[startLine]
+    let start = state.bMarks[startLine]! + state.tShift[startLine]!
+    let max = state.eMarks[startLine]!
 
     // Check out the first character quickly,
     // this should filter out most of non-containers
@@ -89,10 +93,10 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
         break
       }
 
-      start = state.bMarks[nextLine] + state.tShift[nextLine]
-      max = state.eMarks[nextLine]
+      start = state.bMarks[nextLine]! + state.tShift[nextLine]!
+      max = state.eMarks[nextLine]!
 
-      if (start < max && state.sCount[nextLine] < state.blkIndent) {
+      if (start < max && state.sCount[nextLine]! < state.blkIndent) {
         // non-empty line with negative indent should stop the list:
         // - ```
         //  test
@@ -103,7 +107,7 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
         continue
       }
 
-      if (state.sCount[nextLine] - state.blkIndent >= 4) {
+      if (state.sCount[nextLine]! - state.blkIndent >= 4) {
         // closing fence should be indented less than 4 spaces
         continue
       }
@@ -132,20 +136,17 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
       break
     }
 
-    const oldParent = state.parentType
     const oldLineMax = state.lineMax
-    state.parentType = 'container'
 
     // this will prevent lazy continuations from ever going past our end marker
     state.lineMax = nextLine
 
     // if (name === 'spoiler') {
     token = state.push(name === 'spoiler' ? 'spoiler_open' : 'container_open', name === 'spoiler' ? 'details' : 'div', 1)
-    token.summary = summary
-    token.name = name
+    token.content = summary
+    token.info = name
     token.markup = markup
     token.block = true
-    // token.info = params
     token.map = [startLine, nextLine]
 
     state.md.block.tokenize(state, startLine + 1, nextLine)
@@ -154,7 +155,6 @@ export function MarkdownItContainer(md: MarkdownIt, _options: any) {
     token.markup = state.src.slice(start, pos)
     token.block = true
 
-    state.parentType = oldParent
     state.lineMax = oldLineMax
     state.line = nextLine + (autoClosed ? 1 : 0)
 
