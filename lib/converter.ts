@@ -5,6 +5,7 @@ import { MarkdownItContainer } from './container'
 import { MarkdownItCheckbox } from './checkbox'
 import { MarkdownItExternal } from './external'
 import { MarkdownItBlockquoteX } from './blockquotex'
+import { MarkdownItFenceX } from './fenceX'
 import MarkdownIt from 'markdown-it/lib'
 
 const MarkdownItSub = require('markdown-it-sub')
@@ -65,6 +66,7 @@ export class Convert {
       .use(MarkdownItCheckbox)
       .use(MarkdownItExternal)
       .use(MarkdownItBlockquoteX)
+      .use(MarkdownItFenceX)
   }
 
   // @param html: html string
@@ -132,7 +134,7 @@ export class Convert {
       const stats = fs.statSync(fileOrDir)
 
       if (stats.isDirectory()) {
-        fs.readdir(fileOrDir, (err: any, files: Array<string>) => {
+        fs.readdir(fileOrDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
           if (err) {
             throw (err)
           }

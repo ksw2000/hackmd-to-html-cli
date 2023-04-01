@@ -36,6 +36,33 @@ tags: hack
 > > Hello
 > 
 
+> Using the syntax below to specifiy your **name, time and color** to vary the blockquotes.
+> [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
+> > Even support the nest blockquotes!
+> > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
+
+## Render CSV as table
+
+You can use write csv in the codeblock:
+
+~~~md
+```csvpreview {header="true"}
+firstName,lastName,email,phoneNumber
+John,Doe,john@doe.com,0123456789
+Jane,Doe,jane@doe.com,9876543210
+James,Bond,james.bond@mi6.co.uk,0612345678
+```
+~~~
+
+which rendered to:
+
+```csvpreview {header="true"}
+firstName,lastName,email,phoneNumber
+John,Doe,john@doe.com,0123456789
+Jane,Doe,jane@doe.com,9876543210
+James,Bond,james.bond@mi6.co.uk,0612345678
+```
+
 ## Text
 
 `~~del~~` ~~del~~ 
