@@ -47,3 +47,9 @@
         + Speakerdeck
         + PDF
         + Figma
++ `v0.0.10`
+    + Support `specify your name` in a blockquote
+    + Support `specify time` in a blockquote
+    + Support color to vary the blockquoutes
+    + Support render CSV as table
+    + Support PlantUML

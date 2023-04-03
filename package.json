@@ -1,6 +1,6 @@
 {
   "name": "hackmd-to-html-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A node.js CLI tool for converting HackMD markdown to HTML.",
   "keywords": [
     "hackmd",

@@ -3,7 +3,7 @@ import commander from 'commander'
 import path from 'path'
 import { Convert } from './converter'
 
-commander.program.version('0.0.9', '-v, --version', 'output the current version')
+commander.program.version('0.0.10', '-v, --version', 'output the current version')
 commander.program
   .requiredOption('-s, --source <files_or_dirs...>', 'specify the input markdown files or directories')
   .addOption(new commander.Option('-d, --destination <path>', 'specify the output directory').default('./output', './output'))
