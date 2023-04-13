@@ -60,6 +60,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
     return true
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _evn: any): string {
     const token = tokens[idx]!
     if (callback) {

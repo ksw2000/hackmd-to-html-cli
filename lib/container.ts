@@ -5,7 +5,7 @@ import StateBlock from "markdown-it/lib/rules_block/state_block"
 import Token from "markdown-it/lib/token"
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export function MarkdownItContainer(md: MarkdownIt, _options: MarkdownIt.Options) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length

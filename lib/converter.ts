@@ -24,18 +24,20 @@ const MarkdownItRuby = require('markdown-it-ruby')
 const htmlEncode = require('htmlencode').htmlEncode;
 
 export class Convert {
-  src: Array<string>
-  dest: string
-  layout: string
-  md: MarkdownIt
-  metadata: Metadata
+  private md: MarkdownIt
+  private metadata: Metadata
+  private layout: string
 
-  constructor(src: Array<string>, dest: string, layout: string, hardBreak: boolean) {
-    this.src = src
-    this.dest = dest
-    this.layout = layout
+  /**
+   * @param layout set null if you want to use default layout, 
+   * @param hardBreak set true if want to use hardBread
+   */
+  constructor(layout: string | null, hardBreak: boolean = false) {
     this.metadata = new Metadata()
-
+    if (layout === null) {
+      layout = this.defaultLayout()
+    }
+    this.layout = layout
     // https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
     this.md = new MarkdownIt({
       html: true,
@@ -69,86 +71,117 @@ export class Convert {
       .use(MarkdownItFenceX)
   }
 
-  // @param html: html string
-  // @return: html string with layout
-  private addLayout(metadata: Metadata, html: string): string {
-    if (fs.existsSync(this.layout)) {
-      const layout = fs.readFileSync(this.layout, { encoding: 'utf-8' })
-      let metas = ''
-      if (metadata.title !== '') {
-        metas += '<title>' + htmlEncode(metadata.title) + '</title>\n'
-        metas += '<meta name="twitter:title" content="' + htmlEncode(metadata.title) + '" />\n'
-        metas += '<meta property="og:title" content="' + htmlEncode(metadata.title) + '" />\n'
-      }
-      if (metadata.robots !== '') {
-        metas += '<meta name="robots" content="' + htmlEncode(metadata.robots) + '">\n'
-      }
-      if (metadata.description !== '') {
-        metas += '<meta name="description" content="' + htmlEncode(metadata.description) + '">\n'
-        metas += '<meta name="twitter:description" content="' + htmlEncode(metadata.description) + '">\n'
-        metas += '<meta property="og:description" content="' + htmlEncode(metadata.description) + '">\n'
-      }
-      if (metadata.image !== '') {
-        metas += '<meta name="twitter:image:src" content="' + htmlEncode(metadata.image) + '" />\n'
-        metas += '<meta property="og:image" content="' + htmlEncode(metadata.image) + '" />\n'
-      }
-      let lang = ''
-      if (metadata.lang !== '') {
-        lang = ' lang="' + htmlEncode(metadata.lang) + '"'
-      }
-      let dir = ''
-      if (metadata.dir !== '') {
-        dir = ' dir="' + htmlEncode(metadata.dir) + '"'
-      }
-      return layout
-        .replace('{{lang}}', lang)
-        .replace('{{dir}}', dir)
-        .replace('{{metas}}', metas)
-        .replace('{{main}}', html)
+  /**
+   * @param main main HTML string converted by MarkdownIt 
+   * @returns generated code
+   */
+  private useLayout(main: string): string {
+    const metadata = this.metadata
+    let metas = ''
+    if (metadata.title !== '') {
+      metas += '<title>' + htmlEncode(metadata.title) + '</title>\n'
+      metas += '<meta name="twitter:title" content="' + htmlEncode(metadata.title) + '" />\n'
+      metas += '<meta property="og:title" content="' + htmlEncode(metadata.title) + '" />\n'
+    }
+    if (metadata.robots !== '') {
+      metas += '<meta name="robots" content="' + htmlEncode(metadata.robots) + '">\n'
+    }
+    if (metadata.description !== '') {
+      metas += '<meta name="description" content="' + htmlEncode(metadata.description) + '">\n'
+      metas += '<meta name="twitter:description" content="' + htmlEncode(metadata.description) + '">\n'
+      metas += '<meta property="og:description" content="' + htmlEncode(metadata.description) + '">\n'
+    }
+    if (metadata.image !== '') {
+      metas += '<meta name="twitter:image:src" content="' + htmlEncode(metadata.image) + '" />\n'
+      metas += '<meta property="og:image" content="' + htmlEncode(metadata.image) + '" />\n'
+    }
+    let lang = ''
+    if (metadata.lang !== '') {
+      lang = ' lang="' + htmlEncode(metadata.lang) + '"'
+    }
+    let dir = ''
+    if (metadata.dir !== '') {
+      dir = ' dir="' + htmlEncode(metadata.dir) + '"'
     }
 
-    console.error(`${this.layout} is not found`)
-    return html
+    return `${this.layout}`
+      .replace('{{lang}}', lang)
+      .replace('{{dir}}', dir)
+      .replace('{{metas}}', metas)
+      .replace('{{main}}', main)
   }
 
-  // @param filepath: the path of the file should be converted
-  // this function doesn't check the ext name of filepath
-  public convertFile(filepath: string) {
-    const markdown = fs.readFileSync(filepath, { encoding: 'utf-8' })
+  /**
+   * @param markdown markdown text
+   * @returns generated html text
+   */
+  public convert(markdown: string): string {
     const html = this.md.render(markdown)
-    const res = this.addLayout(this.metadata, html)
-    const basename = path.basename(filepath)
-    fs.writeFileSync(path.join(this.dest, basename.replace(/\.md$/, '.html')), res)
+    return this.useLayout(html)
   }
 
-  public convertBatch() {
-    if (!fs.existsSync(this.dest)) {
-      fs.mkdirSync(this.dest)
+  /**
+   * Get metadata after converting.
+   * Before calling this function, Please call convert() first
+   * @returns metadata of the markdown file
+   */
+  public getMetadata(): Metadata{
+    return this.metadata
+  }
+
+  /**
+   * @returns default HTML layout
+   */
+  public defaultLayout(): string {
+    return fs.readFileSync(path.join(__dirname, '../layout.html'), { encoding: 'utf-8' })
+  }
+
+  /**
+   * ```
+   * 
+   * .
+   * ├── foo
+   * │   ├── a.md
+   * │   └── b.md
+   * ├── c.md
+   * └── out
+   *     ├── foo
+   *     │   ├── a.html
+   *     │   └── b.html
+   *     └── c.html
+   * ```
+   * @param filePathsOrDir a list of the path of files or directories e.g. ["./foo", "c.md"]
+   * @param destDir the path of destination directory e.g. ["./build"]
+   */
+  public convertFiles(filePathsOrDir: fs.PathLike[], destDir: fs.PathLike) {
+    console.log(filePathsOrDir)
+
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir)
     }
-    this.src.forEach((fileOrDir: string) => {
-      if (!fs.existsSync(fileOrDir)) {
-        console.error(`${fileOrDir} is not found`)
+
+    const files: fs.PathLike[] = []
+    filePathsOrDir.forEach((fn: fs.PathLike) => {
+      if (!fs.existsSync(fn)) {
+        console.error(`${fn} is not found`)
         return
       }
-
-      const stats = fs.statSync(fileOrDir)
-
+      const stats = fs.statSync(fn)
       if (stats.isDirectory()) {
-        fs.readdir(fileOrDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
-          if (err) {
-            throw (err)
-          }
-          files?.forEach((fn) => {
-            if (path.extname(fn) === '.md') {
-              this.convertFile(path.join(fileOrDir, fn))
-            }
-          })
+        const f = fs.readdirSync(fn)
+        f.forEach((e: fs.PathLike) => {
+          files.push(path.join(fn.toString(), e.toString()))
         })
       } else if (stats.isFile()) {
-        if (path.extname(fileOrDir) === '.md') {
-          this.convertFile(fileOrDir)
-        }
+        files.push(fn)
       }
     })
+
+    files.forEach((fn: fs.PathLike) => {
+      const markdown = fs.readFileSync(fn, { encoding: 'utf-8' })
+      const res = this.convert(markdown)
+      const basename = path.basename(fn.toString())
+      fs.writeFileSync(path.join(destDir.toString(), basename.replace(/\.md$/, '.html')), res)
+    });
   }
 }

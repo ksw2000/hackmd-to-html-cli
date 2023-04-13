@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import commander from 'commander'
-import path from 'path'
+import fs from 'fs'
 import { Convert } from './converter'
 
 commander.program.version('0.0.10', '-v, --version', 'output the current version')
@@ -14,6 +14,9 @@ commander.program
 const options = commander.program.opts()
 
 const dest: string = options.destination === '' ? './output' : options.destination
-const layout: string = options.layout === '' ? path.join(__dirname, '../layout.html') : options.layout
+const layout: string | null = options.layout !== '' ? fs.readFileSync(options.layout, { encoding: 'utf-8' }) : null
 const hardBreak: boolean = options.hardBreak
-new Convert(options.source, dest, layout, hardBreak).convertBatch()
+
+const converter = new Convert(layout, hardBreak)
+
+converter.convertFiles(options.source, dest)
