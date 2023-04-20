@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { MarkdownItYAMLMetadata, Metadata } from './yaml-metadata'
+import { MarkdownItYAMLMetadata, Metadata } from './yamlMetadata'
 import { MarkdownItContainer } from './container'
 import { MarkdownItCheckbox } from './checkbox'
 import { MarkdownItExternal } from './external'
