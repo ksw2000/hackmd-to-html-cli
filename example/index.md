@@ -374,12 +374,25 @@ stop
 }
 ```
 
+### Fretboard
+
+```fretboard {title="horizontal, 6 frets, with nut", type="h6"}
+-oO-*-
+--o-o-
+-o-oo-
+-o-oO-
+-oo-o-
+-*O-o-
+  3
+```
+
 > More information about **sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
 > More information about **flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
 > More information about **graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
 > More information about **mermaid** syntax [here](http://mermaid-js.github.io/mermaid)
 > More information about **abc** syntax [here](http://abcnotation.com/learn)
 > More information about **vega** syntax [here](https://vega.github.io/vega-lite/docs)
+> More information about **fretboard** syntax [here](https://hackmd.io/@docs/fretboard-syntax)
 
 ## YAML metadata
 

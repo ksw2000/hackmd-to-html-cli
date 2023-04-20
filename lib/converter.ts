@@ -154,8 +154,6 @@ export class Convert {
    * @param destDir the path of destination directory e.g. ["./build"]
    */
   public convertFiles(filePathsOrDir: fs.PathLike[], destDir: fs.PathLike) {
-    console.log(filePathsOrDir)
-
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir)
     }
