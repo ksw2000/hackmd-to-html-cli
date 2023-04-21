@@ -2,19 +2,23 @@
 
 [![NPM version](https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&style=flat-square)](https://www.npmjs.org/package/hackmd-to-html-cli) ![](https://img.shields.io/github/license/ksw2000/hackmd-to-html-cli?color=yellow&style=flat-square) ![](https://img.shields.io/github/actions/workflow/status/ksw2000/hackmd-to-html-cli/gitpage.yml?branch=main&style=flat-square) ![](https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&style=flat-square)
 
-Convert [HackMD](https://hackmd.io/) markdown to HTML.
+Not only is this a CLI tool, but it is also an importable package for converting standard Markdown and even [HackMD](https://hackmd.io/)-supported Markdown into HTML.
+
++ See the example of input markdown: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
+
++ See the example of output html: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
 
 ## Install
 
 ```sh
+# CLI
 npm install -g hackmd-to-html-cli
+
+# Package
+npm install hackmd-to-html-cli
 ```
 
-Input: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
-
-Output: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
-
-## Usage
+## CLI
 
 ```sh
 $ hmd2html --help
@@ -30,7 +34,7 @@ Options:
   -h, --help                       display help for command
 ```
 
-### Convert
+**Convert**
 
 ```sh
 # files
@@ -41,50 +45,55 @@ $ hmd2html -s ./dir1 ./dir2
 
 # files or directories
 $ hmd2html -s file1.md ./dir1
-```
 
-### Set output folder
-
-```sh
+# Set output folder
 $ hmd2html -s file1.md -d ./out
-```
 
-### Use custom layout
-
-```sh
+# Use custom layout
 $ hmd2html -s hello.md -l ./myLayout.html
 ```
 
-+ /
-    + output/ *generated*
-        + hello.html
-    + hello.md
-    + myLayout.html
+## Package (beta)
 
-**./myLayout.html**
-```html
-<html>
-    <head></head>
-    <body>
-        {{main}}
-    </body>
-</html>
+```js
+const {Convert} = require('hackmd-to-html-cli')
+
+md = `
+# title
+hello world
+`
+const hardBreak = true
+const converter = new Convert("{{main}}", hardBreak)
+console.log(converter.convert(md))
 ```
 
-**./hello.md**
-```markdown
-# hello
+**output**
+
+```
+<h1 id="title" tabindex="-1">title</h1>
+<p>hello world</p>
 ```
 
-**./output/hello.html**
-```html
-<html>
-    <head></head>
-    <body>
-        <h1>hello</h1>
-    </body>
-</html>
+If you want to get default layout
+
+```js
+convert.defaultLayout()
 ```
+
+If you want to get metadata after converting
+
+```js
+converter.getMetadata()
+```
+
+## Layout
+
+See default layout here: https://github.com/ksw2000/hackmd-to-html-cli/blob/main/layout.html
+
++ `{{main}}` renders main content of markdown.
++ `{{lang}}` renders lang property if there are yaml metadata about `lang` in markdown file. e.g. `lang="zh-TW"`
++ `{{dir}}` renders dir property if there are yaml metadata about `dir` in markdown file. e.g. `dir="ltr"`
++ `{{meta}}` renders meta tag if there are yaml metadata about `title`, `description`, `robots` or`image`. e.g. `<meta name="robots" content="noindex">`
 
 ## Develop
 
@@ -96,6 +105,8 @@ $ hmd2html -s hello.md -l ./myLayout.html
 `hmd2html`: our tool (the latest)
 
 `HackMD Default Converter`: The default markdown to html converter provided by HackMD, i.e., download HTML file on HackMD.
+
+HackMD fully supports syntax: [features](https://hackmd.io/features-tw?both)
 
 | Features      | hmd2html  | HackMD Default Converter | |
 |---------------|:---------:|:--:|:--:|
@@ -119,7 +130,7 @@ $ hmd2html -s hello.md -l ./myLayout.html
 | Abc           | ✅       |❌|v0.0.7⬆|
 | PlantUML      | ✅       |✅|v0.0.10⬆|
 | Vega-Lite     | ✅       |❌|v0.0.7⬆|
-| Fretboard     | ❌       |❌||
+| Fretboard     | ✅       |❌|v0.0.11⬆|
 | Alert Area    | ✅       |✅||
 | Detail        | ✅       |✅||
 | Spoiler container | ✅   |✅|v0.0.7⬆|
@@ -172,9 +183,8 @@ $ hmd2html -s hello.md -l ./myLayout.html
 | image         | ✅       | `<meta property="og:image">`<br>`<meta name="twitter:image:src">` |
 | others        | ✅       | Hide the metadata by html comment |
 
-HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>`.
+HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>` when using default layout.
 
 ## TODO
 
 + Provide more templates & styles
-+ Support more HackMD [syntax](https://hackmd.io/features-tw?both)

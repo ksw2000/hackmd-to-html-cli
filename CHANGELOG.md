@@ -53,3 +53,5 @@
     + Support color to vary the blockquoutes
     + Support render CSV as table
     + Support PlantUML
++ `v0.0.11`
+    + Support fretboard
