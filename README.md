@@ -57,13 +57,13 @@ $ hmd2html -s hello.md -l ./myLayout.html
 
 ```js
 const {Convert} = require('hackmd-to-html-cli')
-
-md = `
+const template = `{{main}}`
+const hardBreak = true
+const converter = new Convert(template, hardBreak)
+const md = `
 # title
 hello world
 `
-const hardBreak = true
-const converter = new Convert("{{main}}", hardBreak)
 console.log(converter.convert(md))
 ```
 
