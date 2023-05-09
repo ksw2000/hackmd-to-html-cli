@@ -55,3 +55,6 @@
     + Support PlantUML
 + `v0.0.11`
     + Support fretboard
++ `v0.0.12`
+    + Change the exported class `Covert` to `Converter`
+    + Now we can import this package by `import { Converter } from 'hackmd-to-html-cli'`

@@ -1,11 +1,11 @@
 import fs from 'fs'
 import path from 'path'
-import { MarkdownItYAMLMetadata, Metadata } from './yamlMetadata'
-import { MarkdownItContainer } from './container'
-import { MarkdownItCheckbox } from './checkbox'
-import { MarkdownItExternal } from './external'
-import { MarkdownItBlockquoteX } from './blockquotex'
-import { MarkdownItFenceX } from './fenceX'
+import { MarkdownItYAMLMetadata, Metadata } from './markdown/yamlMetadata'
+import { MarkdownItContainer } from './markdown/container'
+import { MarkdownItCheckbox } from './markdown/checkbox'
+import { MarkdownItExternal } from './markdown/external'
+import { MarkdownItBlockquoteX } from './markdown/blockquotex'
+import { MarkdownItFenceX } from './markdown/fencex'
 import MarkdownIt from 'markdown-it/lib'
 
 const MarkdownItSub = require('markdown-it-sub')
@@ -23,7 +23,7 @@ const MarkdownItAnchor = require('markdown-it-anchor')
 const MarkdownItRuby = require('markdown-it-ruby')
 const htmlEncode = require('htmlencode').htmlEncode;
 
-export class Convert {
+export class Converter {
   private md: MarkdownIt
   private metadata: Metadata
   private layout: string
@@ -32,7 +32,7 @@ export class Convert {
    * @param layout set null if you want to use default layout, 
    * @param hardBreak set true if want to use hardBread
    */
-  constructor(layout: string | null, hardBreak: boolean = false) {
+  constructor(layout: string | null, hardBreak = false) {
     this.metadata = new Metadata()
     if (layout === null) {
       layout = this.defaultLayout()

@@ -4,9 +4,9 @@
 
 Not only is this a CLI tool, but it is also an importable package for converting standard Markdown and even [HackMD](https://hackmd.io/)-supported Markdown into HTML.
 
-+ See the example of input markdown: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
++ Example of input markdown: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
 
-+ See the example of output html: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
++ Example of output html: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
 
 ## Install
 
@@ -56,10 +56,12 @@ $ hmd2html -s hello.md -l ./myLayout.html
 ## Package (beta)
 
 ```js
-const {Convert} = require('hackmd-to-html-cli')
+// for TypeScript
+// import { Converter } from 'hackmd-to-html-cli'
+const { Converter } = require('hackmd-to-html-cli')
 const template = `{{main}}`
 const hardBreak = true
-const converter = new Convert(template, hardBreak)
+const converter = new Converter(template, hardBreak)
 const md = `
 # title
 hello world
@@ -69,22 +71,21 @@ console.log(converter.convert(md))
 
 **output**
 
-```
+```html
 <h1 id="title" tabindex="-1">title</h1>
 <p>hello world</p>
 ```
 
-If you want to get default layout
+Some features
 
 ```js
-convert.defaultLayout()
-```
+// get default layout
+converter.defaultLayout()
 
-If you want to get metadata after converting
-
-```js
+// get metadata after converting
 converter.getMetadata()
 ```
+
 
 ## Layout
 

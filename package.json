@@ -1,6 +1,6 @@
 {
   "name": "hackmd-to-html-cli",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A node.js CLI tool for converting HackMD markdown to HTML.",
   "keywords": [
     "hackmd",
@@ -15,10 +15,10 @@
     "url": "https://github.com/ksw2000/hackmd-to-html-cli.git"
   },
   "bin": {
-    "hmd2html": "dist/index.js"
+    "hmd2html": "dist/cli.js"
   },
-  "main": "dist/converter.js",
-  "types": "types/converter.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "tsc & npx hmd2html -s ./example",

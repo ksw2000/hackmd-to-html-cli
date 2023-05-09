@@ -19,7 +19,7 @@ jobs:
         run: |
           npm ci
           tsc
-          node dist/index.js -s ./example
+          node dist/cli.js -s ./example
       - name: commit and push
         run: |
           cd output

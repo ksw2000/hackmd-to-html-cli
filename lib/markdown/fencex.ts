@@ -180,9 +180,9 @@ export function MarkdownItFenceX(md: MarkdownIt, _options: MarkdownIt.Options) {
                     state.tokens = md.utils.arrayReplaceAt(state.tokens, i, newTokens)
                 } else if (params[0] === 'fretboard') {
                     const config = parseUserDefinedConfig(params.slice(1).join(' '))
-                    let title = config.get('title') as string
-                    let type = config.get('type') as string
-                    let rendered = renderFretBoard(token.content, { title: title, type: type })
+                    const title = config.get('title') as string
+                    const type = config.get('type') as string
+                    const rendered = renderFretBoard(token.content, { title: title, type: type })
                     const fret = new Token('html_block', 'div', 0)
                     fret.content = rendered
 
