@@ -1,4 +1,3 @@
-// modified from https://github.com/markdown-it/markdown-it-container
 import MarkdownIt from "markdown-it/lib"
 import Renderer from "markdown-it/lib/renderer"
 import StateBlock from "markdown-it/lib/rules_block/state_block"
@@ -6,6 +5,8 @@ import Token from "markdown-it/lib/token"
 
 const names = ['success', 'info', 'warning', 'danger', 'spoiler']
 
+// modified from 
+// https://github.com/markdown-it/markdown-it-container
 export function MarkdownItContainer(md: MarkdownIt, _options: MarkdownIt.Options) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length

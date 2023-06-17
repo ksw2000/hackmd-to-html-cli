@@ -1,10 +1,9 @@
-// modified from https://github.com/markdown-it/markdown-it-container
 import MarkdownIt from "markdown-it/lib"
 import Renderer from "markdown-it/lib/renderer"
 import StateBlock from "markdown-it/lib/rules_block/state_block"
 import Token from "markdown-it/lib/token"
 
-const webmap = new Map<string, string>([
+const webMap = new Map<string, string>([
   ['youtube', 'iframe'],
   ['vimeo', 'iframe'],
   ['gist', 'script'],
@@ -14,8 +13,9 @@ const webmap = new Map<string, string>([
   ['figma', 'iframe'],
 ])
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options) {
+// modified from 
+// https://github.com/markdown-it/markdown-it-container
+export function MarkdownItExternal(md: MarkdownIt) {
   // Second param may be useful if you decide
   // to increase minimal allowed marker length
 
@@ -102,7 +102,7 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
     const website: string = parse?.length > 0 ? (parse[0] || '') : ''
     let content = parse?.length > 1 ? parse[1] : ''
 
-    if (!webmap.has(website)) {
+    if (!webMap.has(website)) {
       return false
     }
 
@@ -130,7 +130,7 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
       break
     }
 
-    token = state.push('external_open', webmap.get(website) ?? "", 1)
+    token = state.push('external_open', webMap.get(website) ?? "", 1)
     token.meta = {}
     token.meta.website = website
     token.meta.url = content?.trim()
@@ -138,15 +138,15 @@ export function MarkdownItExternal(md: MarkdownIt, _options: MarkdownIt.Options)
     token.block = true
     token.map = [startLine, nextLine]
 
-    token = state.push('external_close', webmap.get(website) ?? "", -1)
+    token = state.push('external_close', webMap.get(website) ?? "", -1)
     token.markup = markerEnd
     token.block = true
 
-    // {%             -- startline
+    // {%             -- startLine
     //   URL
-    // %}             -- nextline
+    // %}             -- nextLine
     //   ^
-    //   move state.bMarks[nextline]
+    //   move state.bMarks[nextLine]
     if (nextPos !== -1) {
       state.bMarks[nextLine] += nextPos + 2
     }

@@ -2,7 +2,8 @@ import MarkdownIt from 'markdown-it/lib'
 import StateCore from 'markdown-it/lib/rules_core/state_core'
 import Token from 'markdown-it/lib/token'
 
-// modified from https://github.com/mcecot/markdown-it-checkbox
+// modified from 
+// https://github.com/mcecot/markdown-it-checkbox
 export function MarkdownItCheckbox(md: MarkdownIt) {
     let lastId = 0
     function createTokens(checked: boolean, label: string): Token[] {

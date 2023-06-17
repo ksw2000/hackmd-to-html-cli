@@ -1,4 +1,5 @@
-// modified from https://github.com/hackmdio/codimd/tree/e00eaa82a98423b9eeb904b9c9fc8fc939f9f6e6/public/js/lib/renderer/fretboard
+// modified from 
+// https://github.com/hackmdio/codimd/tree/e00eaa82a98423b9eeb904b9c9fc8fc939f9f6e6/public/js/lib/renderer/fretboard
 const htmlEncode = require('htmlencode').htmlEncode;
 
 const dotEmpty = `<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 72 88" enable-background="new 0 0 72 88" xml:space="preserve">
