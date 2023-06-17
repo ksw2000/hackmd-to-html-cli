@@ -2,80 +2,86 @@ import MarkdownIt from 'markdown-it/lib'
 import StateCore from 'markdown-it/lib/rules_core/state_core'
 import Token from 'markdown-it/lib/token'
 
-class MyToken {
-    // name, time, color, text
-    // blockquoteX_start, blockquoteX_end
-    public property: string
+export enum BlockquoteTokenProperty {
+    name,
+    time,
+    color,
+    text,
+    blockquoteXStart,
+    blockquoteXEnd
+}
+
+export class BlockquoteToken {
+    public property: BlockquoteTokenProperty
     public value: string
-    constructor(property: string, value: string) {
+    constructor(property: BlockquoteTokenProperty, value: string) {
         this.property = property
         this.value = value
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
-    function match(src: string): MyToken[] {
-        // [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
-        const pattern = /\[(.*?)=(.*?)\]/g
-        const matching = [...src.matchAll(pattern)]
-        if (matching.length === 0) return []
-        const tokens: MyToken[] = []
-        let j = 0;
-        let blockquoteStart = false;  // decide whether close
-        for (let i = 0; i < matching.length; i++) {
-            const property: string = matching[i]![1]?.trim() ?? ''
-            const value: string = matching[i]![2] ?? ''
-            const textLen: number = matching[i]![0].length ?? 0
-            const pos: number = matching[i]?.index ?? 0
-            if (pos > j) {
-                if (blockquoteStart) {
-                    tokens.push(new MyToken('blockquoteX_end', ''))
-                    blockquoteStart = false
+export function parseBlockquoteParams(src: string): BlockquoteToken[] {
+    // [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
+    const pattern = /\[(.*?)=(.*?)\]/g
+    const matching = [...src.matchAll(pattern)]
+    if (matching.length === 0) return []
+    const tokens: BlockquoteToken[] = []
+    let j = 0;
+    let blockquoteStart = false;  // decide whether close
+    for (let i = 0; i < matching.length; i++) {
+        const property: string = matching[i]![1]?.trim() ?? ''
+        const value: string = matching[i]![2] ?? ''
+        const textLen: number = matching[i]![0].length ?? 0
+        const pos: number = matching[i]?.index ?? 0
+        if (pos > j) {
+            if (blockquoteStart) {
+                tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXEnd, ''))
+                blockquoteStart = false
+            }
+            // normal text
+            tokens.push(new BlockquoteToken(BlockquoteTokenProperty.text, src.substring(j, pos)))
+        }
+        switch (property) {
+            case 'name':
+                if (tokens.length == 0 || tokens[tokens.length - 1]?.property === BlockquoteTokenProperty.text) {
+                    if (blockquoteStart) {
+                        tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXEnd, ''))
+                    }
+                    tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXStart, ''))
+                    blockquoteStart = true
                 }
-                // normal text
-                tokens.push(new MyToken('text', src.substring(j, pos)))
-            }
-            switch (property) {
-                case 'name':
-                    if (tokens.length == 0 || tokens[tokens.length - 1]?.property === 'text') {
-                        if (blockquoteStart) {
-                            tokens.push(new MyToken('blockquoteX_end', ''))
-                        }
-                        tokens.push(new MyToken('blockquoteX_start', ''))
-                        blockquoteStart = true
+                tokens.push(new BlockquoteToken(BlockquoteTokenProperty.name, value.trimStart()))
+                break
+            case 'time':
+                if (tokens.length == 0 || tokens[tokens.length - 1]?.property === BlockquoteTokenProperty.text) {
+                    if (blockquoteStart) {
+                        tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXEnd, ''))
                     }
-                    tokens.push(new MyToken('name', value))
-                    break
-                case 'time':
-                    if (tokens.length == 0 || tokens[tokens.length - 1]?.property === 'text') {
-                        if (blockquoteStart) {
-                            tokens.push(new MyToken('blockquoteX_end', ''))
-                        }
-                        tokens.push(new MyToken('blockquoteX_start', ''))
-                        blockquoteStart = true
-                    }
-                    tokens.push(new MyToken('time', value))
-                    break
-                case 'color':
-                    tokens.push(new MyToken('color', value))
-                    break
-                default:
-                    tokens.push(new MyToken('text', value))
-                    break
-            }
-            j = pos + textLen + 1
+                    tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXStart, ''))
+                    blockquoteStart = true
+                }
+                tokens.push(new BlockquoteToken(BlockquoteTokenProperty.time, value.trimStart()))
+                break
+            case 'color':
+                tokens.push(new BlockquoteToken(BlockquoteTokenProperty.color, value.trimStart()))
+                break
+            default:
+                tokens.push(new BlockquoteToken(BlockquoteTokenProperty.text, value))
+                break
         }
-        if (blockquoteStart) {
-            tokens.push(new MyToken('blockquoteX_end', ''))
-            blockquoteStart = false
-        }
-        if (src.length != j) {
-            tokens.push(new MyToken('text', src.substring(j, src.length)))
-        }
-        return tokens
+        j = pos + textLen + 1
     }
+    if (blockquoteStart) {
+        tokens.push(new BlockquoteToken(BlockquoteTokenProperty.blockquoteXEnd, ''))
+        blockquoteStart = false
+    }
+    if (src.length != j) {
+        tokens.push(new BlockquoteToken(BlockquoteTokenProperty.text, src.substring(j, src.length)))
+    }
+    return tokens
+}
 
+export function MarkdownItBlockquoteX(md: MarkdownIt) {
     function blockquoteX(state: StateCore): void {
         const blockTokens = state.tokens
         let detect = false
@@ -102,7 +108,7 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                     let nextN = n
 
                     // try to parse
-                    const m = match(blockTokens[j]!.children![n]!.content)
+                    const m = parseBlockquoteParams(blockTokens[j]!.children![n]!.content)
                     if (m.length === 0) continue
 
                     // render
@@ -123,8 +129,8 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                     // </span>
                     // we only add the class `blockquoteX` before the `name` or `time`
 
-                    // In hackMD supports only [name=blablabla] or [name= blablabla]
-                    // but in hmd2html, we use looser rules i.e., support spaces between words
+                    // In hackMD, it only supports the format [name=blablabla] or [name= blablabla].
+                    // However, in hmd2html, we use looser constraints, meaning it supports spaces between words.
                     // e.g. [ name = blablabla ]
 
                     let token: Token
@@ -132,55 +138,55 @@ export function MarkdownItBlockquoteX(md: MarkdownIt, _options: any) {
                     // parse name, time, color
                     let color = '';
                     for (let s = 0; s < m.length; s++) {
-                        const property: string = m[s]?.property ?? ''
+                        const property: BlockquoteTokenProperty | undefined = m[s]?.property
                         const value: string = m[s]?.value ?? ''
                         switch (property) {
-                            case 'blockquoteX_start':
+                            case BlockquoteTokenProperty.blockquoteXStart:
                                 token = new Token('blockquoteX_open', 'span', 1)
                                 token.attrs = [['class', 'blockquoteX']]
                                 newTokens.push(token)
                                 break
-                            case 'blockquoteX_end':
+                            case BlockquoteTokenProperty.blockquoteXEnd:
                                 token = new Token('blockquoteX_close', 'span', -1)
                                 newTokens.push(token)
                                 break
-                            case 'name':
-                                token = new Token('blockqouteX_name_open', 'span', 1)
+                            case BlockquoteTokenProperty.name:
+                                token = new Token('blockquoteX_name_open', 'span', 1)
                                 token.attrs = [['class', 'material-symbols-outlined material-symbols-outlined-fill']]
                                 newTokens.push(token)
                                 token = new Token('text', '', 0)
                                 nextN++
                                 token.content = 'person'
                                 newTokens.push(token)
-                                token = new Token('blockqouteX_name_close', 'span', -1)
+                                token = new Token('blockquoteX_name_close', 'span', -1)
                                 newTokens.push(token)
                                 token = new Token('text', '', 0)
                                 nextN++
                                 token.content = value.trim()
                                 newTokens.push(token)
                                 break
-                            case 'time':
-                                token = new Token('blockqouteX_date_open', 'span', 1)
+                            case BlockquoteTokenProperty.time:
+                                token = new Token('blockquoteX_date_open', 'span', 1)
                                 token.attrs = [['class', 'material-symbols-outlined']]
                                 newTokens.push(token)
                                 token = new Token('text', '', 0)
                                 nextN++
                                 token.content = 'schedule'
                                 newTokens.push(token)
-                                token = new Token('blockqouteX_date_close', 'span', -1)
+                                token = new Token('blockquoteX_date_close', 'span', -1)
                                 newTokens.push(token)
                                 token = new Token('text', '', 0)
                                 nextN++
                                 token.content = value.trim()
                                 newTokens.push(token)
                                 break
-                            case 'text':
+                            case BlockquoteTokenProperty.text:
                                 token = new Token('text', '', 0)
                                 nextN++
                                 token.content = value
                                 newTokens.push(token)
                                 break
-                            case 'color':
+                            case BlockquoteTokenProperty.color:
                                 color = value ?? ''
                         }
                     }

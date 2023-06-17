@@ -4,122 +4,60 @@ import { PlantUML } from './plantUML'
 import { renderFretBoard } from './fretboard'
 const Papa = require('papaparse')
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MarkdownItFenceX(md: MarkdownIt, _options: MarkdownIt.Options) {
-    // Allowable syntax in HackMD
-    // 1. basic case
-    // input {header="true"}
-    // output {header: true}
-
-    // 2. multiple key-value like XML
-    // input {delimiter = "." header = "true"}
-    // output {delimiter: ".", header: true}
-
-    // 3. without double quote
-    // input {delimiter = .. header = true}
-    // output {delimiter: "..", header: true}
-
-    // input {delimiter = = header = true}
-    // output {delimiter: "=", header: true}
-
-    // input {delimiter = == header = true}
-    // output {delimiter: "==", header: true}
-
-    // 4. Also allow single quote
-    // input {delimiter='.' header = true}
-    // output {delimiter: ".", header: true}
-
-    // 5. special case (Not always support in our package)
-    // input {delimiter = = = = = header = true}
-    // output {delimiter: "=", header: true}
-
-    // For fretboard
-    // input {title="horizontal, 6 frets", type="h6"}
-    //                                   ^ comma between value and next key
-    // output {title: "horizontal, 6 frets", type: "h6"}
-    function parseUserDefinedConfig(config: string): Map<string, any> {
-        const map = new Map()
-
-        config = config.trim()
-        if (config[0] === '{' && config[config.length - 1] === '}') {
-            config = config.substring(1, config.length - 1)
-        } else {
-            return map
-        }
-
-        const keyList: string[] = []
-        const valueList: string[] = []
-        let j = 0
-        const parseKey = 0
-        const prepareParseValue = 1
-        const parseValueDoubleQuoteMode = 2
-        const parseValueSingleQuoteMode = 3
-        const parseValueWithoutQuoteMode = 4
-
-        let state = parseKey
-        for (let i = 0; i < config.length; i++) {
-            if (state === parseKey) {
-                if (config[i] === '=') {
-                    const key = config.substring(j, i).replace(',', '').trim()
-                    if (key !== '') {
-                        keyList.push(key)
-                        state = prepareParseValue
-                    }
-                    j = i + 1
-                }
-            } else if (state === prepareParseValue) {
-                if (config[i] === '"') {
-                    state = parseValueDoubleQuoteMode
-                    j = i + 1
-                } else if (config[i] === "'") {
-                    state = parseValueSingleQuoteMode
-                    j = i + 1
-                } else if (config[i] !== ' ') {
-                    state = parseValueWithoutQuoteMode
-                    j = i
-                }
-            } else if (state === parseValueDoubleQuoteMode) {
-                if (config[i] === '"') {
-                    valueList.push(config.substring(j, i))
-                    j = i + 1
-                    state = parseKey
-                }
-            } else if (state === parseValueSingleQuoteMode) {
-                if (config[i] === "'") {
-                    valueList.push(config.substring(j, i))
-                    j = i + 1
-                    state = parseKey
-                }
-            } else if (state === parseValueWithoutQuoteMode) {
-                if (config[i] === ' ') {
-                    valueList.push(config.substring(j, i))
-                    j = i + 1
-                    state = parseKey
-                }
-            }
-        }
-        if (keyList.length != valueList.length) {
-            return map
-        }
-        for (let i = 0; i < keyList.length; i++) {
-            if (valueList[i] === 'true') {
-                map.set(keyList[i], true)
-            } else if (valueList[i] === 'false') {
-                map.set(keyList[i], false)
+// modified from
+// https://github.com/hackmdio/codimd/blob/develop/public/js/lib/markdown/utils.js
+export function parseFenceCodeParams(lang: string): Map<string, any> {
+    const attrMatch = lang.match(/{(.*)}/)
+    const params = new Map<string, any>()
+    if (attrMatch && attrMatch.length >= 2) {
+        const attrs = attrMatch[1]
+        const paraMatch = attrs!.match(/([#.](\S+?)\s)|((\S+?)\s*=\s*("(.+?)"|'(.+?)'|\[[^\]]*\]|\{[}]*\}|(\S+)))/g)
+        paraMatch && paraMatch.forEach(param => {
+            param = param.trim()
+            if (param[0] === '#') {
+                params.set('id', param.slice(1))
+            } else if (param[0] === '.') {
+                if (!params.get('class')) params.set('class', [])
+                params.set('class', params.get('class').concat(param.slice(1)))
             } else {
-                map.set(keyList[i], valueList[i])
+                const offset = param.indexOf('=')
+                const id = param.substring(0, offset).trim().toLowerCase()
+                let val = param.substring(offset + 1).trim()
+                const valStart = val[0] as string
+                const valEnd = val[val.length - 1] as string
+                if (['"', "'"].indexOf(valStart) !== -1 && ['"', "'"].indexOf(valEnd) !== -1 && valStart === valEnd) {
+                    val = val.substring(1, val.length - 1)
+                }
+                if (id === 'class') {
+                    if (params.get('class')) params.set('class', [])
+                    params.set('class', params.get('class').concat(val))
+                } else {
+                    params.set(id, val)
+                }
             }
-        }
-        return map
+        })
     }
 
+    // convert "true" (string) to true (boolean) 
+    params.forEach((val, key) => {
+        if (val === 'true') {
+            params.set(key, true)
+        } else if (val === 'false') {
+            params.set(key, false)
+        }
+    });
+    return params
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function MarkdownItFenceX(md: MarkdownIt, _options: MarkdownIt.Options) {
     function codeX(state: any): void {
         for (let i = 0; i < state.tokens.length; i++) {
             const token: Token = state.tokens[i]
             if (token.type === 'fence') {
                 const params: string[] = token.info.split(' ')
                 if (params[0] === 'csvpreview') {
-                    const config = parseUserDefinedConfig(params.slice(1).join(' '))
+                    const config = parseFenceCodeParams(params.slice(1).join(' '))
                     const res = Papa.parse(token.content.trim(), Object.fromEntries(config))
                     const newTokens: Token[] = []
                     newTokens.push(new Token('csvtable_open', 'table', 1))
@@ -179,7 +117,7 @@ export function MarkdownItFenceX(md: MarkdownIt, _options: MarkdownIt.Options) {
                     newTokens.push(img)
                     state.tokens = md.utils.arrayReplaceAt(state.tokens, i, newTokens)
                 } else if (params[0] === 'fretboard') {
-                    const config = parseUserDefinedConfig(params.slice(1).join(' '))
+                    const config = parseFenceCodeParams(params.slice(1).join(' '))
                     const title = config.get('title') as string
                     const type = config.get('type') as string
                     const rendered = renderFretBoard(token.content, { title: title, type: type })
