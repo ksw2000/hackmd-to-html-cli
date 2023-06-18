@@ -3,7 +3,7 @@ import commander from 'commander'
 import fs from 'fs'
 import { Converter } from './converter'
 
-commander.program.version('0.0.12', '-v, --version', 'output the current version')
+commander.program.version('1.0.0', '-v, --version', 'output the current version')
 commander.program
     .requiredOption('-s, --src <files_or_dirs...>', 'specify the input markdown files or directories')
     .addOption(new commander.Option('-d, --dest <path>', 'specify the output directory').default('./output', './output'))
