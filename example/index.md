@@ -185,7 +185,7 @@ Not work on hackMD
 
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**
-{%pdf https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf %}The text here can be rendered.
+{%pdf https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf %}The text here can be rendered.
 
 ### Figma
 {%figma https://www.figma.com/file/FlUge76mJYUB4hsMyLbRXH/Primer-Primitives-Community?node-id=9%3A2 %}
