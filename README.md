@@ -5,8 +5,8 @@
 Not only is this a CLI tool, but it is also an importable package for converting standard Markdown and even [HackMD](https://hackmd.io/)-supported Markdown into HTML.
 
 + Example of input markdown: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
-
 + Example of output html: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
++ Example of output html in dark mode: https://ksw2000.github.io/hackmd-to-cli/index.dark.html
 
 ## Install
 
@@ -26,31 +26,40 @@ hmd2html --help
 Usage: index [options]
 
 Options:
-  -v, --version                    output the current version
-  -s, --src <files_or_dirs...>  specify the input markdown files or directories
-  -d, --dest <path>         specify the output directory (default: ./output)
-  -l, --layout <html_file>         specify the layout file (default: "")
-  -b, --hardBreak                  use hard break instead of soft break
-  -h, --help                       display help for command
+  -v, --version                   output the current version
+  -i, --input <files_or_urls...>  the path/url of input markdown files
+  -d, --dest <dir>                the path of output directory (filename is generated automatically) (default: ./output)
+  -o, --output <files...>         the path of output file (ignored if the flag -d is set) (default: "")
+  -l, --layout <html_file>        specify the layout file (default: "")
+  -b, --hardBreak                 use hard break instead of soft break
+  -k, --dark                      use the dark mode layout (only activate it when the -l option is not set)
+  -h, --help                      display help for command
 ```
 
 **Convert**
 
 ```sh
-# files
-$ hmd2html -s file1.md file2.md file3.md
+# convert files
+$ hmd2html -i file1.md file2.md file3.md
 
-# directories
-$ hmd2html -s ./dir1 ./dir2
+# allow wildcard input
+$ hmd2html -i dir/*.md
 
-# files or directories
-$ hmd2html -s file1.md ./dir1
+# allow url input
+$ hmd2html -i https://github.com/ksw2000/hackmd-to-html-cli/blob/main/example/index.md
 
-# Set output folder
-$ hmd2html -s file1.md -d ./out
+# set output folder
+$ hmd2html -i file1.md -d ./my_output
 
-# Use custom layout
-$ hmd2html -s hello.md -l ./myLayout.html
+# set the filename of output
+$ hmd2html -i file1.md -o file1.html
+$ hmd2html -i file1.md file2.md -o file1.html file2.html
+
+# use default darkmode layout
+$ hmd2html -i file1.md -k
+
+# use custom layout
+$ hmd2html -i hello.md -l ./myLayout.html
 ```
 
 ## Package (beta)
@@ -186,7 +195,3 @@ HackMD fully supports syntax: [features](https://hackmd.io/features-tw?both)
 | others        | ✅       | Hide the metadata by html comment |
 
 HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>` when using default layout.
-
-## TODO
-
-+ Provide more templates & styles
