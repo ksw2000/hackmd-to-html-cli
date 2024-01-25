@@ -31,7 +31,7 @@ const darkMode: boolean = options.dark
 function main() {
     const converter = new Converter(layout, hardBreak, darkMode)
     let errorCounter = 0
-    let outputIndex = 0
+    let outputsIndex = 0
     const outputFilenameSet = new Set<string>()
 
     const isURL = (s: string): URL | null => {
@@ -67,19 +67,19 @@ function main() {
     }
 
     const generateOutputFilename = (inputFilename: fs.PathLike): string => {
-        // if `output` is non-null, use `output` as output file name
+        // if `outputs` is non-null, use `outputs` as output file name
         let ret: string
         if (outputs !== null) {
-            if (outputIndex < outputs.length) {
-                ret = outputs![outputIndex]!.toString()
-                outputIndex++
+            if (outputsIndex < outputs.length) {
+                ret = outputs![outputsIndex]!.toString()
+                outputsIndex++
             } else {
                 throw ('the number of --output is smaller than the number of --input');
             }
         } else {
             ret = path.join(dest.toString(), path.basename(inputFilename.toString()).replace(/\.md$/, '') + '.html')
         }
-        // if `o` repeat, use hash function to generate new filename
+        // if `ret` is repeated, use a hash function to generate a new filename
         let hashIn: string = inputFilename.toString()
         const retExtname = path.extname(ret) // including leading dot '.'
         const tmpRet = ret.replace(new RegExp(retExtname + "$"), '')
@@ -91,7 +91,7 @@ function main() {
         return ret
     }
 
-    // if `output` is null, generate the output file in the directory `dest`
+    // if `outputs` is null, generate the output file in the directory `dest`
     // if `dest` existed, check `dest` is directory
     // otherwise create the new directory `dest`
     if (outputs === null) {
@@ -112,7 +112,7 @@ function main() {
         // 1. http/https mode
         const url = isURL(fn.toString())
         if (url != null) {
-            if (outputs !== null && outputIndex >= outputs?.length) {
+            if (outputs !== null && outputsIndex >= outputs?.length) {
                 return
             }
             if (url.protocol === 'https:') {
@@ -137,7 +137,6 @@ function main() {
                     try {
                         const stats = fs.statSync(f)
                         if (stats.isDirectory()) {
-                            // printError(fn, "not support directory path as input since v1.1.0")
                             return
                         }
                     } catch (e) {
