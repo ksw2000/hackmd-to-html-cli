@@ -17,7 +17,7 @@ commander.program
     .addOption(new commander.Option('-o, --output <files...>', 'the path of output file (ignored if the flag -d is set)').default('', '""'))
     .addOption(new commander.Option('-l, --layout <html_file>', 'specify the layout file').default('', '""'))
     .addOption(new commander.Option('-b, --hardBreak', 'use hard break instead of soft break'))
-    .addOption(new commander.Option('-k, --dark', 'use the dark mode layout (only activate it when the -l option is not set)'))
+    .addOption(new commander.Option('-k, --dark', 'use the dark mode layout (activate only if the -l option is not set)'))
     .parse(process.argv)
 
 const options = commander.program.opts()

@@ -6,7 +6,7 @@ Not only is this a CLI tool, but it is also an importable package for converting
 
 + Example of input markdown: [./example/index.md](https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/main/example/index.md)
 + Example of output html: [https://ksw2000.github.io/hackmd-to-html-cli/](https://ksw2000.github.io/hackmd-to-html-cli/)
-+ Example of output html in dark mode: https://ksw2000.github.io/hackmd-to-cli/index.dark.html
++ Example of output html in dark mode: [https://ksw2000.github.io/hackmd-to-html-cli/index.dark.html](https://ksw2000.github.io/hackmd-to-html-cli/index.dark.html)
 
 ## Install
 
@@ -32,7 +32,7 @@ Options:
   -o, --output <files...>         the path of output file (ignored if the flag -d is set) (default: "")
   -l, --layout <html_file>        specify the layout file (default: "")
   -b, --hardBreak                 use hard break instead of soft break
-  -k, --dark                      use the dark mode layout (only activate it when the -l option is not set)
+  -k, --dark                      use the dark mode layout (activate only if the -l option is not set)
   -h, --help                      display help for command
 ```
 
