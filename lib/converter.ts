@@ -26,16 +26,16 @@ const htmlEncode = require('htmlencode').htmlEncode;
 export class Converter {
     private md: MarkdownIt
     private metadata: Metadata
-    private layout: string
+    private layout: fs.PathLike
 
     /**
      * @param layout set null if you want to use default layout, 
      * @param hardBreak set true if want to use hardBread
      */
-    constructor(layout: string | null, hardBreak = false) {
+    constructor(layout: fs.PathLike | null, hardBreak = false, darkMode = false) {
         this.metadata = new Metadata()
         if (layout === null) {
-            layout = this.defaultLayout()
+            layout = this.defaultLayout(darkMode)
         }
         this.layout = layout
         // https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Fmarkdown-syntax
@@ -132,54 +132,7 @@ export class Converter {
     /**
      * @returns default HTML layout
      */
-    public defaultLayout(): string {
-        return fs.readFileSync(path.join(__dirname, '../layout.html'), { encoding: 'utf-8' })
-    }
-
-    /**
-     * ```
-     * 
-     * .
-     * ├── foo
-     * │   ├── a.md
-     * │   └── b.md
-     * ├── c.md
-     * └── out
-     *     ├── foo
-     *     │   ├── a.html
-     *     │   └── b.html
-     *     └── c.html
-     * ```
-     * @param filePathsOrDir a list of the path of files or directories e.g. ["./foo", "c.md"]
-     * @param destDir the path of destination directory e.g. ["./build"]
-     */
-    public convertFiles(filePathsOrDir: fs.PathLike[], destDir: fs.PathLike) {
-        if (!fs.existsSync(destDir)) {
-            fs.mkdirSync(destDir)
-        }
-
-        const files: fs.PathLike[] = []
-        filePathsOrDir.forEach((fn: fs.PathLike) => {
-            if (!fs.existsSync(fn)) {
-                console.error(`${fn} is not found`)
-                return
-            }
-            const stats = fs.statSync(fn)
-            if (stats.isDirectory()) {
-                const f = fs.readdirSync(fn)
-                f.forEach((e: fs.PathLike) => {
-                    files.push(path.join(fn.toString(), e.toString()))
-                })
-            } else if (stats.isFile()) {
-                files.push(fn)
-            }
-        })
-
-        files.forEach((fn: fs.PathLike) => {
-            const markdown = fs.readFileSync(fn, { encoding: 'utf-8' })
-            const res = this.convert(markdown)
-            const basename = path.basename(fn.toString())
-            fs.writeFileSync(path.join(destDir.toString(), basename.replace(/\.md$/, '.html')), res)
-        });
+    public defaultLayout(dark = false): string {
+        return fs.readFileSync(path.join(__dirname, !dark ? '../layout.html' : '../layout.dark.html'), { encoding: 'utf-8' })
     }
 }
