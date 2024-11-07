@@ -8,10 +8,11 @@ import * as http from 'http'
 import { glob } from 'glob'
 import { createHash } from 'node:crypto'
 import { escapeHtml } from './markdown/utils'
+import { version } from '../package.json';
 
 const hash = createHash('sha256');
 
-commander.program.version('1.1.0', '-v, --version', 'output the current version')
+commander.program.version(version, '-v, --version', 'output the current version')
 commander.program
     .requiredOption('-i, --input <files_or_urls...>', 'the path/url of input markdown files')
     .addOption(new commander.Option('-d, --dest <dir>', 'the path of output directory (filename is generated automatically)').default('', './output'))
@@ -43,17 +44,17 @@ function main() {
 
     // load layout
     const layout: string = inputLayout ?? defaultLayout(darkMode);
-   
+
     const isURL = (s: string): URL | null => {
         try {
             const url = new URL(s);
             return url
-        } catch (err) {
+        } catch {
             return null
         }
     }
 
-    const printError = (fn: string | fs.PathLike, e: any) => {
+    const printError = (fn: string | fs.PathLike, e: unknown) => {
         console.error(`❌ #${errorCounter} ${fn}`)
         console.error(`${e}`)
         errorCounter++
@@ -172,7 +173,7 @@ function main() {
     })
 }
 
-function renderToLayout(res: ConvertedResult, layout: string): string{
+function renderToLayout(res: ConvertedResult, layout: string): string {
     let metas = ''
     if (res.metadata.title !== '') {
         metas += '<title>' + escapeHtml(res.metadata.title) + '</title>\n'
@@ -208,7 +209,7 @@ function renderToLayout(res: ConvertedResult, layout: string): string{
 }
 
 function defaultLayout(dark = false): string {
-    return fs.readFileSync(path.join(__dirname, !dark ? '../layout.html' : '../layout.dark.html'), { encoding: 'utf-8' })
+    return fs.readFileSync(path.join(__dirname, !dark ? '../layouts/layout.html' : '../layouts/layout.dark.html'), { encoding: 'utf-8' })
 }
 
 main()
