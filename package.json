@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "globals": "^15.12.0",
     "@types/deflate-js": "^0.2.2",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/node": "^16.18.119",
