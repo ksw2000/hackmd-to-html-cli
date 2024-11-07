@@ -23,11 +23,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "example": "npx ts-node lib/cli.ts -i ./example/*",
-    "example_dark": "npx ts-node lib/cli.ts -i ./example/index.md -o output/index.dark.html --dark",
+    "build": "npx tsc",
+    "example": "npx ts-node src/cli.ts -i ./example/*",
+    "example_dark": "npx ts-node src/cli.ts -i ./example/index.md -o output/index.dark.html --dark",
     "test": "npx jest",
-    "lint": "npx eslint lib/**/*.ts --fix"
+    "lint": "npx eslint src/**/*.ts --fix"
   },
   "author": "Kashiwa",
   "license": "MIT",
