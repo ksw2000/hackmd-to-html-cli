@@ -1,23 +1,23 @@
 import YAML from 'yaml'
-import MarkdownIt from "markdown-it/lib"
-import Token from 'markdown-it/lib/token'
-import StateBlock from 'markdown-it/lib/rules_block/state_block'
+import MarkdownIt, { Token, StateBlock } from "markdown-it"
 
 // modified from 
 // https://github.com/flaviotordini/markdown-it-yaml
 
 const tokenType = 'yaml_metadata'
 
-export class Metadata {
-    title = ""
-    description = ""
-    lang = ""
-    robots = ""
-    dir = ""
-    image = ""
+export interface Metadata {
+    title: string;
+    description: string;
+    lang: string;
+    robots: string;
+    dir: string;
+    image: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Metadata) => any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getLine(state: any, line: any): string {
         const pos = state.bMarks[line]
         const max = state.eMarks[line]
@@ -42,7 +42,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
         const dataStart = nextLine
         let dataEnd = dataStart
         while (nextLine < endLine) {
-            if (state.tShift[nextLine]! < 0) {
+            if (state.tShift[nextLine] < 0) {
                 break
             }
             if (getLine(state, nextLine) === '---') {
@@ -52,7 +52,7 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
             nextLine++
         }
 
-        const dataStartPos = state.bMarks[dataStart]!
+        const dataStartPos = state.bMarks[dataStart]
         const dataEndPos = state.eMarks[dataEnd]
 
         const token = state.push(tokenType, '', 0)
@@ -62,19 +62,19 @@ export function MarkdownItYAMLMetadata(md: MarkdownIt, callback: (metadata: Meta
         return true
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _evn: any): string {
-        const token = tokens[idx]!
+        const token = tokens[idx]
         if (callback) {
             const data = YAML.parse(token.content)
-            const metadata = new Metadata()
-            metadata.title = data.title ?? ''
-            metadata.lang = data.lang ?? ''
-            metadata.robots = data.robots ?? ''
-            metadata.description = data.description ?? ''
-            metadata.dir = data.dir ?? ''
-            metadata.image = data.image ?? ''
-            callback(metadata)
+            callback({
+                title: data.title ?? '',
+                lang: data.lang ?? '',
+                robots: data.robots ?? '',
+                description: data.description ?? '',
+                dir: data.dir ?? '',
+                image: data.image ?? ''
+            })
         }
         return `<!--yaml\n${token.content}\n-->`
     }

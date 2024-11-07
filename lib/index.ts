@@ -1,1 +1,2 @@
-export {Converter} from './converter'
+export { Converter, ConvertedResult } from './converter'
+export { Metadata } from './markdown/yamlMetadata'

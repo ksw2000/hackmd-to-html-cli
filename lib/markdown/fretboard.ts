@@ -1,6 +1,6 @@
 // modified from 
 // https://github.com/hackmdio/codimd/tree/e00eaa82a98423b9eeb904b9c9fc8fc939f9f6e6/public/js/lib/renderer/fretboard
-const htmlEncode = require('htmlencode').htmlEncode;
+import { escapeHtml } from './utils'
 
 const dotEmpty = `<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 72 88" enable-background="new 0 0 72 88" xml:space="preserve">
 <circle class="fretb_dot_empty" fill="none" cx="36" cy="44" r="32"/>
@@ -510,11 +510,13 @@ export const renderFretBoard = (content: string, { title: fretTitle = '', type =
     const fretbLen = parseInt(fretType && fretType.substring(1) || "")
     const fretbClass = fretType && fretType[0] + ' ' + fretType
     const nut = nutOption === 'noNut' ? 'noNut' : ''
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fretb: any = isVertical ? fretbVert : fretbHoriz
     const fretbBg = fretb[fretbLen]
 
     // create cells HTML
     let cellsHTML = '<div class="cells">'
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let switchList: any = switchListV
     if (!isVertical) {
         // calculate position
@@ -525,25 +527,27 @@ export const renderFretBoard = (content: string, { title: fretTitle = '', type =
     const contentCell = content && content.split('')
     // Go through each ASCII character...
     const numArray = [...Array(10).keys()].slice(1)
-    contentCell && contentCell.forEach(char => {
-        if (numArray.toString().indexOf(char) !== -1) {
-            const num = parseInt(char) - 1
-            if (num >= 0 && num <= 8) {
-                cellsHTML += `<div class='cell empty'>`
-                cellsHTML += isVertical ? numberSVG[num] : numberHSVG[num]
-                cellsHTML += `</div>`
+    if (contentCell) {
+        contentCell.forEach(char => {
+            if (numArray.toString().indexOf(char) !== -1) {
+                const num = parseInt(char) - 1
+                if (num >= 0 && num <= 8) {
+                    cellsHTML += `<div class='cell empty'>`
+                    cellsHTML += isVertical ? numberSVG[num] : numberHSVG[num]
+                    cellsHTML += `</div>`
+                }
+            } else if (typeof switchList[char] !== 'undefined') {
+                cellsHTML += switchList[char]
             }
-        } else if (typeof switchList[char] !== 'undefined') {
-            cellsHTML += switchList[char]
-        }
-    })
+        })
+    }
     cellsHTML += '</div>'
 
     const svgHTML = `<div class="svg_wrapper ${fretbClass} ${nut}">` + fretbBg + cellsHTML + `</div>`
 
     let ret = `<div class="${containerClass}">`
     if (fretTitle) {
-        ret += `<div class="fretTitle">${htmlEncode(fretTitle)}</div>`
+        ret += `<div class="fretTitle">${escapeHtml(fretTitle)}</div>`
     }
     ret += svgHTML + '</div>'
     return ret

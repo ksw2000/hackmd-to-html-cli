@@ -14,6 +14,9 @@
     "type": "git",
     "url": "https://github.com/ksw2000/hackmd-to-html-cli.git"
   },
+  "bugs": {
+    "url": "https://github.com/ksw2000/hackmd-to-html-cli/issues"
+  },
   "bin": {
     "hmd2html": "dist/cli.js"
   },
@@ -23,39 +26,41 @@
     "build": "tsc",
     "example": "npx ts-node lib/cli.ts -i ./example/*",
     "example_dark": "npx ts-node lib/cli.ts -i ./example/index.md -o output/index.dark.html --dark",
-    "test": "jest",
-    "lint": "npx eslint lib/**"
+    "test": "npx jest",
+    "lint": "npx eslint lib/**/*.ts --fix"
   },
   "author": "Kashiwa",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^16.11.11",
     "commander": "^11.1.0",
     "deflate-js": "^0.2.3",
     "glob": "^10.3.10",
-    "htmlencode": "^0.0.4",
-    "markdown-it": "^12.2.0",
-    "markdown-it-abbr": "^1.0.4",
-    "markdown-it-anchor": "^8.4.1",
-    "markdown-it-deflist": "^2.1.0",
-    "markdown-it-emoji": "^2.0.0",
-    "markdown-it-footnote": "^3.0.3",
+    "markdown-it": "^14.1.0",
+    "markdown-it-abbr": "^2.0.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-deflist": "^3.0.0",
+    "markdown-it-emoji": "^3.0.0",
+    "markdown-it-footnote": "^4.0.0",
     "markdown-it-imsize": "^2.0.1",
-    "markdown-it-ins": "^3.0.1",
-    "markdown-it-mark": "^3.0.1",
-    "markdown-it-mathjax3": "^4.3.2",
+    "markdown-it-ins": "^4.0.0",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-mathjax3": "4.3.1",
     "markdown-it-ruby": "^0.1.1",
-    "markdown-it-sub": "^1.0.0",
-    "markdown-it-sup": "^1.0.0",
-    "markdown-it-table-of-contents": "^0.6.0",
+    "markdown-it-sub": "^2.0.0",
+    "markdown-it-sup": "^2.0.0",
+    "markdown-it-table-of-contents": "^0.8.0",
     "papaparse": "^5.4.1",
     "yaml": "^2.2.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "eslint": "^8.34.0",
+    "@jest/globals": "^29.7.0",
+    "@types/deflate-js": "^0.2.2",
+    "@types/markdown-it-emoji": "^3.0.1",
+    "@types/node": "^16.18.119",
+    "@types/papaparse": "^5.3.15",
     "ts-jest": "^29.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.13.0",
+    "webpack": "^5.96.1"
   }
 }

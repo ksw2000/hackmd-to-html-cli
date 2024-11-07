@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import commander from 'commander'
 import fs from 'fs'
-import { Converter } from './converter'
+import { ConvertedResult, Converter } from './converter'
 import path from 'path'
 import * as https from 'https'
 import * as http from 'http'
 import { glob } from 'glob'
 import { createHash } from 'node:crypto'
+import { escapeHtml } from './markdown/utils'
 
 const hash = createHash('sha256');
 
@@ -24,16 +25,25 @@ const options = commander.program.opts()
 const inputs: fs.PathLike[] = options.input
 const dest: fs.PathLike = options.dest === '' ? './output' : options.dest
 const outputs: fs.PathLike[] | null = options.dest === '' && options.output !== '' ? options.output : null
-const layout: fs.PathLike | null = options.layout !== '' ? fs.readFileSync(options.layout, { encoding: 'utf-8' }) : null
+const inputLayout: string | null = options.layout !== '' ? fs.readFileSync(options.layout, { encoding: 'utf-8' }) : null
 const hardBreak: boolean = options.hardBreak
 const darkMode: boolean = options.dark
 
 function main() {
-    const converter = new Converter(layout, hardBreak, darkMode)
+    const converter = new Converter({
+        html: true,
+        breaks: !hardBreak,
+        linkify: true,
+        typographer: true
+    })
+
     let errorCounter = 0
     let outputsIndex = 0
     const outputFilenameSet = new Set<string>()
 
+    // load layout
+    const layout: string = inputLayout ?? defaultLayout(darkMode);
+   
     const isURL = (s: string): URL | null => {
         try {
             const url = new URL(s);
@@ -55,7 +65,8 @@ function main() {
             data += d
         })
         res.on('end', () => {
-            const converted = converter.convert(data)
+            const res = converter.render(data)
+            const converted = renderToLayout(res, layout)
             try {
                 fs.writeFileSync(output, converted)
                 console.log(`✅ ${inputURL} ➡️  ${output}`)
@@ -144,7 +155,8 @@ function main() {
                         return
                     }
                     const markdown = fs.readFileSync(f, { encoding: 'utf-8' })
-                    const converted = converter.convert(markdown)
+                    const res = converter.render(markdown)
+                    const converted = renderToLayout(res, layout);
                     const o = generateOutputFilename(f)
                     try {
                         fs.writeFileSync(o, converted)
@@ -158,6 +170,45 @@ function main() {
             })
         }
     })
+}
+
+function renderToLayout(res: ConvertedResult, layout: string): string{
+    let metas = ''
+    if (res.metadata.title !== '') {
+        metas += '<title>' + escapeHtml(res.metadata.title) + '</title>\n'
+        metas += '<meta name="twitter:title" content="' + escapeHtml(res.metadata.title) + '" />\n'
+        metas += '<meta property="og:title" content="' + escapeHtml(res.metadata.title) + '" />\n'
+    }
+    if (res.metadata.robots !== '') {
+        metas += '<meta name="robots" content="' + escapeHtml(res.metadata.robots) + '">\n'
+    }
+    if (res.metadata.description !== '') {
+        metas += '<meta name="description" content="' + escapeHtml(res.metadata.description) + '">\n'
+        metas += '<meta name="twitter:description" content="' + escapeHtml(res.metadata.description) + '">\n'
+        metas += '<meta property="og:description" content="' + escapeHtml(res.metadata.description) + '">\n'
+    }
+    if (res.metadata.image !== '') {
+        metas += '<meta name="twitter:image:src" content="' + escapeHtml(res.metadata.image) + '" />\n'
+        metas += '<meta property="og:image" content="' + escapeHtml(res.metadata.image) + '" />\n'
+    }
+    let lang = ''
+    if (res.metadata.lang !== '') {
+        lang = ' lang="' + escapeHtml(res.metadata.lang) + '"'
+    }
+    let dir = ''
+    if (res.metadata.dir !== '') {
+        dir = ' dir="' + escapeHtml(res.metadata.dir) + '"'
+    }
+
+    return layout
+        .replace('{{lang}}', lang)
+        .replace('{{dir}}', dir)
+        .replace('{{metas}}', metas)
+        .replace('{{main}}', res.main)
+}
+
+function defaultLayout(dark = false): string {
+    return fs.readFileSync(path.join(__dirname, !dark ? '../layout.html' : '../layout.dark.html'), { encoding: 'utf-8' })
 }
 
 main()

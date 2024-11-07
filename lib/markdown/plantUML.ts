@@ -1,4 +1,4 @@
-const deflate = require('deflate-js')
+import deflate from 'deflate-js';
 
 export class PlantUML {
     private encode6bit(b: number): string {
@@ -54,7 +54,7 @@ export class PlantUML {
     public generateURL(value: string) {
         const encoded = new TextEncoder().encode(value);
         const compressedCharArray = deflate.deflate(encoded, 9);
-        const compressed = String.fromCharCode.apply(null, compressedCharArray)
+        const compressed = String.fromCharCode.apply(null, Array.from(compressedCharArray))
         return this.encode64(compressed);
     }
 }

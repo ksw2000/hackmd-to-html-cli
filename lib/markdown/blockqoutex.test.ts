@@ -11,12 +11,12 @@ test('test parseBlockquoteParams()', () => {
     ]
     for (let j = 0; j < cases.length; j++) {
         let checker = true
-        for (let i = 0; i < cases[j]!.length; i++) {
-            if (cases[j]![i]?.property == BlockquoteTokenProperty.blockquoteXStart) {
-                checker = checker && (cases[j]![i + 1]?.property == BlockquoteTokenProperty.name && cases[j]![i + 1]?.value == "ChengHan Wu")
-                checker = checker && (cases[j]![i + 2]?.property == BlockquoteTokenProperty.time && cases[j]![i + 2]?.value == "Sun, Jun 28, 2015 9:59 PM")
-                checker = checker && (cases[j]![i + 3]?.property == BlockquoteTokenProperty.color && cases[j]![i + 3]?.value == "#907bf7")
-                checker = checker && (cases[j]![i + 4]?.property == BlockquoteTokenProperty.blockquoteXEnd)
+        for (let i = 0; i < cases[j].length; i++) {
+            if (cases[j][i]?.property == BlockquoteTokenProperty.blockquoteXStart) {
+                checker = checker && (cases[j][i + 1]?.property == BlockquoteTokenProperty.name && cases[j][i + 1]?.value == "ChengHan Wu")
+                checker = checker && (cases[j][i + 2]?.property == BlockquoteTokenProperty.time && cases[j][i + 2]?.value == "Sun, Jun 28, 2015 9:59 PM")
+                checker = checker && (cases[j][i + 3]?.property == BlockquoteTokenProperty.color && cases[j][i + 3]?.value == "#907bf7")
+                checker = checker && (cases[j][i + 4]?.property == BlockquoteTokenProperty.blockquoteXEnd)
                 break
             }
         }

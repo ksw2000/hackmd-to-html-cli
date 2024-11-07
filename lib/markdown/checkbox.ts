@@ -1,6 +1,5 @@
-import MarkdownIt from 'markdown-it/lib'
-import StateCore from 'markdown-it/lib/rules_core/state_core'
-import Token from 'markdown-it/lib/token'
+import MarkdownIt, { StateCore, Token } from 'markdown-it'
+import { MyToken } from './token'
 
 // modified from 
 // https://github.com/mcecot/markdown-it-checkbox
@@ -12,22 +11,22 @@ export function MarkdownItCheckbox(md: MarkdownIt) {
         const id = lastId
         lastId++
 
-        let token = new Token('checkbox_input', 'input', 0)
+        let token = new MyToken('checkbox_input', 'input', 0)
         token.attrs = [['type', 'checkbox'], ['id', id.toString()], ['class', 'task-list-item-checkbox']]
         if (checked) {
             token.attrPush(['checked', 'true'])
         }
         nodes.push(token)
 
-        token = new Token('label_open', 'label', 1)
+        token = new MyToken('label_open', 'label', 1)
         token.attrs = [['for', id.toString()]]
         nodes.push(token)
 
-        token = new Token('text', '', 0)
+        token = new MyToken('text', '', 0)
         token.content = label
         nodes.push(token)
 
-        nodes.push(new Token('label_close', 'label', -1))
+        nodes.push(new MyToken('label_close', 'label', -1))
 
         return nodes
     }

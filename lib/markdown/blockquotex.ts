@@ -1,6 +1,5 @@
-import MarkdownIt from 'markdown-it/lib'
-import StateCore from 'markdown-it/lib/rules_core/state_core'
-import Token from 'markdown-it/lib/token'
+import MarkdownIt, { StateCore, Token } from 'markdown-it'
+import { MyToken } from './token'
 
 export enum BlockquoteTokenProperty {
     name,
@@ -142,46 +141,46 @@ export function MarkdownItBlockquoteX(md: MarkdownIt) {
                         const value: string = m[s]?.value ?? ''
                         switch (property) {
                             case BlockquoteTokenProperty.blockquoteXStart:
-                                token = new Token('blockquoteX_open', 'span', 1)
+                                token = new MyToken('blockquoteX_open', 'span', 1)
                                 token.attrs = [['class', 'blockquoteX']]
                                 newTokens.push(token)
                                 break
                             case BlockquoteTokenProperty.blockquoteXEnd:
-                                token = new Token('blockquoteX_close', 'span', -1)
+                                token = new MyToken('blockquoteX_close', 'span', -1)
                                 newTokens.push(token)
                                 break
                             case BlockquoteTokenProperty.name:
-                                token = new Token('blockquoteX_name_open', 'span', 1)
+                                token = new MyToken('blockquoteX_name_open', 'span', 1)
                                 token.attrs = [['class', 'material-symbols-outlined material-symbols-outlined-fill']]
                                 newTokens.push(token)
-                                token = new Token('text', '', 0)
+                                token = new MyToken('text', '', 0)
                                 nextN++
                                 token.content = 'person'
                                 newTokens.push(token)
-                                token = new Token('blockquoteX_name_close', 'span', -1)
+                                token = new MyToken('blockquoteX_name_close', 'span', -1)
                                 newTokens.push(token)
-                                token = new Token('text', '', 0)
+                                token = new MyToken('text', '', 0)
                                 nextN++
                                 token.content = value.trim()
                                 newTokens.push(token)
                                 break
                             case BlockquoteTokenProperty.time:
-                                token = new Token('blockquoteX_date_open', 'span', 1)
+                                token = new MyToken('blockquoteX_date_open', 'span', 1)
                                 token.attrs = [['class', 'material-symbols-outlined']]
                                 newTokens.push(token)
-                                token = new Token('text', '', 0)
+                                token = new MyToken('text', '', 0)
                                 nextN++
                                 token.content = 'schedule'
                                 newTokens.push(token)
-                                token = new Token('blockquoteX_date_close', 'span', -1)
+                                token = new MyToken('blockquoteX_date_close', 'span', -1)
                                 newTokens.push(token)
-                                token = new Token('text', '', 0)
+                                token = new MyToken('text', '', 0)
                                 nextN++
                                 token.content = value.trim()
                                 newTokens.push(token)
                                 break
                             case BlockquoteTokenProperty.text:
-                                token = new Token('text', '', 0)
+                                token = new MyToken('text', '', 0)
                                 nextN++
                                 token.content = value
                                 newTokens.push(token)

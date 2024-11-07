@@ -1,7 +1,5 @@
-import MarkdownIt from "markdown-it/lib"
-import Renderer from "markdown-it/lib/renderer"
-import StateBlock from "markdown-it/lib/rules_block/state_block"
-import Token from "markdown-it/lib/token"
+import MarkdownIt, { Renderer, StateBlock } from "markdown-it"
+import { MyToken } from "./token"
 
 const webMap = new Map<string, string>([
   ['youtube', 'iframe'],
@@ -16,41 +14,39 @@ const webMap = new Map<string, string>([
 // modified from 
 // https://github.com/markdown-it/markdown-it-container
 export function MarkdownItExternal(md: MarkdownIt) {
-  // Second param may be useful if you decide
-  // to increase minimal allowed marker length
-
-  function renderer(tokens: Token[], idx: number, _options: MarkdownIt.Options, _env: any, slf: Renderer): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function renderer(tokens: MyToken[], idx: number, _options: MarkdownIt.Options, _env: any, slf: Renderer): string {
     // add a class to the opening tag
-    if (tokens[idx]!.nesting === 1) {
-      const website = tokens[idx]!.meta.website
-      tokens[idx]!.attrJoin('class', 'embed-' + website)
-      if (website === 'youtube') {
-        tokens[idx]!.attrJoin('src', 'https://www.youtube.com/embed/' + tokens[idx]!.meta.url)
-        tokens[idx]!.attrJoin('allowfullscreen', 'true')
-        tokens[idx]!.attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
-        tokens[idx]!.attrJoin('frameborder', '0')
-      } else if (website === 'vimeo') {
-        tokens[idx]!.attrJoin('src', 'https://player.vimeo.com/video/' + tokens[idx]!.meta.url)
-        tokens[idx]!.attrJoin('allowfullscreen', 'true')
-        tokens[idx]!.attrJoin('frameborder', '0')
-        tokens[idx]!.attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
-      } else if (website === 'gist') {
-        tokens[idx]!.attrJoin('src', 'https://gist.github.com/' + tokens[idx]!.meta.url + '.js')
-      } else if (website === 'slideshare') {
-        tokens[idx]!.attrJoin('src', 'https://www.slideshare.net/' + tokens[idx]!.meta.url)
-        tokens[idx]!.attrJoin('frameborder', '0')
-        tokens[idx]!.attrJoin('marginwidth', '0')
-        tokens[idx]!.attrJoin('marginheight', '0')
-        tokens[idx]!.attrJoin('scrolling', 'no')
-        tokens[idx]!.attrJoin('allowfullscreen', 'true')
-      } else if (website === 'speakerdeck') {
-        tokens[idx]!.attrJoin('src', 'https://speakerdeck.com/' + tokens[idx]!.meta.url)
-      } else if (website === 'pdf') {
-        tokens[idx]!.attrJoin('src', tokens[idx]!.meta.url)
-        tokens[idx]!.attrJoin('type', 'application/pdf')
-      } else if (website === 'figma') {
-        tokens[idx]!.attrJoin('src', 'https://www.figma.com/embed?embed_host=hackmd&url=' + tokens[idx]!.meta.url)
-        tokens[idx]!.attrJoin('allowfullscreen', 'true')
+    if (tokens[idx].nesting === 1) {
+      const meta = tokens[idx].meta as external
+      tokens[idx].attrJoin('class', 'embed-' + meta.website)
+      if (meta.website === 'youtube') {
+        tokens[idx].attrJoin('src', 'https://www.youtube.com/embed/' + meta.url)
+        tokens[idx].attrJoin('allowfullscreen', 'true')
+        tokens[idx].attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+        tokens[idx].attrJoin('frameborder', '0')
+      } else if (meta.website === 'vimeo') {
+        tokens[idx].attrJoin('src', 'https://player.vimeo.com/video/' + meta.url)
+        tokens[idx].attrJoin('allowfullscreen', 'true')
+        tokens[idx].attrJoin('frameborder', '0')
+        tokens[idx].attrJoin('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+      } else if (meta.website === 'gist') {
+        tokens[idx].attrJoin('src', 'https://gist.github.com/' + meta.url + '.js')
+      } else if (meta.website === 'slideshare') {
+        tokens[idx].attrJoin('src', 'https://www.slideshare.net/' + meta.url)
+        tokens[idx].attrJoin('frameborder', '0')
+        tokens[idx].attrJoin('marginwidth', '0')
+        tokens[idx].attrJoin('marginheight', '0')
+        tokens[idx].attrJoin('scrolling', 'no')
+        tokens[idx].attrJoin('allowfullscreen', 'true')
+      } else if (meta.website === 'speakerdeck') {
+        tokens[idx].attrJoin('src', 'https://speakerdeck.com/' + meta.url)
+      } else if (meta.website === 'pdf') {
+        tokens[idx].attrJoin('src', meta.url)
+        tokens[idx].attrJoin('type', 'application/pdf')
+      } else if (meta.website === 'figma') {
+        tokens[idx].attrJoin('src', 'https://www.figma.com/embed?embed_host=hackmd&url=' + meta.url)
+        tokens[idx].attrJoin('allowfullscreen', 'true')
       }
     }
 
@@ -75,6 +71,11 @@ export function MarkdownItExternal(md: MarkdownIt) {
   // {%pdf 
   // https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf 
   // %}
+
+  interface external {
+    website: string
+    url: string
+  }
 
   function rule(state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean {
     let pos, nextLine, token
@@ -131,9 +132,10 @@ export function MarkdownItExternal(md: MarkdownIt) {
     }
 
     token = state.push('external_open', webMap.get(website) ?? "", 1)
-    token.meta = {}
-    token.meta.website = website
-    token.meta.url = content?.trim()
+    token.meta = {
+      website: website,
+      url: content.trim(),
+    }
     token.markup = markerStart
     token.block = true
     token.map = [startLine, nextLine]
@@ -150,7 +152,9 @@ export function MarkdownItExternal(md: MarkdownIt) {
     if (nextPos !== -1) {
       state.bMarks[nextLine] += nextPos + 2
     }
-    state.line = nextLine
+
+    // state.line should be increased after parsing
+    state.line = nextLine + 1
     return true
   }
 
