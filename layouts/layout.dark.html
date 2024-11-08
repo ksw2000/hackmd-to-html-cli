@@ -846,8 +846,8 @@
         });
 
         // automatically set title
-        let h1 = document.querySelector("h1");
-        if (document.title === '') {
+        const h1 = document.querySelector("h1");
+        if (!document.title && h1 && h1.textContent) {
             document.title = h1.textContent;
         }
     </script>
