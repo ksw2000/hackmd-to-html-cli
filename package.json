@@ -23,7 +23,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
+    "build:node": "npx tsc",
+    "build:web": "npx webpack",
+    "build": "npm run build:node && npm run build:web",
     "example": "npx ts-node src/cli.ts -i ./example/*",
     "example_dark": "npx ts-node src/cli.ts -i ./example/index.md -o output/index.dark.html --dark",
     "test": "npx jest",
@@ -54,14 +56,16 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "globals": "^15.12.0",
     "@types/deflate-js": "^0.2.2",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/node": "^16.18.119",
     "@types/papaparse": "^5.3.15",
+    "globals": "^15.12.0",
     "ts-jest": "^29.1.0",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
-    "webpack": "^5.96.1"
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   }
 }
