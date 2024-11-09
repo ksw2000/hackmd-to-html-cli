@@ -28,10 +28,6 @@ export class Converter {
     private md: MarkdownIt
     private metadata?: Metadata
 
-    /**
-     * @param layout set null if you want to use default layout, 
-     * @param hardBreak set true if want to use hardBread
-     */
     constructor(options: MarkdownIt.Options = {
         html: true,
         breaks: true,
