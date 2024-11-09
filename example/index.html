@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta property="og:type" content="article">
+    <title>Demo | hmd2html in web</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);
+
+        html[lang^=ja] body {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, Hiragino Kaku Gothic Pro, ヒラギノ角ゴ Pro W3, Osaka, Meiryo, メイリオ, MS Gothic, ＭＳ ゴシック, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        html[lang=zh-tw] body {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, PingFang TC, Microsoft JhengHei, 微軟正黑, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        html[lang=zh-cn] body {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, PingFang SC, Microsoft YaHei, 微软雅黑, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        :root {
+            --body-background: #f0f0f0;
+            --hr-color: #e7e7e7;
+        }
+
+        body {
+            background-color: var(--body-background);
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 10px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.42857143;
+            color: #333;
+            height: 100dvh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.3rem 0;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        h5 {
+            font-size: 1.1rem;
+            margin: 1.1rem 0;
+        }
+
+        h6 {
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        ul,
+        ol,
+        li,
+        section,
+        summary,
+        p {
+            font-size: 1rem;
+        }
+
+        ul,
+        ol {
+            padding-left: 2rem;
+        }
+
+        li.task-list-item {
+            list-style-type: none;
+        }
+
+        input.task-list-item-checkbox {
+            float: left;
+            margin: .31em 0 .2em -1.3em !important;
+            vertical-align: middle;
+        }
+
+        a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        a:focus,
+        a:hover {
+            color: #23527c;
+            text-decoration: underline;
+        }
+
+        a:focus {
+            outline: 5px auto -webkit-focus-ring-color;
+            outline-offset: -2px;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+
+        .info {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+
+        .warning {
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+            color: #8a6d3b;
+        }
+
+        .danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+
+        .success,
+        .info,
+        .warning,
+        .danger {
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        hr {
+            margin: 24px 0px;
+            height: .25rem;
+            background-color: var(--hr-color);
+            border: 0px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid #ddd;
+            color: #777;
+            font-size: 1rem;
+            margin: 0px;
+            padding: 0 1rem;
+        }
+
+        span.blockquoteX {
+            display: block;
+            font-size: 80%;
+        }
+
+        span.blockquoteX::before {
+            content: '\2014 \00A0';
+        }
+
+        span.material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 48;
+            font-size: 1rem;
+            margin: 3px 5px;
+            vertical-align: bottom;
+        }
+
+        span.material-symbols-outlined-fill {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 48;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            display: block;
+            margin-top: 0;
+            margin-bottom: 16px;
+            overflow: auto;
+            width: 100%;
+            word-break: keep-all;
+        }
+
+        table tr {
+            border-top: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table th {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table td {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: var(--body-background);
+        }
+
+        pre {
+            /* padding: 16px; */
+            overflow: auto;
+            line-height: 1.45;
+        }
+
+        code {
+            padding: .2em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            background-color: var(--body-background);
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        }
+
+        dl dt {
+            padding: 0;
+            margin-top: 16px;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /*block code*/
+        pre code {
+            display: block;
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        code table tr:nth-child(2n) {
+            background-color: transparent;
+        }
+
+        code.break {
+            white-space: break-spaces;
+            word-break: break-all;
+        }
+
+        code.language-mermaid,
+        code.language-sequence,
+        code.language-graphviz,
+        code.language-vega,
+        code.language-abc,
+        code.language-flow {
+            background-color: transparent;
+            text-align: center;
+        }
+
+        mark {
+            padding: 0.2rem;
+            background-color: #fff1a7;
+        }
+
+        /*---embed---*/
+        embed {
+            overflow: auto;
+            width: 100%;
+            height: 400px;
+        }
+
+        iframe {
+            margin: 10px auto;
+            width: 100%;
+            height: 480px;
+        }
+
+        .gist table tr {
+            border: 0px;
+        }
+
+        .gist table td {
+            border: 0px;
+        }
+
+        /*---hljs---*/
+        .hljs-comment {
+            color: #708090;
+        }
+
+        .hljs-punctuation,
+        .hljs-tag {
+            color: #444a
+        }
+
+        .hljs-tag .hljs-attr,
+        .hljs-tag .hljs-name {
+            color: #444
+        }
+
+        .hljs-attribute,
+        .hljs-doctag,
+        .hljs-keyword,
+        .hljs-meta .hljs-keyword,
+        .hljs-name,
+        .hljs-selector-tag {
+            color: #07a;
+        }
+
+        .hljs-deletion,
+        .hljs-number,
+        .hljs-quote,
+        .hljs-selector-class,
+        .hljs-selector-id,
+        .hljs-template-tag,
+        .hljs-type {
+            color: #690
+        }
+
+        .hljs-section,
+        .hljs-title {
+            color: #dd4a68;
+        }
+
+        .hljs-link,
+        .hljs-operator,
+        .hljs-regexp,
+        .hljs-selector-attr,
+        .hljs-selector-pseudo,
+        .hljs-symbol,
+        .hljs-template-variable,
+        .hljs-variable {
+            color: #bc6060
+        }
+
+        .hljs-literal {
+            color: #78a960
+        }
+
+        .hljs-addition,
+        .hljs-built_in,
+        .hljs-bullet,
+        .hljs-code {
+            color: #397300
+        }
+
+        .hljs-meta {
+            color: #1f7199
+        }
+
+        .hljs-meta,
+        .hljs-string {
+            color: #690
+        }
+
+        .hljs-emphasis {
+            font-style: italic
+        }
+
+        .hljs-strong {
+            font-weight: 700
+        }
+
+        table.hljs-ln,
+        .hljs-ln td,
+        .hljs-ln tr {
+            /*override table style*/
+            border: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #afafaf !important;
+            border-right: 3px solid #6ce26c !important;
+        }
+
+        .hljs-ln-n {
+            box-sizing: content-box;
+            vertical-align: top;
+            padding: 0px 8px 0px 0px;
+            min-width: 20px;
+            text-align: right;
+        }
+
+        .hljs-ln-code {
+            padding: 0px 0px 0px 16px !important;
+        }
+
+        /*---fretboard---*/
+        .fretTitle {
+            color: #555;
+            text-align: center;
+            font-family: "Helvetica Neue", sans-serif;
+            line-height: 1.4;
+            font-size: 1.6em;
+            margin: 10px 0 10px 0;
+            font-weight: 900;
+            padding: 5px;
+        }
+
+        .fretContainer section {
+            padding: 20px;
+        }
+
+        .fretContainer .content {
+            max-width: 960px;
+            margin: auto;
+        }
+
+        .fretContainer,
+        .fretContainer_h {
+            outline: solid 1px #eeee;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+
+        .fretContainer {
+            width: 320px;
+        }
+
+        .fretContainer_h {
+            max-width: 400px;
+        }
+
+        .svg_wrapper {
+            background-color: #fff;
+            position: relative;
+            height: 0;
+        }
+
+        .svg_wrapper svg.fretboard_bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .svg_wrapper .cells {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .svg_wrapper.v4 {
+            padding-top: 91.6666666667%;
+        }
+
+        .svg_wrapper.v5 {
+            padding-top: 106.9444444444%;
+        }
+
+        .svg_wrapper.v7 {
+            padding-top: 137.5%;
+        }
+
+        .svg_wrapper.v9 {
+            padding-top: 168.0555555556%;
+        }
+
+        .svg_wrapper.v12 {
+            padding-top: 213.8888888889%;
+        }
+
+        .svg_wrapper.v15 {
+            padding-top: 259.7222222222%;
+        }
+
+        .svg_wrapper.v .cell svg {
+            width: 12.5%;
+            float: left;
+            display: block;
+        }
+
+        .svg_wrapper.v4 .cell svg {
+            height: 16.6666666667%;
+        }
+
+        .svg_wrapper.v5 .cell svg {
+            height: 14.2857142857%;
+        }
+
+        .svg_wrapper.v7 .cell svg {
+            height: 11.1111111111%;
+        }
+
+        .svg_wrapper.v9 .cell svg {
+            height: 9.0909090909%;
+        }
+
+        .svg_wrapper.v12 .cell svg {
+            height: 7.1428571429%;
+        }
+
+        .svg_wrapper.v15 .cell svg {
+            height: 5.8823529412%;
+        }
+
+        .svg_wrapper.h5 {
+            padding-top: 85.7142857143%;
+        }
+
+        .svg_wrapper.h6 {
+            padding-top: 75%;
+        }
+
+        .svg_wrapper.h7 {
+            padding-top: 72.7272727273%;
+        }
+
+        .svg_wrapper.h .cell svg {
+            height: 12.5%;
+            float: left;
+            display: block;
+            z-index: 2;
+        }
+
+        .svg_wrapper.h5 .cell svg {
+            width: 14.2857142857%;
+        }
+
+        .svg_wrapper.h6 .cell svg {
+            width: 12.5%;
+        }
+
+        .svg_wrapper.h7 .cell svg {
+            width: 12.1212121212%;
+        }
+
+        /* Fretboard Element Styles */
+
+        .cell.dot .fretb_dot {
+            fill: #27a9e1;
+        }
+
+        .cell.dot.root .fretb_dot {
+            fill: #f05a28;
+        }
+
+        .cell.dot.faded .fretb_dot {
+            opacity: .25;
+        }
+
+        .fretboard_bg .fret_bg rect {
+            fill: #fff;
+        }
+
+        .fretboard_bg .frets rect {
+            fill: #ddd;
+        }
+
+        .fretboard_bg .nut rect {
+            fill: #6e6e6e;
+        }
+
+        .fretboard_bg .strings rect {
+            fill: #6e6e6e;
+        }
+
+        .svg_wrapper.noNut .fretboard_bg .nut rect {
+            fill: none;
+        }
+
+        @media all and (max-width: 400px) {
+            .fretContainer_h {
+                max-width: 288px;
+            }
+        }
+
+        @media all and (max-width: 420px) {
+            .fretContainer {
+                max-width: 220px;
+            }
+        }
+
+        .two-column {
+            display: flex;
+            height: 100%;
+        }
+
+        .two-column>textarea {
+            border: 2px solid #555;
+            height: calc(100% - 14px);
+            background-color: transparent;
+            font-size: 1.1rem;
+            line-height: 1.2rem;
+            font-family: monospace;
+            padding: 5px;
+            flex: 1;
+        }
+
+        .two-column>div {
+            padding: 10px;
+            height: calc(100% - 20px);
+            overflow-y: auto;
+            flex: 1;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        @media (orientation: portrait) {
+            .two-column{
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex;" class="two-column">
+        <textarea id="input"></textarea>
+        <div id="output"></div>
+    </div>
+    <script src="./output/js/hmd2html.min.js"></script>
+    <script>
+        window.converter = new window.hmd2html.Converter();
+        fetch("./index.md")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("input").value = data;
+                const res = window.converter.render(data);
+                const main = res.main;
+                document.getElementById("output").innerHTML = main;
+            })
+        document.getElementById("input").addEventListener("input", (event) => {
+            document.getElementById("output").innerHTML = window.converter.render(event.target.value).main;
+        });
+    </script>
+    <!--highlight-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script>
+    <!--mermaid-->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!--sequence-->
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/webfont.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/snap.svg-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/underscore-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/sequence-diagram-min.js"></script>
+    <!--flowchart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://flowchart.js.org/flowchart-latest.js"></script>
+    <!--Graphviz powered by viz.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+    <!--Vega-Lite-->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!--Abc-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.1.9/abcjs-basic-min.min.js"></script>
+    <script>
+        mermaid.init({ noteMargin: 10 }, document.querySelectorAll(".language-mermaid"));
+        mermaid.initialize({ startOnLoad: true });
+        document.querySelectorAll(".language-sequence")?.forEach((dom, i) => {
+            dom.id = `sequence-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            Diagram.parse(content).drawSVG(dom.id, { theme: 'simple' });
+        });
+        document.querySelectorAll(".language-flow")?.forEach((dom, i) => {
+            dom.id = `flow-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            flowchart.parse(content).drawSVG(dom.id);
+        });
+
+        var viz = new Viz();
+        document.querySelectorAll(".language-graphviz")?.forEach((dom, i) => {
+            dom.id = `graphviz-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            viz.renderSVGElement(content)
+                .then(function (element) {
+                    dom.appendChild(element);
+                })
+                .catch(error => {
+                    // Create a new Viz instance (@see Caveats page for more info)
+                    viz = new Viz();
+
+                    // Possibly display the error
+                    console.error(error);
+                });
+        });
+
+        document.querySelectorAll(".language-abc")?.forEach((dom, i) => {
+            dom.id = `abc-${i}`;
+            let content = dom.textContent;
+            ABCJS.renderAbc(dom.id, content);
+        });
+
+        document.querySelectorAll(".language-vega")?.forEach((dom, i) => {
+            dom.id = `vega-${i}`;
+            let content = dom.textContent;
+            let spec = {};
+            try {
+                spec = JSON.parse(content);
+            } catch (e) {
+                spec = {};
+            }
+            dom.textContent = "";
+            vegaEmbed(`#${dom.id}`, spec);
+        });
+
+        // https://github.com/highlightjs/highlight.js/
+        // modified from: https://github.com/wcoder/highlightjs-line-numbers.js/
+        let lastLine = 0;
+        const BREAK_LINE_REGEXP = /\r\n|\r|\n/g;
+        function getLinesCount(text) {
+            return (text.trim().match(BREAK_LINE_REGEXP) || []).length;
+        }
+        document.querySelectorAll('code')?.forEach((dom) => {
+            let lang = dom.className.match(/language\-([^=]*)?(=?)(\+?[0-9]*)$/);
+            if (lang === null) return;
+            if (lang[1] === '!') {
+                dom.classList.add("break");
+                return;
+            } else {
+                hljs.highlightElement(dom);
+            }
+
+            if (lang[2]) {
+                let line;
+                if (lang[3] === '') {
+                    line = 1;
+                } else if (lang[3] === '+') {
+                    line = lastLine + 1;
+                } else {
+                    line = Number(lang[3]);
+                }
+                lastLine = line + getLinesCount(dom.innerText);
+                hljs.lineNumbersBlock(dom, {
+                    startFrom: line
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
