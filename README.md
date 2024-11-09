@@ -62,54 +62,64 @@ $ hmd2html -i file1.md -k
 $ hmd2html -i hello.md -l ./myLayout.html
 ```
 
-## Package (beta)
+## Layouts
 
-```js
-// for TypeScript
-// import { Converter } from 'hackmd-to-html-cli'
-const { Converter } = require('hackmd-to-html-cli')
-const template = `{{main}}`
-const hardBreak = true
-const converter = new Converter(template, hardBreak)
-const md = `
-# title
-hello world
-`
-console.log(converter.convert(md))
-```
-
-**output**
-
-```html
-<h1 id="title" tabindex="-1">title</h1>
-<p>hello world</p>
-```
-
-Some features
-
-```js
-// get default layout
-converter.defaultLayout()
-
-// get metadata after converting
-converter.getMetadata()
-```
-
-
-## Layout
-
-See default layout here: https://github.com/ksw2000/hackmd-to-html-cli/blob/main/layout.html
+We provide the two default layouts. Please see layouts here: [https://github.com/ksw2000/hackmd-to-html-cli/blob/main/layouts/](./layouts/)
 
 + `{{main}}` renders main content of markdown.
 + `{{lang}}` renders lang property if there are yaml metadata about `lang` in markdown file. e.g. `lang="zh-TW"`
 + `{{dir}}` renders dir property if there are yaml metadata about `dir` in markdown file. e.g. `dir="ltr"`
 + `{{meta}}` renders meta tag if there are yaml metadata about `title`, `description`, `robots` or`image`. e.g. `<meta name="robots" content="noindex">`
 
-## Develop
+Example:
 
-1. `npm run lint` to check the format of source code.
-2. `npm run example` runs example for this package, which generates result from `./example` and places them in `./output`.
-3. `npm test` runs unit test files whose filenames end with `.test.ts`
+```html
+<!DOCTYPE html>
+<html {{lang}} {{dir}}>
+<head>
+    {{metas}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <body>
+      {{main}}
+    </body>
+</html>
+```
+
+There are some features rendered by other dependencies. Thus, in our default layout, we include those dependencies.
+
+## Example
+
+### CommonJS
+
+```js
+const { Converter } = require('hackmd-to-html-cli')
+
+const converter = new Converter();
+const res = converter.render("# hello");
+
+console.log(res.main);
+```
+
+
+### ES Module
+
+```ts
+import { Converter } from "hackmd-to-html-cli"
+
+const converter = new Converter();
+const res = converter.render("# hello");
+
+console.log(res.main);
+```
+
+### Web
+
+```js
+const converter = new window.hmd2html.Converter();
+const res = converter.render("# hello");
+console.log(res.main);
+```
 
 ## Support
 
@@ -195,3 +205,13 @@ HackMD fully supports syntax: [features](https://hackmd.io/features-tw?both)
 | others        | ✅       | Hide the metadata by html comment |
 
 HackMD sets the `lang` tag and `dir` tag at the beginning of `<body>`. hmd2html sets the the `lang` tag and `dir` tag at `<html>` when using default layout.
+
+## Development
+
+1. `npm run lint` to check the format of source code.
+2. `npm run example` runs example for this package, which generates result from `./example` and places them in `./output`.
+3. `npm test` runs unit test files whose filenames end with `.spec.ts`
+
+## Contributing
+
+Contributions to **hackmd-to-html-cli** are welcome and highly appreciated. Please run lint `npm run lint` and test `npm run test` before pull requesting.
