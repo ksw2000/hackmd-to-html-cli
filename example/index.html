@@ -633,10 +633,10 @@
         <textarea id="input"></textarea>
         <div id="output"></div>
     </div>
-    <script src="./output/js/hmd2html.min.js"></script>
+    <script src="./js/hmd2html.min.js"></script>
     <script>
         window.converter = new window.hmd2html.Converter();
-        fetch("./index.md")
+        fetch("https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/refs/heads/main/example/index.md")
             .then(res => res.text())
             .then(data => {
                 document.getElementById("input").value = data;

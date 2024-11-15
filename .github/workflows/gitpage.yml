@@ -29,7 +29,6 @@ jobs:
         run: |
           mkdir output/js
           mv ./dist/web/hmd2html.min.js ./output/js
-          mv ./example/index.md ./output/index.md
           mv ./example/index.html ./output/webjs.html
 
       - name: commit and push
