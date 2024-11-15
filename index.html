@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-TW" dir="ltr">
+<head>
+    <title>Example of hackmd-to-html-cli</title>
+<meta name="twitter:title" content="Example of hackmd-to-html-cli" />
+<meta property="og:title" content="Example of hackmd-to-html-cli" />
+<meta name="robots" content="noindex">
+<meta name="description" content="An example of using hackmd-to-html-cli">
+<meta name="twitter:description" content="An example of using hackmd-to-html-cli">
+<meta property="og:description" content="An example of using hackmd-to-html-cli">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta property="og:type" content="article">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);
+        html[lang^=ja] main {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, Hiragino Kaku Gothic Pro, ヒラギノ角ゴ Pro W3, Osaka, Meiryo, メイリオ, MS Gothic, ＭＳ ゴシック, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        html[lang=zh-tw] main {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, PingFang TC, Microsoft JhengHei, 微軟正黑, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        html[lang=zh-cn] main {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, Roboto, Arial, PingFang SC, Microsoft YaHei, 微软雅黑, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+        }
+
+        :root {
+            --body-background: #f0f0f0;
+            --hr-color: #e7e7e7;
+        }
+
+        body {
+            background-color: var(--body-background);
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 10px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.42857143;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.3rem 0;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        h5 {
+            font-size: 1.1rem;
+            margin: 1.1rem 0;
+        }
+
+        h6 {
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        ul,
+        ol,
+        li,
+        section,
+        summary,
+        p {
+            font-size: 1rem;
+        }
+
+        ul,
+        ol {
+            padding-left: 2rem;
+        }
+
+        li.task-list-item{
+            list-style-type: none;
+        }
+
+        input.task-list-item-checkbox{
+            float: left;
+            margin: .31em 0 .2em -1.3em !important;
+            vertical-align: middle;   
+        }
+
+        main {
+            background-color: #fff;
+            box-sizing: border-box;
+            border-radius: 20px;
+            margin: 0px auto;
+            max-width: 900px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        a:focus,
+        a:hover {
+            color: #23527c;
+            text-decoration: underline;
+        }
+
+        a:focus {
+            outline: 5px auto -webkit-focus-ring-color;
+            outline-offset: -2px;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+
+        .info {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+
+        .warning {
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+            color: #8a6d3b;
+        }
+
+        .danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+
+        .success,
+        .info,
+        .warning,
+        .danger {
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        hr{
+            margin: 24px 0px;
+            height: .25rem;
+            background-color: var(--hr-color);
+            border: 0px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid #ddd;
+            color: #777;
+            font-size: 1rem;
+            margin: 0px;
+            padding: 0 1rem;
+        }
+
+        span.blockquoteX{
+            display: block;
+            font-size: 80%;
+        }
+
+        span.blockquoteX::before{
+            content: '\2014 \00A0';
+        }
+
+        span.material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48;
+            font-size: 1rem;
+            margin: 3px 5px;
+            vertical-align: bottom;
+        }
+
+        span.material-symbols-outlined-fill{
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            display: block;
+            margin-top: 0;
+            margin-bottom: 16px;
+            overflow: auto;
+            width: 100%;
+            word-break: keep-all;
+        }
+
+        table tr {
+            border-top: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table th {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table td {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: var(--body-background);
+        }
+
+        pre {
+            /* padding: 16px; */
+            overflow: auto;
+            line-height: 1.45;
+        }
+
+        code{
+            padding: .2em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            background-color: var(--body-background);
+            font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+        }
+
+        dl dt{
+            padding: 0;
+            margin-top: 16px;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /*block code*/
+        pre code {
+            display: block;
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        code table tr:nth-child(2n) {
+            background-color: transparent;
+        }
+
+        code.break {
+            white-space: break-spaces;
+            word-break: break-all;
+        }
+
+        code.language-mermaid,
+        code.language-sequence,
+        code.language-graphviz,
+        code.language-vega,
+        code.language-abc,
+        code.language-flow {
+            background-color: transparent;
+            text-align: center;
+        }
+
+        mark {
+            padding: 0.2rem;
+            background-color: #fff1a7;
+        }
+
+        /*---embed---*/
+        embed{
+            overflow: auto; 
+            width: 100%; 
+            height: 400px;
+        }
+
+        iframe{
+            margin: 10px auto;
+            width: 100%; 
+            height: 480px;
+        }
+        
+        .gist table tr{
+            border: 0px;
+        }
+
+        .gist table td{
+            border: 0px;
+        }
+
+        /*---hljs---*/
+        .hljs-comment {
+            color: #708090;
+        }
+
+        .hljs-punctuation,
+        .hljs-tag {
+            color: #444a
+        }
+
+        .hljs-tag .hljs-attr,
+        .hljs-tag .hljs-name {
+            color: #444
+        }
+
+        .hljs-attribute,
+        .hljs-doctag,
+        .hljs-keyword,
+        .hljs-meta .hljs-keyword,
+        .hljs-name,
+        .hljs-selector-tag {
+            color: #07a;
+        }
+
+        .hljs-deletion,
+        .hljs-number,
+        .hljs-quote,
+        .hljs-selector-class,
+        .hljs-selector-id,
+        .hljs-template-tag,
+        .hljs-type {
+            color: #690
+        }
+
+        .hljs-section,
+        .hljs-title {
+            color: #dd4a68;
+        }
+
+        .hljs-link,
+        .hljs-operator,
+        .hljs-regexp,
+        .hljs-selector-attr,
+        .hljs-selector-pseudo,
+        .hljs-symbol,
+        .hljs-template-variable,
+        .hljs-variable {
+            color: #bc6060
+        }
+
+        .hljs-literal {
+            color: #78a960
+        }
+
+        .hljs-addition,
+        .hljs-built_in,
+        .hljs-bullet,
+        .hljs-code {
+            color: #397300
+        }
+
+        .hljs-meta {
+            color: #1f7199
+        }
+
+        .hljs-meta,
+        .hljs-string {
+            color: #690
+        }
+
+        .hljs-emphasis {
+            font-style: italic
+        }
+
+        .hljs-strong {
+            font-weight: 700
+        }
+
+        table.hljs-ln,
+        .hljs-ln td,
+        .hljs-ln tr {
+            /*override table style*/
+            border: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #afafaf !important;
+            border-right: 3px solid #6ce26c !important;
+        }
+
+        .hljs-ln-n {
+            box-sizing: content-box;
+            vertical-align: top;
+            padding: 0px 8px 0px 0px;
+            min-width: 20px;
+            text-align: right;
+        }
+
+        .hljs-ln-code {
+            padding: 0px 0px 0px 16px !important;
+        }
+
+        /*---fretboard---*/
+        .fretTitle {
+            color: #555;
+            text-align: center;
+            font-family: "Helvetica Neue", sans-serif;
+            line-height: 1.4;
+            font-size: 1.6em;
+            margin: 10px 0 10px 0;
+            font-weight: 900;
+            padding: 5px;
+        }
+
+        .fretContainer section {
+            padding: 20px;
+        }
+
+        .fretContainer .content {
+            max-width: 960px;
+            margin: auto;
+        }
+
+        .fretContainer,
+        .fretContainer_h {
+            outline: solid 1px #eeee;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+
+        .fretContainer {
+            width: 320px;
+        }
+
+        .fretContainer_h {
+            max-width: 400px;
+        }
+
+        .svg_wrapper {
+            background-color: #fff;
+            position: relative;
+            height: 0;
+        }
+
+        .svg_wrapper svg.fretboard_bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .svg_wrapper .cells {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .svg_wrapper.v4 {
+            padding-top: 91.6666666667%;
+        }
+
+        .svg_wrapper.v5 {
+            padding-top: 106.9444444444%;
+        }
+
+        .svg_wrapper.v7 {
+            padding-top: 137.5%;
+        }
+
+        .svg_wrapper.v9 {
+            padding-top: 168.0555555556%;
+        }
+
+        .svg_wrapper.v12 {
+            padding-top: 213.8888888889%;
+        }
+
+        .svg_wrapper.v15 {
+            padding-top: 259.7222222222%;
+        }
+
+        .svg_wrapper.v .cell svg {
+            width: 12.5%;
+            float: left;
+            display: block;
+        }
+
+        .svg_wrapper.v4 .cell svg {
+            height: 16.6666666667%;
+        }
+
+        .svg_wrapper.v5 .cell svg {
+            height: 14.2857142857%;
+        }
+
+        .svg_wrapper.v7 .cell svg {
+            height: 11.1111111111%;
+        }
+
+        .svg_wrapper.v9 .cell svg {
+            height: 9.0909090909%;
+        }
+
+        .svg_wrapper.v12 .cell svg {
+            height: 7.1428571429%;
+        }
+
+        .svg_wrapper.v15 .cell svg {
+            height: 5.8823529412%;
+        }
+
+        .svg_wrapper.h5 {
+            padding-top: 85.7142857143%;
+        }
+
+        .svg_wrapper.h6 {
+            padding-top: 75%;
+        }
+
+        .svg_wrapper.h7 {
+            padding-top: 72.7272727273%;
+        }
+
+        .svg_wrapper.h .cell svg {
+            height: 12.5%;
+            float: left;
+            display: block;
+            z-index: 2;
+        }
+
+        .svg_wrapper.h5 .cell svg {
+            width: 14.2857142857%;
+        }
+
+        .svg_wrapper.h6 .cell svg {
+            width: 12.5%;
+        }
+
+        .svg_wrapper.h7 .cell svg {
+            width: 12.1212121212%;
+        }
+
+        /* Fretboard Element Styles */
+
+        .cell.dot .fretb_dot {
+            fill: #27a9e1;
+        }
+
+        .cell.dot.root .fretb_dot {
+            fill: #f05a28;
+        }
+
+        .cell.dot.faded .fretb_dot {
+            opacity: .25;
+        }
+
+        .fretboard_bg .fret_bg rect {
+            fill: #fff;
+        }
+
+        .fretboard_bg .frets rect {
+            fill: #ddd;
+        }
+
+        .fretboard_bg .nut rect {
+            fill: #6e6e6e;
+        }
+
+        .fretboard_bg .strings rect {
+            fill: #6e6e6e;
+        }
+
+        .svg_wrapper.noNut .fretboard_bg .nut rect {
+            fill: none;
+        }
+
+        @media all and (max-width: 400px) {
+            .fretContainer_h {
+                max-width: 288px;
+            }
+        }
+
+        @media all and (max-width: 420px) {
+            .fretContainer {
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <!--yaml
+title: Example of hackmd-to-html-cli
+lang: zh-TW
+description: An example of using hackmd-to-html-cli
+robots: noindex
+dir: ltr
+tags: hack
+--><h1 id="hackmd-to-html-cli" tabindex="-1">hackmd-to-html-cli</h1>
+<p><a href="https://www.npmjs.org/package/hackmd-to-html-cli"><img src="https://img.shields.io/npm/v/hackmd-to-html-cli.svg?logo=npm&amp;style=flat-square" alt="NPM version"></a> <img src="https://img.shields.io/github/license/ksw2000/hackmd-to-html-cli?color=yellow&amp;style=flat-square" alt=""> <img src="https://img.shields.io/github/actions/workflow/status/ksw2000/hackmd-to-html-cli/gitpage.yml?branch=main&amp;style=flat-square" alt=""> <img src="https://img.shields.io/npm/dt/hackmd-to-html-cli?color=blue&amp;style=flat-square" alt=""></p>
+<div class="table-of-contents"><ul><li><a href="#hackmd-to-html-cli">hackmd-to-html-cli</a><ul><li><a href="#title">Title</a><ul><li><a href="#h3">h3</a><ul><li><a href="#h4">h4</a></li></ul></li></ul></li><li><a href="#horizontal-line">Horizontal line</a></li><li><a href="#blockquote">Blockquote</a></li><li><a href="#render-csv-as-table">Render CSV as table</a></li><li><a href="#text">Text</a></li><li><a href="#typographic-replacements">Typographic Replacements</a></li><li><a href="#list">List</a></li><li><a href="#check-box">Check box</a></li><li><a href="#table">Table</a></li><li><a href="#container">Container</a></li><li><a href="#externals">Externals</a><ul><li><a href="#youtube">YouTube</a></li><li><a href="#vimeo">Vimeo</a></li><li><a href="#gist">Gist</a></li><li><a href="#speakerdeck">Speakerdeck</a></li><li><a href="#pdf">PDF</a></li><li><a href="#figma">Figma</a></li></ul></li><li><a href="#mathjax">MathJax</a></li><li><a href="#code">Code</a></li><li><a href="#uml-diagrams">UML Diagrams</a><ul><li><a href="#sequence-diagrams">Sequence Diagrams</a></li><li><a href="#flow-charts">Flow Charts</a></li><li><a href="#graphviz">Graphviz</a></li><li><a href="#mermaid">Mermaid</a></li><li><a href="#abc">Abc</a></li><li><a href="#plantuml">PlantUML</a></li><li><a href="#vega-lite">Vega-Lite</a></li><li><a href="#fretboard">Fretboard</a></li></ul></li><li><a href="#yaml-metadata">YAML metadata</a></li><li><a href="#images">Images</a></li><li><a href="#definition-lists">Definition Lists</a></li><li><a href="#abbreviations">Abbreviations</a></li><li><a href="#footnote">Footnote</a></li></ul></li></ul></div>
+<h2 id="title" tabindex="-1">Title</h2>
+<h3 id="h3" tabindex="-1">h3</h3>
+<h4 id="h4" tabindex="-1">h4</h4>
+<h5 id="h5" tabindex="-1">h5</h5>
+<h6 id="h6" tabindex="-1">h6</h6>
+<h2 id="horizontal-line" tabindex="-1">Horizontal line</h2>
+<p><code>---</code></p>
+<hr>
+<p><code>***</code></p>
+<hr>
+<h2 id="blockquote" tabindex="-1">Blockquote</h2>
+<blockquote>
+<p>blockquoute</p>
+<blockquote>
+<p>Hello</p>
+</blockquote>
+</blockquote>
+<blockquote style="border-color:#907bf7;">
+<p>Using the syntax below to specifiy your <strong>name, time and color</strong> to vary the blockquotes.<br>
+<span class="blockquoteX"><span class="material-symbols-outlined material-symbols-outlined-fill">person</span>ChengHan Wu<span class="material-symbols-outlined">schedule</span>Sun, Jun 28, 2015 9:59 PM</span></p>
+<blockquote style="border-color:red;">
+<p>Even support the nest blockquotes!<br>
+<span class="blockquoteX"><span class="material-symbols-outlined material-symbols-outlined-fill">person</span>ChengHan Wu<span class="material-symbols-outlined">schedule</span>Sun, Jun 28, 2015 10:00 PM</span></p>
+</blockquote>
+</blockquote>
+<h2 id="render-csv-as-table" tabindex="-1">Render CSV as table</h2>
+<p>You can use write csv in the codeblock:</p>
+<pre><code class="language-md">```csvpreview {header=&quot;true&quot;}
+firstName,lastName,email,phoneNumber
+John,Doe,john@doe.com,0123456789
+Jane,Doe,jane@doe.com,9876543210
+James,Bond,james.bond@mi6.co.uk,0612345678
+```
+</code></pre>
+<p>which rendered to:</p>
+<table><tr><th>firstName</th><th>lastName</th><th>email</th><th>phoneNumber</th></tr><tr><td>John</td><td>Doe</td><td>john@doe.com</td><td>0123456789</td></tr><tr><td>Jane</td><td>Doe</td><td>jane@doe.com</td><td>9876543210</td></tr><tr><td>James</td><td>Bond</td><td>james.bond@mi6.co.uk</td><td>0612345678</td></tr></table><h2 id="text" tabindex="-1">Text</h2>
+<p><code>~~del~~</code> <s>del</s></p>
+<p><code>*italic*</code> <em>italic</em></p>
+<p><code>_italic_</code> <em>italic</em></p>
+<p><code>**bold**</code> <strong>bold</strong></p>
+<p><code>__bold__</code> <strong>bold</strong></p>
+<p><code>++inserted++</code> <ins>inserted</ins></p>
+<p><code>==marked==</code> <mark>marked</mark></p>
+<p><code>H~2~O</code> H<sub>2</sub>O</p>
+<p><code>1^st^</code> 1<sup>st</sup></p>
+<p><code>{超電磁砲|Railgun}</code> <ruby>超電磁砲<rt>Railgun</rt></ruby></p>
+<p>🉑 😄 👍 ♒ 🥵</p>
+<p>See repository on github: <a href="https://github.com/ksw2000/hackmd-to-html-cli/">https://github.com/ksw2000/hackmd-to-html-cli/</a></p>
+<p><a href="https://github.com/ksw2000/hackmd-to-html-cli/" title="A node.js package">hackmd-to-html-cli</a></p>
+<h2 id="typographic-replacements" tabindex="-1">Typographic Replacements</h2>
+<p>Enable typographer option to see result.</p>
+<p>© © ® ® ™ ™ (p) (P) ±</p>
+<p>test… test… test… test?.. test!..</p>
+<p>!!! ??? ,</p>
+<p>Remarkable – awesome</p>
+<p>“Smartypants, double quotes”</p>
+<p>‘Smartypants, single quotes’</p>
+<h2 id="list" tabindex="-1">List</h2>
+<ul>
+<li>Eigensystems
+<ul>
+<li>Eigenvalue</li>
+<li>Eigenvector</li>
+</ul>
+</li>
+<li>Inner-Product Vector Spaces</li>
+</ul>
+<ol>
+<li>高海千歌</li>
+<li>渡辺曜</li>
+<li>桜内梨子</li>
+</ol>
+<p>Start numbering with offset</p>
+<ol start="10">
+<li>諏訪ななか</li>
+<li>高槻かなこ</li>
+<li>小宮有紗</li>
+</ol>
+<h2 id="check-box" tabindex="-1">Check box</h2>
+<ul>
+<li class="task-list-item"><input type="checkbox" id="0" class="task-list-item-checkbox" checked="true"><label for="0">checked</label></li>
+<li class="task-list-item"><input type="checkbox" id="1" class="task-list-item-checkbox"><label for="1">unchecked</label></li>
+</ul>
+<h2 id="table" tabindex="-1">Table</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">th</th>
+<th style="text-align:center">th</th>
+<th style="text-align:right">th</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">left</td>
+<td style="text-align:center">center</td>
+<td style="text-align:right">right</td>
+</tr>
+<tr>
+<td style="text-align:left">xxxxxx</td>
+<td style="text-align:center">xxxxxx</td>
+<td style="text-align:right">xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<h2 id="container" tabindex="-1">Container</h2>
+<div class="success">
+<p>Yes 🎉</p>
+</div>
+<div class="info">
+<p>This is a message 📣</p>
+</div>
+<div class="warning">
+<p>Watch out ⚡</p>
+</div>
+<div class="danger">
+<p>Oh No! 🔥</p>
+</div>
+<details>
+
+<summary>Click to show details</summary><p>You found me 😜</p>
+</details>
+<details open="open">
+
+<summary> Expand the spoiler container by default</summary><p>You found me 😜</p>
+</details>
+<h2 id="externals" tabindex="-1">Externals</h2>
+<h3 id="youtube" tabindex="-1">YouTube</h3>
+<iframe class="embed-youtube" src="https://www.youtube.com/embed/oCgdmlee5vQ" allowfullscreen="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" frameborder="0"></iframe>
+<h3 id="vimeo" tabindex="-1">Vimeo</h3>
+<iframe class="embed-vimeo" src="https://player.vimeo.com/video/124148255" allowfullscreen="true" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+<h3 id="gist" tabindex="-1">Gist</h3>
+<script class="embed-gist" src="https://gist.github.com/schacon/4277.js"></script>
+<!--
+Not work on hackMD
+### SlideShare
+{%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
+-->
+<h3 id="speakerdeck" tabindex="-1">Speakerdeck</h3>
+<iframe class="embed-speakerdeck" src="https://speakerdeck.com/sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity"></iframe>
+<h3 id="pdf" tabindex="-1">PDF</h3>
+<p><strong>Caution: this might be blocked by your browser if not using an <code>https</code> URL.</strong></p>
+<embed class="embed-pdf" src="https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf" type="application/pdf"></embed>
+<h3 id="figma" tabindex="-1">Figma</h3>
+<iframe class="embed-figma" src="https://www.figma.com/embed?embed_host=hackmd&amp;url=https://www.figma.com/file/FlUge76mJYUB4hsMyLbRXH/Primer-Primitives-Community?node-id=9%3A2" allowfullscreen="true"></iframe>
+<h2 id="mathjax" tabindex="-1">MathJax</h2>
+<p>A matrix <mjx-container class="MathJax" jax="SVG" style="direction: ltr;"><svg style="overflow: visible; min-height: 1px; min-width: 1px; vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.697ex" height="1.62ex" role="img" focusable="false" viewBox="0 -716 750 716"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D434" d="M208 74Q208 50 254 46Q272 46 272 35Q272 34 270 22Q267 8 264 4T251 0Q249 0 239 0T205 1T141 2Q70 2 50 0H42Q35 7 35 11Q37 38 48 46H62Q132 49 164 96Q170 102 345 401T523 704Q530 716 547 716H555H572Q578 707 578 706L606 383Q634 60 636 57Q641 46 701 46Q726 46 726 36Q726 34 723 22Q720 7 718 4T704 0Q701 0 690 0T651 1T578 2Q484 2 455 0H443Q437 6 437 9T439 27Q443 40 445 43L449 46H469Q523 49 533 63L521 213H283L249 155Q208 86 208 74ZM516 260Q516 271 504 416T490 562L463 519Q447 492 400 412L310 260L413 259Q516 259 516 260Z" style="stroke-width: 3;"/></g></g></g></svg></mjx-container> is diagonalizable if there is a diagonal matrix <mjx-container class="MathJax" jax="SVG" style="direction: ltr;"><svg style="overflow: visible; min-height: 1px; min-width: 1px; vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.873ex" height="1.545ex" role="img" focusable="false" viewBox="0 -683 828 683"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z" style="stroke-width: 3;"/></g></g></g></svg></mjx-container> and an invertible matrix <mjx-container class="MathJax" jax="SVG" style="direction: ltr;"><svg style="overflow: visible; min-height: 1px; min-width: 1px; vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.699ex" height="1.545ex" role="img" focusable="false" viewBox="0 -683 751 683"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z" style="stroke-width: 3;"/></g></g></g></svg></mjx-container> s.t.</p>
+<mjx-container class="MathJax" jax="SVG" display="true" style="direction: ltr; display: block; text-align: center; margin: 1em 0;"><svg style="overflow: visible; min-height: 1px; min-width: 1px; vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="12.343ex" height="2.185ex" role="img" focusable="false" viewBox="0 -883.9 5455.7 965.9"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mi"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z" style="stroke-width: 3;"/></g><g data-mml-node="TeXAtom" transform="translate(839.5,413) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z" style="stroke-width: 3;"/></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g></g><g data-mml-node="mi" transform="translate(1793.1,0)"><path data-c="1D434" d="M208 74Q208 50 254 46Q272 46 272 35Q272 34 270 22Q267 8 264 4T251 0Q249 0 239 0T205 1T141 2Q70 2 50 0H42Q35 7 35 11Q37 38 48 46H62Q132 49 164 96Q170 102 345 401T523 704Q530 716 547 716H555H572Q578 707 578 706L606 383Q634 60 636 57Q641 46 701 46Q726 46 726 36Q726 34 723 22Q720 7 718 4T704 0Q701 0 690 0T651 1T578 2Q484 2 455 0H443Q437 6 437 9T439 27Q443 40 445 43L449 46H469Q523 49 533 63L521 213H283L249 155Q208 86 208 74ZM516 260Q516 271 504 416T490 562L463 519Q447 492 400 412L310 260L413 259Q516 259 516 260Z" style="stroke-width: 3;"/></g><g data-mml-node="mi" transform="translate(2543.1,0)"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z" style="stroke-width: 3;"/></g><g data-mml-node="mo" transform="translate(3571.9,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z" style="stroke-width: 3;"/></g><g data-mml-node="mi" transform="translate(4627.7,0)"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z" style="stroke-width: 3;"/></g></g></g></svg></mjx-container><p>For example:</p>
+<mjx-container class="MathJax" jax="SVG" display="true" style="direction: ltr; display: block; text-align: center; margin: 1em 0;"><svg style="overflow: visible; min-height: 1px; min-width: 1px; vertical-align: -2.149ex;" xmlns="http://www.w3.org/2000/svg" width="36.708ex" height="5.43ex" role="img" focusable="false" viewBox="0 -1450 16224.9 2400"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mrow"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="5B" d="M247 -949V1450H516V1388H309V-887H516V-949H247Z" style="stroke-width: 3;"/></g><g data-mml-node="mtable" transform="translate(528,0)"><g data-mml-node="mtr" transform="translate(0,700)"><g data-mml-node="mtd" transform="translate(389,0)"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(2278,0)"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z" style="stroke-width: 3;"/></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g></g><g data-mml-node="mtr" transform="translate(0,-700)"><g data-mml-node="mtd"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z" style="stroke-width: 3;"/></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(2667,0)"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g></g></g><g data-mml-node="mo" transform="translate(4084,0) translate(0 -0.5)"><path data-c="5D" d="M11 1388V1450H280V-949H11V-887H218V1388H11Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mrow" transform="translate(4778.7,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="5B" d="M247 -949V1450H516V1388H309V-887H516V-949H247Z" style="stroke-width: 3;"/></g><g data-mml-node="mtable" transform="translate(528,0)"><g data-mml-node="mtr" transform="translate(0,700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1500,0)"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z" style="stroke-width: 3;"/></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g></g><g data-mml-node="mtr" transform="translate(0,-700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1889,0)"><g data-mml-node="mn"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z" style="stroke-width: 3;"/></g></g></g></g><g data-mml-node="mo" transform="translate(3306,0) translate(0 -0.5)"><path data-c="5D" d="M11 1388V1450H280V-949H11V-887H218V1388H11Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mrow" transform="translate(8779.3,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="5B" d="M247 -949V1450H516V1388H309V-887H516V-949H247Z" style="stroke-width: 3;"/></g><g data-mml-node="mtable" transform="translate(528,0)"><g data-mml-node="mtr" transform="translate(0,700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1500,0)"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g></g><g data-mml-node="mtr" transform="translate(0,-700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1500,0)"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" style="stroke-width: 3;"/></g></g></g></g><g data-mml-node="mo" transform="translate(2528,0) translate(0 -0.5)"><path data-c="5D" d="M11 1388V1450H280V-949H11V-887H218V1388H11Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mo" transform="translate(12113.1,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z" style="stroke-width: 3;"/></g><g data-mml-node="mrow" transform="translate(13168.9,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="5B" d="M247 -949V1450H516V1388H309V-887H516V-949H247Z" style="stroke-width: 3;"/></g><g data-mml-node="mtable" transform="translate(528,0)"><g data-mml-node="mtr" transform="translate(0,700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1500,0)"><g data-mml-node="mn"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" style="stroke-width: 3;"/></g></g></g><g data-mml-node="mtr" transform="translate(0,-700)"><g data-mml-node="mtd"><g data-mml-node="mn"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" style="stroke-width: 3;"/></g></g><g data-mml-node="mtd" transform="translate(1500,0)"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z" style="stroke-width: 3;"/></g></g></g></g><g data-mml-node="mo" transform="translate(2528,0) translate(0 -0.5)"><path data-c="5D" d="M11 1388V1450H280V-949H11V-887H218V1388H11Z" style="stroke-width: 3;"/></g></g></g></g></svg></mjx-container><h2 id="code" tabindex="-1">Code</h2>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+int main(){
+    printf(&quot;hello\n&quot;);
+    return 0;
+}
+</code></pre>
+<pre><code class="language-go=">package main
+
+import (
+	&quot;io&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+)
+
+func main() {
+	http.HandleFunc(&quot;/&quot;, func(w http.ResponseWriter, req *http.Request) {
+		io.WriteString(w, &quot;Hello, TLS!\n&quot;)
+	})
+
+	// One can use generate_cert.go in crypto/tls to generate cert.pem and key.pem.
+	log.Printf(&quot;About to listen on 8443. Go to https://127.0.0.1:8443/&quot;)
+	err := http.ListenAndServeTLS(&quot;:8443&quot;, &quot;cert.pem&quot;, &quot;key.pem&quot;, nil)
+	log.Fatal(err)
+}
+</code></pre>
+<pre><code>plaintext
+</code></pre>
+<p>Specify the start line number for code block</p>
+<pre><code class="language-javascript=100">var s = &quot;JavaScript syntax highlighting&quot;;
+alert(s);
+function $initHighlight(block, cls) {
+  try {
+    if (cls.search(/\bno\-highlight\b/) != -1)
+      return process(block, true, 0x0F) +
+             ' class=&quot;&quot;';
+  } catch (e) {
+    /* handle exception */
+  }
+  for (var i = 0 / 2; i &lt; classes.length; i++) {
+    if (checkCondition(classes[i]) === undefined)
+      return /\d+[\s/]/g;
+  }
+}
+</code></pre>
+<p>Continue the previous code block’s line number</p>
+<pre><code class="language-javascript=+">var s = &quot;JavaScript syntax highlighting&quot;;
+alert(s);
+</code></pre>
+<p>Super long text without breaks</p>
+<pre><code class="language-!">When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
+</code></pre>
+<h2 id="uml-diagrams" tabindex="-1">UML Diagrams</h2>
+<h3 id="sequence-diagrams" tabindex="-1">Sequence Diagrams</h3>
+<pre><code class="language-sequence">Alice-&gt;Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob--&gt;Alice: I am good thanks!
+</code></pre>
+<h3 id="flow-charts" tabindex="-1">Flow Charts</h3>
+<pre><code class="language-flow">st=&gt;start: Start:&gt;http://www.google.com[blank]
+e=&gt;end:&gt;http://www.google.com
+op1=&gt;operation: My Operation
+sub1=&gt;subroutine: My Subroutine
+cond=&gt;condition: Yes
+or No?:&gt;http://www.google.com
+io=&gt;inputoutput: catch something...
+para=&gt;parallel: parallel tasks
+
+st-&gt;op1-&gt;cond
+cond(yes)-&gt;io-&gt;e
+cond(no)-&gt;para
+para(path1, bottom)-&gt;sub1(right)-&gt;op1
+para(path2, top)-&gt;op1
+</code></pre>
+<h3 id="graphviz" tabindex="-1">Graphviz</h3>
+<pre><code class="language-graphviz">digraph hierarchy {
+  nodesep=1.0 // increases the separation between nodes
+  
+  node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
+  edge [color=Blue, style=dashed] //All the lines look like this
+
+  Headteacher-&gt;{Deputy1 Deputy2 BusinessManager}
+  Deputy1-&gt;{Teacher1 Teacher2}
+  BusinessManager-&gt;ITManager
+  {rank=same;ITManager Teacher1 Teacher2}  // Put them on the same level
+}
+</code></pre>
+<h3 id="mermaid" tabindex="-1">Mermaid</h3>
+<pre><code class="language-mermaid">pie showData
+    title Key elements in Product X
+    &quot;Calcium&quot; : 42.96
+    &quot;Potassium&quot; : 50.05
+    &quot;Magnesium&quot; : 10.01
+    &quot;Iron&quot; :  5
+</code></pre>
+<h3 id="abc" tabindex="-1">Abc</h3>
+<pre><code class="language-abc">X:1
+T:Speed the Plough
+M:4/4
+C:Trad.
+K:G
+|:GABc dedB|dedB dedB|c2ec B2dB|c2A2 A2BA|
+GABc dedB|dedB dedB|c2ec B2dB|A2F2 G4:|
+|:g2gf gdBd|g2f2 e2d2|c2ec B2dB|c2A2 A2df|
+g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
+</code></pre>
+<h3 id="plantuml" tabindex="-1">PlantUML</h3>
+<pre><code style="display:none;" class="language-plantuml">start
+if (condition A) then (yes)
+  :Text 1;
+elseif (condition B) then (yes)
+  :Text 2;
+  stop
+elseif (condition C) then (yes)
+  :Text 3;
+elseif (condition D) then (yes)
+  :Text 4;
+else (nothing)
+  :Text else;
+endif
+stop
+</code></pre>
+<img src="https://ptuml.hackmd.io/svg/SoWkIImgAStDuG8pk3BJ53IIy_DICaioy_CK73KLIZ9IynGqAbEBDRaK5An2KYjA50ojkL9pYbDHbJfXLMfa3MGMb-GNOD7XZ5M7CJR3NR0gDO4eLT38oo_9oCnBHyY0X86IGErfN63R7O1ie2S1" class="language-plantuml-img" data-url="SoWkIImgAStDuG8pk3BJ53IIy_DICaioy_CK73KLIZ9IynGqAbEBDRaK5An2KYjA50ojkL9pYbDHbJfXLMfa3MGMb-GNOD7XZ5M7CJR3NR0gDO4eLT38oo_9oCnBHyY0X86IGErfN63R7O1ie2S1"><h3 id="vega-lite" tabindex="-1">Vega-Lite</h3>
+<pre><code class="language-vega">{
+  &quot;$schema&quot;: &quot;https://vega.github.io/schema/vega-lite/v4.json&quot;,
+  &quot;data&quot;: {&quot;url&quot;: &quot;https://vega.github.io/editor/data/barley.json&quot;},
+  &quot;mark&quot;: &quot;bar&quot;,
+  &quot;encoding&quot;: {
+    &quot;x&quot;: {&quot;aggregate&quot;: &quot;sum&quot;, &quot;field&quot;: &quot;yield&quot;, &quot;type&quot;: &quot;quantitative&quot;},
+    &quot;y&quot;: {&quot;field&quot;: &quot;variety&quot;, &quot;type&quot;: &quot;nominal&quot;},
+    &quot;color&quot;: {&quot;field&quot;: &quot;site&quot;, &quot;type&quot;: &quot;nominal&quot;}
+  }
+}
+</code></pre>
+<h3 id="fretboard" tabindex="-1">Fretboard</h3>
+<div class="fretContainer_h"><div class="fretTitle">horizontal, 6 frets, with nut</div><div class="svg_wrapper h h6 "><svg class="fretboard_bg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 768 576" enable-background="new 0 0 768 576" xml:space="preserve">
+    <g class="fret_bg">
+        <rect x="78" y="102" fill="#FFFFFF" width="608" height="372"/>
+    </g>
+    <g class="frets">
+        <rect x="92" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="188" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="284" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="380" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="476" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="572" y="108" fill="#C7C8CA" width="8" height="360"/>
+        <rect x="668" y="108" fill="#C7C8CA" width="8" height="360"/>
+    </g>
+    <g class="strings">
+        <rect x="78" y="102" width="608" height="12"/>
+        <rect x="78" y="174" width="608" height="12"/>
+        <rect x="78" y="246" width="608" height="12"/>
+        <rect x="78" y="318" width="608" height="12"/>
+        <rect x="78" y="390" width="608" height="12"/>
+        <rect x="78" y="462" width="608" height="12"/>
+    </g>
+    <g class="nut">
+        <rect x="78" y="102" width="22" height="372"/>
+    </g>
+    </svg><div class="cells"><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot root'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot faded'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot root'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot faded'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot root'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell dot'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot dot_h" fill="#27AAE1" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><?xml version="1.0" encoding="UTF-8"?>
+    <svg width="97px" height="73px" viewBox="0 0 97 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+        <title>Rectangle</title>
+        <desc>Created with Sketch.</desc>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <path d="M47.3304129,57.9907284 C46.5324778,57.9365699 46.023388,57.8932431 45.6514997,57.8463058 C43.0193972,57.5177443 40.8819421,56.7089775 39.2246924,55.4091738 C38.795035,55.0733912 38.0801431,54.3548886 37.7949083,53.968558 C37.1811122,53.1417384 36.8020028,52.2643709 36.599811,51.1884222 C36.5312103,50.841808 36.5203786,50.6396162 36.516768,49.9608298 C36.516768,49.26038 36.5275997,49.094294 36.5962005,48.7512903 C36.7406231,48.0472299 36.9680888,47.4695394 37.3038713,46.9496179 C38.0873642,45.75091 39.2824615,45.0179651 40.7700147,44.8338263 C41.2213354,44.7760572 42.2250727,44.8085523 42.6005715,44.8879848 C43.5068236,45.0865659 44.2181051,45.4728964 44.8860598,46.1264089 C45.6045624,46.8304693 46.0089458,47.6861734 46.1100416,48.704353 C46.2689065,50.3435498 45.5323511,51.8780403 43.9003753,53.3006033 C43.4562756,53.6869339 43.3587904,53.8096931 43.387675,53.9505052 C43.4346123,54.2104659 44.0014711,54.5967965 44.6224885,54.7989882 C45.391539,55.0481172 46.5360884,55.0770018 47.4748355,54.8711994 C47.9225457,54.7773247 48.2005593,54.6762289 48.6482694,54.4559844 C50.0961063,53.7410924 51.2045501,52.1921595 51.7353033,50.1449687 C52.2191191,48.2855272 52.2913304,45.6750881 51.912221,43.7687094 C51.6089335,42.2414399 51.0131901,41.0066264 50.1683177,40.1545328 C49.5978483,39.5768423 49.0490423,39.2591125 48.3088763,39.0677526 C47.8395027,38.9486039 47.3592975,38.9269404 46.4530453,38.9883201 C46.0306091,39.0172047 45.4095918,39.038868 45.0738092,39.038868 L44.460013,39.038868 L44.2181051,38.9197193 C43.9400915,38.7825178 43.6006983,38.4611775 43.4562756,38.1976062 C43.0085655,37.3743971 43.3262953,36.3923232 44.1711677,35.9879398 C44.6297095,35.7676953 45.1965685,35.7243685 46.3014016,35.8254643 C47.0451781,35.8940651 47.3954031,35.8940651 47.8647766,35.8218538 C48.8324083,35.6774312 49.583406,35.2983217 50.2766347,34.6014825 C51.2189923,33.6482931 51.8580625,32.1896245 52.186624,30.2326978 C52.3166044,29.4492049 52.377984,28.8065242 52.428532,27.7305756 C52.5151855,25.8205862 52.3346573,24.1127886 51.912221,22.7877109 C51.1251176,20.3289155 49.5870166,18.8052567 47.445951,18.3719888 C46.6444054,18.2059027 45.6226152,18.1842394 44.8752281,18.3142197 C43.7595632,18.5091903 42.6438984,19.1446499 42.4850335,19.6790137 L42.4417066,19.8198257 L42.622235,19.9895223 C42.7233308,20.0797864 43.0013444,20.3216944 43.2432522,20.5274966 C44.3228115,21.4409698 44.9907662,22.4844233 45.2398952,23.6398045 C45.3446016,24.1344519 45.3554333,25.0443145 45.2615587,25.5281303 C44.9727133,26.986799 44.0231345,28.1205167 42.6005715,28.7054284 C41.9073429,28.9906631 41.2357777,29.1062012 40.2717566,29.1062012 C39.4954848,29.1062012 39.1705339,29.0628744 38.5675695,28.8895673 C37.3219242,28.5321212 36.1412692,27.535605 35.5383046,26.3368971 C35.0508782,25.3692654 34.8847922,24.0875146 35.0797628,22.7913215 C35.3866609,20.7224672 36.599811,18.9532899 38.7083815,17.4910107 C40.925269,15.9529096 43.7126259,15.1224795 46.9874091,15.0141625 C52.2263403,14.8444659 56.4254284,16.2020387 59.1911219,18.9641216 C60.7183913,20.4877804 61.5813165,22.2027992 61.9207097,24.3980233 C61.992921,24.849344 62.0037527,25.0659779 62.0037527,25.9866723 C62.0073633,27.1131688 61.9820893,27.4272881 61.8232244,28.3335401 C61.0288999,32.7817573 57.77578,35.67021 51.9338844,37.1108258 C51.5367221,37.2083111 51.1828867,37.2877436 51.1503916,37.2877436 C50.9987479,37.2877436 51.1070649,37.3491232 51.4031312,37.4285556 C51.5764384,37.4754929 52.0891387,37.6343578 52.5440701,37.7823911 C56.7828745,39.1616273 59.3355445,41.1185539 60.4909256,43.8770263 C60.9422464,44.952975 61.1191641,45.8772798 61.1480486,47.2817899 C61.1733226,48.6140887 61.0938901,49.3903605 60.8122659,50.4626985 C60.6425693,51.1198215 60.4837044,51.5350366 60.1479219,52.2174335 C59.5630102,53.4016992 58.7614646,54.3982153 57.7071793,55.2466983 C55.8080217,56.7739677 53.4467115,57.636893 50.3813411,57.9257382 C49.8397562,57.9762861 47.7672914,58.019613 47.3304129,57.9907284 Z" id="Path" fill="#6E6E6E" fill-rule="nonzero" transform="translate(48.502035, 36.500000) scale(1, -1) translate(-48.502035, -36.500000) "></path>
+            <rect id="Rectangle" x="0.1201773" y="0.89003138" width="96" height="72"></rect>
+        </g>
+    </svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div><div class='cell empty'><svg version="1.1"  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 72" enable-background="new 0 0 96 72" xml:space="preserve">
+<circle class="fretb_dot_empty" fill="none" cx="48" cy="36" r="32"/>
+</svg></div></div></div></div><blockquote>
+<p>More information about <strong>sequence diagrams</strong> syntax <a href="http://bramp.github.io/js-sequence-diagrams/">here</a>.<br>
+More information about <strong>flow charts</strong> syntax <a href="http://adrai.github.io/flowchart.js/">here</a>.<br>
+More information about <strong>graphviz</strong> syntax <a href="http://www.tonyballantyne.com/graphs.html">here</a><br>
+More information about <strong>mermaid</strong> syntax <a href="http://mermaid-js.github.io/mermaid">here</a><br>
+More information about <strong>abc</strong> syntax <a href="http://abcnotation.com/learn">here</a><br>
+More information about <strong>vega</strong> syntax <a href="https://vega.github.io/vega-lite/docs">here</a><br>
+More information about <strong>fretboard</strong> syntax <a href="https://hackmd.io/@docs/fretboard-syntax">here</a></p>
+</blockquote>
+<h2 id="yaml-metadata" tabindex="-1">YAML metadata</h2>
+<p>See: <a href="https://hackmd.io/yaml-metadata">https://hackmd.io/yaml-metadata</a></p>
+<h2 id="images" tabindex="-1">Images</h2>
+<p><code>![Alt](URL)</code></p>
+<p><img src="https://raw.githubusercontent.com/ksw2000/Data-Structure-in-C/master/meme/data-structure-in-c-sakura-tomoyo.png" alt="data-structure-in-c-sakura-tomoyo"></p>
+<p><code>![Alt](URL &quot;with title&quot;)</code></p>
+<p><img src="https://raw.githubusercontent.com/ksw2000/Data-Structure-in-C/master/meme/data-structure-in-c-sakura-tomoyo.png" alt="data-structure-in-c-sakura-tomoyo" title="Fundamentals Data Structure in C"></p>
+<p><code>![Alt](URL =widthxheight)</code></p>
+<p><img src="https://user-images.githubusercontent.com/13825170/226702911-bb7ce9ce-4aba-4ca5-b3b8-ffb85a55cb61.png" alt="data-structure-in-c-sakura-tomoyo" width="400" height="225"></p>
+<h2 id="definition-lists" tabindex="-1">Definition Lists</h2>
+<dl>
+<dt>Term 1</dt>
+<dd>
+<p>Definition 1<br>
+with lazy continuation.</p>
+</dd>
+<dt>Term 2 with <em>inline markup</em></dt>
+<dd>
+<p>Definition 2</p>
+<pre><code>  { some code, part of Definition 2 }
+</code></pre>
+<p>Third paragraph of definition 2.</p>
+</dd>
+</dl>
+<p><em>Compact style:</em></p>
+<dl>
+<dt>Term 1</dt>
+<dd>Definition 1</dd>
+<dt>Term 2</dt>
+<dd>Definition 2a</dd>
+<dd>Definition 2b</dd>
+</dl>
+<h2 id="abbreviations" tabindex="-1">Abbreviations</h2>
+<p>The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.</p>
+<h2 id="footnote" tabindex="-1">Footnote</h2>
+<p>Here is a footnote reference,<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> and another.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Here is the footnote. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Here’s one with multiple blocks.<br>
+Subsequent paragraphs are indented to show that they<br>
+belong to the previous footnote. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+    </main>
+    <!--highlight-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script>
+    <!--mermaid-->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!--sequence-->
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/webfont.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/snap.svg-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/underscore-min.js"></script>
+    <script src="https://bramp.github.io/js-sequence-diagrams/js/sequence-diagram-min.js"></script>
+    <!--flowchart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://flowchart.js.org/flowchart-latest.js"></script>
+    <!--Graphviz powered by viz.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+    <!--Vega-Lite-->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!--Abc-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.1.9/abcjs-basic-min.min.js"></script>
+    <script>
+        mermaid.init({ noteMargin: 10 }, document.querySelectorAll(".language-mermaid"));
+        mermaid.initialize({ startOnLoad: true });
+        document.querySelectorAll(".language-sequence")?.forEach((dom, i) => {
+            dom.id = `sequence-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            Diagram.parse(content).drawSVG(dom.id, { theme: 'simple' });
+        });
+        document.querySelectorAll(".language-flow")?.forEach((dom, i) => {
+            dom.id = `flow-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            flowchart.parse(content).drawSVG(dom.id);
+        });
+
+        var viz = new Viz();
+        document.querySelectorAll(".language-graphviz")?.forEach((dom, i) => {
+            dom.id = `graphviz-${i}`;
+            let content = dom.textContent;
+            dom.textContent = "";
+            viz.renderSVGElement(content)
+                .then(function (element) {
+                    dom.appendChild(element);
+                })
+                .catch(error => {
+                    // Create a new Viz instance (@see Caveats page for more info)
+                    viz = new Viz();
+
+                    // Possibly display the error
+                    console.error(error);
+                });
+        });
+
+        document.querySelectorAll(".language-abc")?.forEach((dom, i) => {
+            dom.id = `abc-${i}`;
+            let content = dom.textContent;
+            ABCJS.renderAbc(dom.id, content);
+        });
+
+        document.querySelectorAll(".language-vega")?.forEach((dom, i) => {
+            dom.id = `vega-${i}`;
+            let content = dom.textContent;
+            let spec = {};
+            try {
+                spec = JSON.parse(content);
+            } catch (e) {
+                spec = {};
+            }
+            dom.textContent = "";
+            vegaEmbed(`#${dom.id}`, spec);
+        });
+
+        // https://github.com/highlightjs/highlight.js/
+        // modified from: https://github.com/wcoder/highlightjs-line-numbers.js/
+        let lastLine = 0;
+        const BREAK_LINE_REGEXP = /\r\n|\r|\n/g;
+        function getLinesCount(text) {
+            return (text.trim().match(BREAK_LINE_REGEXP) || []).length;
+        }
+        document.querySelectorAll('code')?.forEach((dom) => {
+            let lang = dom.className.match(/language\-([^=]*)?(=?)(\+?[0-9]*)$/);
+            if (lang === null) return;
+            if (lang[1] === '!') {
+                dom.classList.add("break");
+                return;
+            } else {
+                hljs.highlightElement(dom);
+            }
+
+            if (lang[2]) {
+                let line;
+                if (lang[3] === '') {
+                    line = 1;
+                } else if (lang[3] === '+') {
+                    line = lastLine + 1;
+                } else {
+                    line = Number(lang[3]);
+                }
+                lastLine = line + getLinesCount(dom.innerText);
+                hljs.lineNumbersBlock(dom, {
+                    startFrom: line
+                });
+            }
+        });
+
+        // automatically set title
+        const h1 = document.querySelector("h1");
+        if (!document.title && h1 && h1.textContent) {
+            document.title = h1.textContent;
+        }
+    </script>
+</body>
+
+</html>
