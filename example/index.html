@@ -621,7 +621,7 @@
         }
 
         @media (orientation: portrait) {
-            .two-column{
+            .two-column {
                 flex-direction: column;
             }
         }
@@ -633,21 +633,6 @@
         <textarea id="input"></textarea>
         <div id="output"></div>
     </div>
-    <script src="./js/hmd2html.min.js"></script>
-    <script>
-        window.converter = new window.hmd2html.Converter();
-        fetch("https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/refs/heads/main/example/index.md")
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById("input").value = data;
-                const res = window.converter.render(data);
-                const main = res.main;
-                document.getElementById("output").innerHTML = main;
-            })
-        document.getElementById("input").addEventListener("input", (event) => {
-            document.getElementById("output").innerHTML = window.converter.render(event.target.value).main;
-        });
-    </script>
     <!--highlight-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script
@@ -674,87 +659,111 @@
     <script>
         mermaid.init({ noteMargin: 10 }, document.querySelectorAll(".language-mermaid"));
         mermaid.initialize({ startOnLoad: true });
-        document.querySelectorAll(".language-sequence")?.forEach((dom, i) => {
-            dom.id = `sequence-${i}`;
-            let content = dom.textContent;
-            dom.textContent = "";
-            Diagram.parse(content).drawSVG(dom.id, { theme: 'simple' });
-        });
-        document.querySelectorAll(".language-flow")?.forEach((dom, i) => {
-            dom.id = `flow-${i}`;
-            let content = dom.textContent;
-            dom.textContent = "";
-            flowchart.parse(content).drawSVG(dom.id);
-        });
-
         var viz = new Viz();
-        document.querySelectorAll(".language-graphviz")?.forEach((dom, i) => {
-            dom.id = `graphviz-${i}`;
-            let content = dom.textContent;
-            dom.textContent = "";
-            viz.renderSVGElement(content)
-                .then(function (element) {
-                    dom.appendChild(element);
-                })
-                .catch(error => {
-                    // Create a new Viz instance (@see Caveats page for more info)
-                    viz = new Viz();
-
-                    // Possibly display the error
-                    console.error(error);
-                });
-        });
-
-        document.querySelectorAll(".language-abc")?.forEach((dom, i) => {
-            dom.id = `abc-${i}`;
-            let content = dom.textContent;
-            ABCJS.renderAbc(dom.id, content);
-        });
-
-        document.querySelectorAll(".language-vega")?.forEach((dom, i) => {
-            dom.id = `vega-${i}`;
-            let content = dom.textContent;
-            let spec = {};
-            try {
-                spec = JSON.parse(content);
-            } catch (e) {
-                spec = {};
-            }
-            dom.textContent = "";
-            vegaEmbed(`#${dom.id}`, spec);
-        });
 
         // https://github.com/highlightjs/highlight.js/
         // modified from: https://github.com/wcoder/highlightjs-line-numbers.js/
-        let lastLine = 0;
         const BREAK_LINE_REGEXP = /\r\n|\r|\n/g;
         function getLinesCount(text) {
             return (text.trim().match(BREAK_LINE_REGEXP) || []).length;
         }
-        document.querySelectorAll('code')?.forEach((dom) => {
-            let lang = dom.className.match(/language\-([^=]*)?(=?)(\+?[0-9]*)$/);
-            if (lang === null) return;
-            if (lang[1] === '!') {
-                dom.classList.add("break");
-                return;
-            } else {
-                hljs.highlightElement(dom);
-            }
 
-            if (lang[2]) {
-                let line;
-                if (lang[3] === '') {
-                    line = 1;
-                } else if (lang[3] === '+') {
-                    line = lastLine + 1;
-                } else {
-                    line = Number(lang[3]);
+        function render() {
+            // mermaid
+            document.querySelectorAll(".language-sequence")?.forEach((dom, i) => {
+                dom.id = `sequence-${i}`;
+                let content = dom.textContent;
+                dom.textContent = "";
+                Diagram.parse(content).drawSVG(dom.id, { theme: 'simple' });
+            });
+            document.querySelectorAll(".language-flow")?.forEach((dom, i) => {
+                dom.id = `flow-${i}`;
+                let content = dom.textContent;
+                dom.textContent = "";
+                flowchart.parse(content).drawSVG(dom.id);
+            });
+
+            // graphviz
+            document.querySelectorAll(".language-graphviz")?.forEach((dom, i) => {
+                dom.id = `graphviz-${i}`;
+                let content = dom.textContent;
+                dom.textContent = "";
+                viz.renderSVGElement(content)
+                    .then(function (element) {
+                        dom.appendChild(element);
+                    })
+                    .catch(error => {
+                        // Create a new Viz instance (@see Caveats page for more info)
+                        viz = new Viz();
+
+                        // Possibly display the error
+                        console.error(error);
+                    });
+            });
+
+            document.querySelectorAll(".language-abc")?.forEach((dom, i) => {
+                dom.id = `abc-${i}`;
+                let content = dom.textContent;
+                ABCJS.renderAbc(dom.id, content);
+            });
+
+            document.querySelectorAll(".language-vega")?.forEach((dom, i) => {
+                dom.id = `vega-${i}`;
+                let content = dom.textContent;
+                let spec = {};
+                try {
+                    spec = JSON.parse(content);
+                } catch (e) {
+                    spec = {};
                 }
-                lastLine = line + getLinesCount(dom.innerText);
-                hljs.lineNumbersBlock(dom, {
-                    startFrom: line
-                });
-            }
+                dom.textContent = "";
+                vegaEmbed(`#${dom.id}`, spec);
+            });
+
+            let lastLine = 0;
+            document.querySelectorAll('code')?.forEach((dom) => {
+                let lang = dom.className.match(/language\-([^=]*)?(=?)(\+?[0-9]*)$/);
+                if (lang === null) return;
+                if (lang[1] === '!') {
+                    dom.classList.add("break");
+                    return;
+                } else {
+                    hljs.highlightElement(dom);
+                }
+
+                if (lang[2]) {
+                    let line;
+                    if (lang[3] === '') {
+                        line = 1;
+                    } else if (lang[3] === '+') {
+                        line = lastLine + 1;
+                    } else {
+                        line = Number(lang[3]);
+                    }
+                    lastLine = line + getLinesCount(dom.innerText);
+                    hljs.lineNumbersBlock(dom, {
+                        startFrom: line
+                    });
+                }
+            });
+        }
+    </script>
+    <!-- <script src="./js/hmd2html.min.js"></script> -->
+    <script src="../dist/web/hmd2html.min.js"></script>
+    <script>
+        window.converter = new window.hmd2html.Converter();
+        fetch("https://raw.githubusercontent.com/ksw2000/hackmd-to-html-cli/refs/heads/main/example/index.md")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("input").value = data;
+                const res = window.converter.render(data);
+                const main = res.main;
+                document.getElementById("output").innerHTML = main;
+                render();
+            })
+        document.getElementById("input").addEventListener("input", (event) => {
+            document.getElementById("output").innerHTML = window.converter.render(event.target.value).main;
+            render();
         });
     </script>
 </body>
