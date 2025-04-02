@@ -7,7 +7,7 @@ import * as https from 'https'
 import * as http from 'http'
 import { glob } from 'glob'
 import { createHash } from 'node:crypto'
-import { escapeHtml } from './markdown/utils'
+import { escapeHtml, reverseEscapeHtml} from './markdown/utils'
 import { version } from '../package.json';
 
 const hash = createHash('sha256');
@@ -20,6 +20,7 @@ commander.program
     .addOption(new commander.Option('-l, --layout <html_file>', 'specify the layout file').default('', '""'))
     .addOption(new commander.Option('-b, --hardBreak', 'use hard break instead of soft break'))
     .addOption(new commander.Option('-k, --dark', 'use the dark mode layout (activate only if the -l option is not set)'))
+    .addOption(new commander.Option('-m, --hmd', 'the input markdown url is from hackmd'))
     .parse(process.argv)
 
 const options = commander.program.opts()
@@ -45,6 +46,8 @@ function main() {
     // load layout
     const layout: string = inputLayout ?? defaultLayout(darkMode);
 
+    const isHackmd: boolean = options.hmd
+
     const isURL = (s: string): URL | null => {
         try {
             const url = new URL(s);
@@ -52,6 +55,20 @@ function main() {
         } catch {
             return null
         }
+    }
+
+    const extractHackmdContent = (data: string) => {
+        if (isHackmd) {
+            // Extract content from div#publish-page
+            const matchResult = data.match(
+                /<div id="publish-page">([\s\S]*?)<\/div>/
+            );
+            const publishPageContent = matchResult
+                ? reverseEscapeHtml(matchResult[0])
+                : "";
+            return publishPageContent;
+        }
+        return data;
     }
 
     const printError = (fn: string | fs.PathLike, e: unknown) => {
@@ -66,7 +83,8 @@ function main() {
             data += d
         })
         res.on('end', () => {
-            const res = converter.render(data)
+            const publishPageContent = extractHackmdContent(data)
+            const res = converter.render(publishPageContent)
             const converted = renderToLayout(res, layout)
             try {
                 fs.writeFileSync(output, converted)
