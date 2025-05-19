@@ -34,7 +34,7 @@
   "author": "Kashiwa",
   "license": "MIT",
   "dependencies": {
-    "commander": "^13.0.0",
+    "commander": "^14.0.0",
     "deflate-js": "^0.2.3",
     "glob": "^11.0.0",
     "markdown-it": "^14.1.0",
