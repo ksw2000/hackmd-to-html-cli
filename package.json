@@ -55,7 +55,7 @@
     "yaml": "^2.2.1"
   },
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
+    "@jest/globals": "^30.0.2",
     "@types/deflate-js": "^0.2.2",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/node": "^24.0.3",
