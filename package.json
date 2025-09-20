@@ -26,7 +26,7 @@
     "build:node": "npx tsc",
     "build:web": "npx webpack",
     "build": "npm run build:node && npm run build:web",
-    "example": "npx ts-node src/cli.ts -i ./example/*",
+    "example": "npx ts-node src/cli.ts -i ./example/*.md",
     "example_dark": "npx ts-node src/cli.ts -i ./example/index.md -o output/index.dark.html --dark",
     "test": "npx jest",
     "lint": "npx eslint src/**/*.ts --fix"
@@ -34,7 +34,7 @@
   "author": "Kashiwa",
   "license": "MIT",
   "dependencies": {
-    "commander": "^14.0.0",
+    "commander": "^14.0.1",
     "deflate-js": "^0.2.3",
     "glob": "^11.0.0",
     "markdown-it": "^14.1.0",
@@ -50,22 +50,22 @@
     "markdown-it-ruby": "^1.1.1",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
-    "markdown-it-table-of-contents": "^0.9.0",
+    "markdown-it-table-of-contents": "^1.0.0",
     "papaparse": "^5.4.1",
-    "yaml": "^2.2.1"
+    "yaml": "^2.8.1"
   },
   "devDependencies": {
-    "@jest/globals": "^30.0.2",
+    "@jest/globals": "^30.1.2",
     "@types/deflate-js": "^0.2.2",
     "@types/markdown-it-emoji": "^3.0.1",
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.5.2",
     "@types/papaparse": "^5.3.15",
-    "globals": "^16.0.0",
-    "ts-jest": "^29.1.0",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.13.0",
-    "webpack": "^5.96.1",
+    "globals": "^16.4.0",
+    "ts-jest": "^29.4.4",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0",
+    "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
   }
 }
