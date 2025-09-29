@@ -46,7 +46,7 @@
     "markdown-it-imsize": "^2.0.1",
     "markdown-it-ins": "^4.0.0",
     "markdown-it-mark": "^4.0.0",
-    "markdown-it-mathjax3": "4.3.2",
+    "markdown-it-mathjax3": "5.1.0",
     "markdown-it-ruby": "^1.1.1",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
