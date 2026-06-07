@@ -46,7 +46,7 @@
     "markdown-it-imsize": "^2.0.1",
     "markdown-it-ins": "^4.0.0",
     "markdown-it-mark": "^4.0.0",
-    "markdown-it-mathjax3": "5.2.0",
+    "markdown-it-mathjax3": "^4.3.2",
     "markdown-it-ruby": "^1.1.1",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
@@ -64,8 +64,13 @@
     "ts-jest": "^29.4.4",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.46.2",
-    "webpack": "^5.101.3",
+    "typescript-eslint": "^8.60.1",
+    "webpack": "^5.107.2",
     "webpack-cli": "^6.0.1"
+  },
+  "overrides": {
+    "webpack": {
+      "@types/eslint-scope": "^3.7.7"
+    }
   }
 }
