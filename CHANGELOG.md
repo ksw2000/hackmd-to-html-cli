@@ -75,3 +75,6 @@
 + `v2.0.0`
     + Starting support browser.
     + Rename `.render()` to `.convert()`
+
++ `v2.0.1`
+    + Update dependencies
